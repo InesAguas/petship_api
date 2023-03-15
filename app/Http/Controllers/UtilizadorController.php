@@ -35,14 +35,26 @@ class UtilizadorController extends Controller
         return response(200);
     }
 
-    function inserir(Request $request) {
+    function registar(Request $request) {
 
-        /*$utilizador = new Utilizador();
+        //Validar os dados que recebo
+        $validated = $request->validate([
+            'nome' => 'required|string',
+            'email' => 'required|string|unique:utilizador',
+            'password' => 'required|string',
+            'tipo' => 'required|numeric',
+        ]);
 
-        $utilizador->nome = $request->nome;
-        $utilizador->apelido = $request->apelido;
-        $utilizador->save();*/
+        //Criar novo objeto Utilizador
+        $utilizador = new Utilizador();
+        $utilizador->nome = $validated['nome'];
+        $utilizador->email = $validated['email'];
+        $utilizador->password = Hash::make($validated['password']);
+        $utilizador->tipo = $validated['tipo'];
 
+        //Guardar na  base de dados
+        $utilizador->save();
+        
         return response(200);
     }
 }
