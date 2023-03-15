@@ -5,17 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Utilizador;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UtilizadorController extends Controller
 {
     //
     function login(Request $request) {
-
-        $user = new Utilizador();
-        $user->email = "ines@email.com";
-        $user->password = Hash::make("ines");
-        $user->nome = "ines";
-        $user->tipo = 1;
 
         $validated = $request->validate([
             'email' => 'required',
@@ -32,7 +27,8 @@ class UtilizadorController extends Controller
             return response('cenas2', 401);
 		}
 
-        return response(200);
+        $token = $utilizador->createToken($utilizador->email);
+        return response(['token' => $token->plainTextToken], 200);
     }
 
     function inserir(Request $request) {
