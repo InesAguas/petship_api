@@ -5,34 +5,34 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Utilizador;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UtilizadorController extends Controller
 {
     //
     function login(Request $request) {
 
-        $user = new Utilizador();
-        $user->email = "ines@email.com";
-        $user->password = Hash::make("ines");
-        $user->nome = "ines";
-        $user->tipo = 1;
-
         $validated = $request->validate([
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 
         $utilizador = Utilizador::where('email', $request->email)->first();
 
         if($utilizador == null) {
-            return response('cenas', 400);
+            return response(['erro' => 'Email ou password incorretos'], 422);
         }
 
         if (!Hash::check(($request->password), $utilizador->password)) {
-            return response('cenas2', 401);
+            return response(['erro' => 'Email ou password incorretos'], 422);
 		}
 
-        return response(200);
+        //apaga tokens anteriores e cria um novo
+        $utilizador->tokens()->delete();
+        $token = $utilizador->createToken($utilizador->email);
+        
+        //retorna o token
+        return response(['token' => $token->plainTextToken], 200);
     }
 
     function registar(Request $request) {
