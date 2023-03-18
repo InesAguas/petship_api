@@ -13,21 +13,25 @@ class UtilizadorController extends Controller
     function login(Request $request) {
 
         $validated = $request->validate([
-            'email' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 
         $utilizador = Utilizador::where('email', $request->email)->first();
 
         if($utilizador == null) {
-            return response('cenas', 400);
+            return response(['erro' => 'Email ou password incorretos'], 422);
         }
 
         if (!Hash::check(($request->password), $utilizador->password)) {
-            return response('cenas2', 401);
+            return response(['erro' => 'Email ou password incorretos'], 422);
 		}
 
+        //apaga tokens anteriores e cria um novo
+        $utilizador->tokens()->delete();
         $token = $utilizador->createToken($utilizador->email);
+        
+        //retorna o token
         return response(['token' => $token->plainTextToken], 200);
     }
 
