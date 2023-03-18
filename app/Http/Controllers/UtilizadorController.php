@@ -40,8 +40,8 @@ class UtilizadorController extends Controller
         //Validar os dados que recebo
         $validated = $request->validate([
             'nome' => 'required|string',
-            'email' => 'required|string|unique:utilizador',
-            'password' => 'required|string',
+            'email' => 'required|email|unique:utilizador',
+            'password' => 'required|string|min:8',
             'tipo' => 'required|numeric',
         ]);
 
@@ -55,6 +55,6 @@ class UtilizadorController extends Controller
         //Guardar na  base de dados
         $utilizador->save();
         
-        return response(200);
+        return response(['sucesso' => 'Registo realizado com sucesso'], 200);
     }
 }
