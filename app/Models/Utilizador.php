@@ -9,8 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Utilizador extends Model
 {
     use HasFactory, HasApiTokens;
-    protected $table = 'utilizador';
-    public $timestamps = false;
+    protected $table = 'utilizadores';
 
 
     /**

@@ -40,7 +40,7 @@ class UtilizadorController extends Controller
         //Validar os dados que recebo
         $validated = $request->validate([
             'nome' => 'required|string',
-            'email' => 'required|email|unique:utilizador',
+            'email' => 'required|email|unique:utilizadores',
             'password' => 'required|string|min:8',
             'tipo' => 'required|numeric',
         ]);
