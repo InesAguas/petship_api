@@ -3,6 +3,7 @@
 use App\Http\Controllers\UtilizadorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AnimalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('utilizadores', [UtilizadorController::class, 'inserir']);
+Route::post('login', [UtilizadorController::class, 'login']);
+Route::post('registar',[UtilizadorController::class, 'registar']);
+
+Route::post('anunciaranimal', [AnimalController::class, 'anunciarAnimal']);

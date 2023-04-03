@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class Utilizador extends Model
 {
-    use HasFactory;
-
-    protected $table = 'utilizador';
-    public $timestamps = false;
+    use HasFactory, HasApiTokens;
+    protected $table = 'utilizadores';
 
 
     /**
@@ -20,7 +19,9 @@ class Utilizador extends Model
      */
     protected $fillable = [
         'nome',
-        'apelido'
+        'email',
+        'password',
+        'tipo'
     ];
 
 
