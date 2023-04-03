@@ -46,7 +46,7 @@ class AnimalController extends Controller
         foreach($validated['fotografias'] as $fotografia) {
             $fotografias[] = $fotografia->getClientOriginalName();
         }
-        $animal->fotografias = $fotografias;
+        $animal->fotografias = json_encode($fotografias);
 
         //Guardar na  base de dados
         $animal->save();

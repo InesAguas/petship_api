@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('distrito');
             $table->integer('etiqueta');
             $table->string('descricao');
-            $table->string('fotografias');
+            $table->json('fotografias');
             $table->timestamps();
         });
     }
