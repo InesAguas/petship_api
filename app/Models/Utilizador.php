@@ -21,7 +21,13 @@ class Utilizador extends Model
         'nome',
         'email',
         'password',
-        'tipo'
+        'tipo',
+        'localizacao',
+        'telefone',
+        'fotografia',
+        'website',
+        'facebook',
+        'instagram',
     ];
 
     protected $hidden = [
