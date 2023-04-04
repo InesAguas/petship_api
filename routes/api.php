@@ -24,3 +24,5 @@ Route::post('login', [UtilizadorController::class, 'login']);
 Route::post('registar',[UtilizadorController::class, 'registar']);
 
 Route::post('anunciaranimal', [AnimalController::class, 'anunciarAnimal']);
+
+Route::get('associacoes', [UtilizadorController::class, 'listarAssociacoes']);
