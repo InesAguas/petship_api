@@ -15,16 +15,18 @@ return new class extends Migration
     {
         Schema::create('animais', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->integer('sexo');
-            $table->integer('especie');
-            $table->integer('raca');
-            $table->integer('porte');
-            $table->integer('idade');
-            $table->integer('cor');
-            $table->integer('distrito');
-            $table->integer('etiqueta');
-            $table->string('descricao');
+            //para quando estiver a funcionar o login
+            //$table->foreignId('id_utilizador')->constrained('utilizadores');
+            $table->string('nome', 30);
+            $table->string('sexo', 30);
+            $table->string('especie', 30);
+            $table->string('raca', 30);
+            $table->string('porte', 30);
+            $table->string('idade', 30);
+            $table->string('cor', 30);
+            $table->string('distrito', 30);
+            $table->string('etiqueta', 30);
+            $table->string('descricao', 30);
             $table->json('fotografias');
             $table->timestamps();
         });

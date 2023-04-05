@@ -16,14 +16,14 @@ class AnimalController extends Controller
         //Validar os dados que recebo
         $validated = $request->validate([
             'nome' => 'required|string',
-            'sexo' => 'required|numeric',
-            'especie' => 'required|numeric',
-            'raca' => 'required|numeric',
-            'porte' => 'required|numeric',
-            'idade' => 'required|numeric',
-            'cor' => 'required|numeric',
-            'distrito' => 'required|numeric',
-            'etiqueta' => 'required|numeric',
+            'sexo' => 'required|string',
+            'especie' => 'required|string',
+            'raca' => 'required|string',
+            'porte' => 'required|string',
+            'idade' => 'required|string',
+            'cor' => 'required|string',
+            'distrito' => 'required|string',
+            'etiqueta' => 'required|string',
             'descricao' => 'required|string',
             'fotografias' => 'required',
         ]);
