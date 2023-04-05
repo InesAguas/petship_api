@@ -57,4 +57,15 @@ class UtilizadorController extends Controller
         
         return response(['sucesso' => 'Registo realizado com sucesso'], 200);
     }
+
+    function logout(Request $request) {
+        $request->user()->tokens()->delete();
+        return response(['sucesso' => 'Logout realizado com sucesso'], 200);
+    }
+
+    function listarAssociacoes(Request $request) {
+        //return todos os utilizadores que sao do tipo 2
+        $utilizadores = Utilizador::where('tipo', 2)->get();
+        return response($utilizadores, 200);
+    }
 }
