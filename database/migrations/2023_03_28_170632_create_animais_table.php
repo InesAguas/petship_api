@@ -26,8 +26,8 @@ return new class extends Migration
             $table->string('cor', 30);
             $table->string('distrito', 30);
             $table->string('etiqueta', 30);
-            $table->string('descricao', 30);
-            $table->json('fotografias');
+            $table->string('descricao', 30)->nullable();
+            $table->json('fotografias')->nullable();
             $table->timestamps();
         });
     }
