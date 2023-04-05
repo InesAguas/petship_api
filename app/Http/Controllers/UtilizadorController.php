@@ -32,7 +32,7 @@ class UtilizadorController extends Controller
         $token = $utilizador->createToken($utilizador->email);
         
         //retorna o token
-        return response(['token' => $token->plainTextToken], 200);
+        return response(['utilizador' => $utilizador, 'token' => $token->plainTextToken], 200);
     }
 
     function registar(Request $request) {
