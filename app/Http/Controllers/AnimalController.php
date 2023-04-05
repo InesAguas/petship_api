@@ -53,4 +53,10 @@ class AnimalController extends Controller
 
         return response(['sucesso' => 'Animal inserido com sucesso'], 200);
     }
+
+    function listarAnimais(Request $request) {
+        
+        $animais = Animal::all();
+        return response($animais, 200);
+    }
 }

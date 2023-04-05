@@ -24,4 +24,8 @@ class Animal extends Model
         'fotografias'
     ];
 
+    protected $casts = [
+        'fotografias' => 'array'
+    ];
+
 }
