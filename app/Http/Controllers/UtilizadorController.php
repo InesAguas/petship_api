@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UtilizadorResource;
 use Illuminate\Http\Request;
 use App\Models\Utilizador;
 use Illuminate\Support\Facades\Hash;
@@ -32,7 +33,7 @@ class UtilizadorController extends Controller
         $token = $utilizador->createToken($utilizador->email);
         
         //retorna o token
-        return response(['utilizador' => $utilizador, 'token' => $token->plainTextToken], 200);
+        return response(['utilizador' => new UtilizadorResource($utilizador), 'token' => $token->plainTextToken], 200);
     }
 
     function registar(Request $request) {
@@ -66,6 +67,6 @@ class UtilizadorController extends Controller
     function listarAssociacoes(Request $request) {
         //return todos os utilizadores que sao do tipo 2
         $utilizadores = Utilizador::where('tipo', 2)->get();
-        return response($utilizadores, 200);
+        return response(['associacoes' => UtilizadorResource::collection($utilizadores)], 200);
     }
 }

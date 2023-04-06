@@ -34,5 +34,12 @@ class Utilizador extends Model
         'password',
     ];
 
+    public function fotografiaUrl()
+    {
+        if($this->fotografia != null) {
+            $this->fotografia = asset('storage/img/utilizadores/' . $this->fotografia);
+        }
+        return $this->fotografia;
+    }
 
 }
