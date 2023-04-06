@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AnimalResource;
 use Illuminate\Http\Request;
 use App\Models\Utilizador;
 use App\Models\Animal;
@@ -66,16 +67,7 @@ class AnimalController extends Controller
     function listarAnimais(Request $request)
     {
         $animais = Animal::where('etiqueta', 'Adoção')->get();
-        foreach ($animais as $animal) {
-            if($animal->fotografias != null) {
-                $animal->fotografias = json_decode($animal->fotografias);
-                $fotos = [];
-                for ($i = 0; $i < count($animal->fotografias); $i++) {
-                    $fotos[] = asset('storage/img/animais/' . $animal->fotografias[$i]);
-                }
-                $animal->fotografias = $fotos;
-            }
-        }
-        return response(['animais' => $animais], 200);
+
+        return response(['animais' => AnimalResource::collection($animais)], 200);
     }
 }
