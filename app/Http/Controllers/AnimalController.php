@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AnimalResource;
 use Illuminate\Http\Request;
 use App\Models\Utilizador;
 use App\Models\Animal;
@@ -10,22 +11,21 @@ class AnimalController extends Controller
 {
     //
 
-    function anunciarAnimal(Request $request) {
+    function anunciarAnimal(Request $request)
+    {
         //funcao para inserir um animal na base de dados
 
         //Validar os dados que recebo
         $validated = $request->validate([
             'nome' => 'required|string',
-            'sexo' => 'required|numeric',
-            'especie' => 'required|numeric',
-            'raca' => 'required|numeric',
-            'porte' => 'required|numeric',
-            'idade' => 'required|numeric',
-            'cor' => 'required|numeric',
-            'distrito' => 'required|numeric',
-            'etiqueta' => 'required|numeric',
-            'descricao' => 'required|string',
-            'fotografias' => 'required',
+            'sexo' => 'required|string',
+            'especie' => 'required|string',
+            'raca' => 'required|string',
+            'porte' => 'required|string',
+            'idade' => 'required|string',
+            'cor' => 'required|string',
+            'distrito' => 'required|string',
+            'etiqueta' => 'required|string',
         ]);
 
         //Criar novo objeto Animal
@@ -39,24 +39,35 @@ class AnimalController extends Controller
         $animal->cor = $validated['cor'];
         $animal->distrito = $validated['distrito'];
         $animal->etiqueta = $validated['etiqueta'];
-        $animal->descricao = $validated['descricao'];
 
-        //guardar apenas o titulo de cada fotografia
-        $fotografias = [];
-        foreach($validated['fotografias'] as $fotografia) {
-            $fotografias[] = $fotografia->getClientOriginalName();
+        $animal->save();
+
+        if($request->descricao != null) {
+            $animal->descricao = $validated['descricao'];
         }
-        $animal->fotografias = json_encode($fotografias);
-
+        
+        //guardar apenas o titulo de cada fotografia
+        if ($request->fotografias != null) {
+            $fotografias = [];
+            $i = 0;
+            foreach ($request->fotografias as $fotografia) {
+                $i++;
+                $nome_fotografia = $animal->id . $animal->nome . $i . '.' . $fotografia->extension();
+                $fotografias[] = $nome_fotografia;
+                $fotografia->move(public_path('img/animais'), $nome_fotografia);
+            }
+            $animal->fotografias = json_encode($fotografias);
+        }
         //Guardar na  base de dados
         $animal->save();
 
         return response(['sucesso' => 'Animal inserido com sucesso'], 200);
     }
 
-    function listarAnimais(Request $request) {
-        
-        $animais = Animal::all();
-        return response($animais, 200);
+    function listarAnimais(Request $request)
+    {
+        $animais = Animal::where('etiqueta', 'Adoção')->get();
+
+        return response(['animais' => AnimalResource::collection($animais)], 200);
     }
 }
