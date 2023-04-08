@@ -43,7 +43,7 @@ class AnimalController extends Controller
         $animal->save();
 
         if($request->descricao != null) {
-            $animal->descricao = $validated['descricao'];
+            $animal->descricao = $request->descricao;
         }
         
         //guardar apenas o titulo de cada fotografia
