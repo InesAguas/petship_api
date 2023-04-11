@@ -54,7 +54,7 @@ class AnimalController extends Controller
                 $i++;
                 $nome_fotografia = $animal->id . $animal->nome . $i . '.' . $fotografia->extension();
                 $fotografias[] = $nome_fotografia;
-                $fotografia->move(public_path('img/animais'), $nome_fotografia);
+                $fotografia->move(public_path('storage/img/animais'), $nome_fotografia);
             }
             $animal->fotografias = json_encode($fotografias);
         }
