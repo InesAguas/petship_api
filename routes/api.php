@@ -28,3 +28,5 @@ Route::post('anunciaranimal', [AnimalController::class, 'anunciarAnimal']);
 Route::get('associacoes', [UtilizadorController::class, 'listarAssociacoes']);
 
 Route::get('adotar', [AnimalController::class, 'listarAnimais']);
+
+Route::get('perfil/{id}', [UtilizadorController::class, 'perfilUtilizador']);

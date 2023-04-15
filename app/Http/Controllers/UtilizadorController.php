@@ -69,4 +69,11 @@ class UtilizadorController extends Controller
         $utilizadores = Utilizador::where('tipo', 2)->get();
         return response(['associacoes' => UtilizadorResource::collection($utilizadores)], 200);
     }
+
+    function perfilUtilizador(Request $request) {
+        $utilizador = Utilizador::where('id', $request->id)->first();
+        if($utilizador == null)
+            return response(['erro' => 'Utilizador não encontrado'], 404);
+        return response(['utilizador' => new UtilizadorResource($utilizador)], 200);
+    }
 }
