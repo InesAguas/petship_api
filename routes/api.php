@@ -29,4 +29,8 @@ Route::get('associacoes', [UtilizadorController::class, 'listarAssociacoes']);
 
 Route::get('adotar', [AnimalController::class, 'listarAnimais']);
 
+Route::get('desaparecido', [AnimalController::class, 'listarAnimaisDesaparecidos']);
+
+Route::get('petsitting', [AnimalController::class, 'listarAnimaisPetsitting']);
+
 Route::get('perfil/{id}', [UtilizadorController::class, 'perfilUtilizador']);
