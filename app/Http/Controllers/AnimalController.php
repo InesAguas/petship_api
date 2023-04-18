@@ -70,4 +70,18 @@ class AnimalController extends Controller
 
         return response(['animais' => AnimalResource::collection($animais)], 200);
     }
+
+    function listarAnimaisDesaparecidos(Request $request)
+    {
+        $animais = Animal::where('etiqueta', 'Desaparecido')->get();
+
+        return response(['animais' => AnimalResource::collection($animais)], 200);
+    }
+
+    function listarAnimaisPetsitting(Request $request)
+    {
+        $animais = Animal::where('etiqueta', 'Petsitting')->get();
+
+        return response(['animais' => AnimalResource::collection($animais)], 200);
+    }
 }
