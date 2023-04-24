@@ -16,14 +16,26 @@ use App\Http\Controllers\AnimalController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//rotas que o utilizador tem de estar logged in e ser particular
+Route::middleware(['auth:sacntum', 'particular'])->group(function () {
+   
 });
+
+//rotas em que o utilizador tem de estar logged in e ser associacao
+Route::middleware(['auth:sacntum', 'associacao'])->group(function () {
+    
+});
+
+//rotas em que o utilizador apenas tem de estar logged in
+Route::middleware('auth:sanctum')->group(function() {
+    Route::post('anunciaranimal', [AnimalController::class, 'anunciarAnimal']);
+});
+
 
 Route::post('login', [UtilizadorController::class, 'login']);
 Route::post('registar',[UtilizadorController::class, 'registar']);
 
-Route::post('anunciaranimal', [AnimalController::class, 'anunciarAnimal']);
+Route::get('perfil/{id}', [UtilizadorController::class, 'perfilUtilizador']);
 
 Route::get('associacoes', [UtilizadorController::class, 'listarAssociacoes']);
 
@@ -32,5 +44,3 @@ Route::get('adotar', [AnimalController::class, 'listarAnimais']);
 Route::get('desaparecido', [AnimalController::class, 'listarAnimaisDesaparecidos']);
 
 Route::get('petsitting', [AnimalController::class, 'listarAnimaisPetsitting']);
-
-Route::get('perfil/{id}', [UtilizadorController::class, 'perfilUtilizador']);

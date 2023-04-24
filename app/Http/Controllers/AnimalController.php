@@ -30,6 +30,7 @@ class AnimalController extends Controller
 
         //Criar novo objeto Animal
         $animal = new Animal();
+        $animal->id_utilizador = $request->user()->id;
         $animal->nome = $validated['nome'];
         $animal->sexo = $validated['sexo'];
         $animal->especie = $validated['especie'];
