@@ -67,8 +67,15 @@ class AnimalController extends Controller
 
     function listarAnimais(Request $request)
     {
-        $animais = Animal::where('etiqueta', 'Adoção')->get();
 
+        
+        $animais = Animal::where('etiqueta', 1)->get();
+
+    
+        if($request->lang == 'en')  {
+            
+            return response(['animais' => AnimalResource::collection($animais)->map->toArrayEnglish()], 200);
+        }
         return response(['animais' => AnimalResource::collection($animais)], 200);
     }
 
@@ -81,6 +88,7 @@ class AnimalController extends Controller
 
     function listarAnimaisPetsitting(Request $request)
     {
+        
         $animais = Animal::where('etiqueta', 'Petsitting')->get();
 
         return response(['animais' => AnimalResource::collection($animais)], 200);
