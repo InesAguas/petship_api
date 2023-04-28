@@ -4,6 +4,7 @@ use App\Http\Controllers\UtilizadorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\MensagemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,9 @@ Route::middleware(['auth:sacntum', 'associacao'])->group(function () {
 //rotas em que o utilizador apenas tem de estar logged in
 Route::middleware('auth:sanctum')->group(function() {
     Route::post('anunciaranimal', [AnimalController::class, 'anunciarAnimal']);
+    Route::post('enviarmensagem', [MensagemController::class, 'enviarMensagem']);
+    Route::get('mensagens/{id_recebe}', [MensagemController::class, 'lerConversa']);
+    Route::get('conversasativas', [MensagemController::class, 'conversasAtivas']);
 });
 
 
