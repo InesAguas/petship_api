@@ -68,8 +68,8 @@ class MensagemController extends Controller
         $conversas = $recebidas->merge($enviadas)->unique()->toArray();
         $conversas = collect($conversas)->sortByDesc('created_at')->groupBy(function ($conversa) {
             return collect([$conversa['id_envia'], $conversa['id_recebe']])->sort()->implode('-');
-        })->map(function ($conversass) {
-            return $conversass->first();
+        })->map(function ($conversa) {
+            return $conversa->first();
         })->values();
 
         $conversas = $conversas->map(function ($conversa) {
