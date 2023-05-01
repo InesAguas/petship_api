@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Mensagem;
 use App\Models\Utilizador;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -54,12 +55,28 @@ class MensagemController extends Controller
     function conversasAtivas(Request $request) {
         $utilizador = Utilizador::find($request->user()->id);
 
-        $recebidas = $utilizador->mensagensRecebidas->pluck('id_envia')->unique();
-        $enviadas = $utilizador->mensagensEnviadas->pluck('id_recebe')->unique();
+        $recebidas = $utilizador->mensagensRecebidas()->whereIn('id', function($query) use(&$utilizador){
+            $query->select(DB::raw("MAX(id) FROM mensagens WHERE id_recebe = " . $utilizador->id . " GROUP BY id_envia"));    
+        })->get();
+
+        $enviadas = $utilizador->mensagensEnviadas()->whereIn('id', function($query) use(&$utilizador){
+            $query->select(DB::raw("MAX(id) FROM mensagens WHERE id_envia = " . $utilizador->id . " GROUP BY id_recebe"));    
+        })->get();
+
+
 
         $conversas = $recebidas->merge($enviadas)->unique()->toArray();
+        $conversas = collect($conversas)->sortByDesc('created_at')->groupBy(function ($conversa) {
+            return collect([$conversa['id_envia'], $conversa['id_recebe']])->sort()->implode('-');
+        })->map(function ($conversass) {
+            return $conversass->first();
+        })->values();
 
-        $conversas = array_values($conversas);
+        $conversas = $conversas->map(function ($conversa) {
+            $conversa['nome_envia'] = Utilizador::find($conversa['id_envia'])->nome;
+            $conversa['nome_recebe'] = Utilizador::find($conversa['id_recebe'])->nome;
+            return $conversa;
+        })->toArray();
 
         return response()->json(['conversas' => $conversas], 200);
     }
