@@ -48,3 +48,5 @@ Route::get('adotar', [AnimalController::class, 'listarAnimais']);
 Route::get('desaparecido', [AnimalController::class, 'listarAnimaisDesaparecidos']);
 
 Route::get('petsitting', [AnimalController::class, 'listarAnimaisPetsitting']);
+
+Route::get('animal/{id}', [AnimalController::class, 'listarAnimal']);

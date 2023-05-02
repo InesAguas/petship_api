@@ -81,16 +81,44 @@ class AnimalController extends Controller
 
     function listarAnimaisDesaparecidos(Request $request)
     {
-        $animais = Animal::where('etiqueta', 'Desaparecido')->get();
+        $animais = Animal::where('etiqueta', 2)->get();
+
+        if ($request->lang == 'en') {
+
+            return response(['animais' => AnimalResource::collection($animais)->map->toArrayEnglish()], 200);
+        }
 
         return response(['animais' => AnimalResource::collection($animais)], 200);
     }
 
     function listarAnimaisPetsitting(Request $request)
     {
-        
-        $animais = Animal::where('etiqueta', 'Petsitting')->get();
+
+        $animais = Animal::where('etiqueta', 3)->get();
+
+        if ($request->lang == 'en') {
+
+            return response(['animais' => AnimalResource::collection($animais)->map->toArrayEnglish()], 200);
+        }
 
         return response(['animais' => AnimalResource::collection($animais)], 200);
+    }
+
+    function listarAnimal(Request $request, $id)
+    {
+        $animal = Animal::find($id);
+
+        if ($animal == null) {
+            return response(['erro' => 'Animal não encontrado'], 404);
+        }
+
+        $utilizador = Utilizador::find($animal->id_utilizador);
+
+        if ($request->lang == 'en') {
+
+            return response(['animal' => new AnimalResource($animal->toArrayEnglish()), 'utilizador' => $utilizador->toArrayEnglish()], 200);
+        }
+
+        return response(['animal' => new AnimalResource($animal), 'utilizador' => $utilizador], 200);
     }
 }
