@@ -42,4 +42,24 @@ class Utilizador extends Model
         return $this->fotografia;
     }
 
+    public function mensagensEnviadas()
+    {
+        return $this->hasMany(Mensagem::class, 'id_envia');
+    }
+
+    public function mensagensRecebidas() 
+    {
+        return $this->hasMany(Mensagem::class, 'id_recebe');
+    }
+
+    public function isParticular() 
+    {
+        return $this->tipo == 1;
+    }
+
+    public function isAssociacao() 
+    {
+        return $this->tipo == 2;
+    }
+
 }
