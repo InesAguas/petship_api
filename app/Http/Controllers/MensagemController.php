@@ -31,7 +31,7 @@ class MensagemController extends Controller
 
         $mensagem->save();
 
-        return response()->json(['message' => 'Mensagem enviada com sucesso'], 200);
+        return response()->json(['mensagem' => $mensagem], 200);
     }
 
     function lerConversa(Request $request) {
