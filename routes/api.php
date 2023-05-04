@@ -50,3 +50,6 @@ Route::get('desaparecido', [AnimalController::class, 'listarAnimaisDesaparecidos
 Route::get('petsitting', [AnimalController::class, 'listarAnimaisPetsitting']);
 
 Route::get('animal/{id}', [AnimalController::class, 'listarAnimal']);
+
+Route::put('editarperfil', [UtilizadorController::class, 'alterarPerfil']);
+

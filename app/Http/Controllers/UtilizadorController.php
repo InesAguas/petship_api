@@ -76,4 +76,27 @@ class UtilizadorController extends Controller
             return response(['erro' => 'Utilizador não encontrado'], 404);
         return response(['utilizador' => new UtilizadorResource($utilizador)], 200);
     }
+
+    function alterarPerfil(Request $request) {
+        $utilizador = Utilizador::where('id', $request->id)->first();
+        if($utilizador == null)
+            return response(['erro' => 'Utilizador não encontrado'], 404);
+
+        //Validar os dados que recebo
+        $validated = $request->validate([
+            'nome' => 'required|string',
+            'email' => 'required|email|unique:utilizadores,email,'.$utilizador->id,
+            'telefone' => 'required|numeric',
+        ]);
+
+        $utilizador->nome = $validated['nome'];
+        $utilizador->email = $validated['email'];
+        $utilizador->telefone = $validated['telefone'];
+
+
+        //Guardar na  base de dados
+        $utilizador->save();
+        
+        return response(['sucesso' => 'Utilizador editado com sucesso'], 200);
+    }
 }
