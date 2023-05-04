@@ -31,6 +31,9 @@ class MensagemController extends Controller
 
         $mensagem->save();
 
+            $mensagem['nome_envia'] = Utilizador::find($mensagem['id_envia'])->nome;
+            $mensagem['nome_recebe'] = Utilizador::find($mensagem['id_recebe'])->nome;
+
         return response()->json(['mensagem' => $mensagem], 200);
     }
 
