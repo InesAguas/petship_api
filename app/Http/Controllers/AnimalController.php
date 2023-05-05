@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\AnimalResource;
+use App\Http\Resources\UtilizadorResource;
 use Illuminate\Http\Request;
 use App\Models\Utilizador;
 use App\Models\Animal;
@@ -116,9 +117,9 @@ class AnimalController extends Controller
 
         if ($request->lang == 'en') {
 
-            return response(['animal' => new AnimalResource($animal->toArrayEnglish()), 'utilizador' => $utilizador->toArrayEnglish()], 200);
+            return response(['animal' => new AnimalResource($animal->toArrayEnglish()), 'utilizador' => new UtilizadorResource($utilizador->toArray())], 200);
         }
 
-        return response(['animal' => new AnimalResource($animal), 'utilizador' => $utilizador], 200);
+        return response(['animal' => new AnimalResource($animal), 'utilizador' => new UtilizadorResource($utilizador)], 200);
     }
 }
