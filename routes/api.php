@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('enviarmensagem', [MensagemController::class, 'enviarMensagem']);
     Route::get('mensagens/{id_recebe}', [MensagemController::class, 'lerConversa']);
     Route::get('conversasativas', [MensagemController::class, 'conversasAtivas']);
+    Route::post('editarperfil', [UtilizadorController::class, 'alterarPerfil']);
 });
 
 
@@ -50,3 +51,6 @@ Route::get('desaparecido', [AnimalController::class, 'listarAnimaisDesaparecidos
 Route::get('petsitting', [AnimalController::class, 'listarAnimaisPetsitting']);
 
 Route::get('animal/{id}', [AnimalController::class, 'listarAnimal']);
+
+
+
