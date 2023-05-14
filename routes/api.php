@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\MensagemController;
+use App\Http\Controllers\AnuncioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,13 +24,15 @@ Route::middleware(['auth:sacntum', 'particular'])->group(function () {
 });
 
 //rotas em que o utilizador tem de estar logged in e ser associacao
-Route::middleware(['auth:sacntum', 'associacao'])->group(function () {
-    
+Route::middleware(['auth:sanctum', 'associacao'])->group(function () {
+    Route::post('publicaranimal', [AnimalController::class, 'publicarAnimal']);
+    Route::post('anunciaranimal', [AnimalController::class, 'anunciarAnimal']);
+    Route::get('associacao/animais', [AnimalController::class, 'listarAnimaisAssociacao']);
 });
 
 //rotas em que o utilizador apenas tem de estar logged in
 Route::middleware('auth:sanctum')->group(function() {
-    Route::post('anunciaranimal', [AnimalController::class, 'anunciarAnimal']);
+    Route::post('novoanuncio', [AnuncioController::class, 'novoAnuncio']);
     Route::post('enviarmensagem', [MensagemController::class, 'enviarMensagem']);
     Route::get('mensagens/{id_recebe}', [MensagemController::class, 'lerConversa']);
     Route::get('conversasativas', [MensagemController::class, 'conversasAtivas']);
@@ -44,13 +47,13 @@ Route::get('perfil/{id}', [UtilizadorController::class, 'perfilUtilizador']);
 
 Route::get('associacoes', [UtilizadorController::class, 'listarAssociacoes']);
 
-Route::get('adotar', [AnimalController::class, 'listarAnimais']);
+Route::get('adotar', [AnuncioController::class, 'listarAnimaisAdocao']);
 
-Route::get('desaparecido', [AnimalController::class, 'listarAnimaisDesaparecidos']);
+Route::get('desaparecido', [AnuncioController::class, 'listarAnimaisDesaparecidos']);
 
-Route::get('petsitting', [AnimalController::class, 'listarAnimaisPetsitting']);
+Route::get('petsitting', [AnuncioController::class, 'listarAnimaisPetsitting']);
 
-Route::get('animal/{id}', [AnimalController::class, 'listarAnimal']);
+Route::get('animal/{id}', [AnuncioController::class, 'verAnuncioAnimal']);
 
 
 
