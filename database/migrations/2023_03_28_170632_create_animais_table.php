@@ -23,10 +23,15 @@ return new class extends Migration
             $table->string('porte', 30);
             $table->string('idade', 30);
             $table->string('cor', 30);
-            $table->string('distrito', 30);
-            $table->string('etiqueta', 30);
-            $table->string('descricao', 30)->nullable();
-            $table->json('fotografias')->nullable();
+            $table->boolean('ferido')->nullable();
+            $table->boolean('agressivo')->nullable();
+            $table->date('data_recolha')->nullable();
+            $table->string('local_captura', 30)->nullable();
+            $table->string('fotografia', 50)->nullable();
+            $table->integer('chip')->nullable();
+            $table->integer('temperatura')->nullable();
+            $table->date('desparasitacao')->nullable();
+            $table->string('medicacao', 50)->nullable();
             $table->timestamps();
         });
     }

@@ -18,26 +18,11 @@ class Animal extends Model
         'porte',
         'idade',
         'cor',
-        'distrito',
-        'etiqueta',
-        'descricao',
-        'fotografias'
+        'ferido',
+        'agressivo',
+        'data_recolha',
+        'local_captura',
+        'fotografia'
     ];
-
-    protected $casts = [
-        'fotografias' => 'array'
-    ];
-
-    public function fotografiasUrls()
-    {
-        $fotos = [];
-        if($this->fotografias != null) {
-            $this->fotografias = json_decode($this->fotografias);
-            for ($i = 0; $i < count($this->fotografias); $i++) {
-                $fotos[] = asset('storage/img/animais/' . $this->fotografias[$i]);
-            }
-        }
-        return $fotos;
-    }
 
 }
