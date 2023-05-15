@@ -6,7 +6,8 @@ use App\Http\Resources\UtilizadorResource;
 use Illuminate\Http\Request;
 use App\Models\Utilizador;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Password;
 
 class UtilizadorController extends Controller
 {
@@ -115,5 +116,16 @@ class UtilizadorController extends Controller
         $utilizador->save();
 
         return response(['utilizador' => new UtilizadorResource($utilizador)], 200);
+    }
+
+
+    function forgotPassword(Request $request) {
+        $request->validate(['email' => 'required|email']);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return  __($status);
     }
 }
