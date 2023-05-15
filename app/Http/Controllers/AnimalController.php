@@ -13,6 +13,7 @@ class AnimalController extends Controller
     //
 
     function publicarAnimal(Request $request) {
+        
         $validated = $request->validate([
             'data_recolha' => 'required|date',
             'ferido' => 'required|boolean',
@@ -25,7 +26,7 @@ class AnimalController extends Controller
             'idade' => 'required',
             'cor' => 'required',
         ]);
-
+        
         $animal = new Animal();
         $animal->id_utilizador = $request->user()->id;
         $animal->data_recolha = $validated['data_recolha'];
@@ -76,9 +77,9 @@ class AnimalController extends Controller
         $animais = Animal::where('id_utilizador', $request->user()->id)->get();
 
         if($request->lang == 'en')  {
-            return response(['animais' => $animais], 200);
+            return response(['animais' => AnimalResource::collection($animais)->map->toArrayEnglish()], 200);
         }
-        return response(['animais' => $animais], 200);
+        return response(['animais' => AnimalResource::collection($animais)], 200);
     }
 
 }
