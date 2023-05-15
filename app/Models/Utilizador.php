@@ -28,6 +28,7 @@ class Utilizador extends Model
         'website',
         'facebook',
         'instagram',
+        'horario',
     ];
 
     protected $hidden = [
@@ -60,6 +61,10 @@ class Utilizador extends Model
     public function isAssociacao() 
     {
         return $this->tipo == 2;
+    }
+
+    public function getHorario() {
+        return json_decode($this->horario);
     }
 
 }

@@ -99,8 +99,54 @@ class UtilizadorController extends Controller
 
         $utilizador->nome = $validated['nome'];
         $utilizador->email = $validated['email'];
-        $utilizador->telefone = $validated['telefone'];
-        $utilizador->localizacao = $validated['localizacao'];
+
+        if ($request->telefone != null) {
+            $utilizador->telefone = $request->telefone;
+        }
+
+        if($request->localizacao != null){
+            $utilizador->localizacao = $request->localizacao;
+        }
+
+        if ($request->fotografia != null) {
+            $nomeFotografia = $utilizador->id . $utilizador->nome . '.' . $request->fotografia->extension();
+            $request->fotografia->move(public_path('storage/img/utilizadores/'), $nomeFotografia);
+            $utilizador->fotografia = $nomeFotografia;
+        }
+        //Guardar na  base de dados
+        $utilizador->save();
+
+        return response(['utilizador' => new UtilizadorResource($utilizador)], 200);
+    }
+
+    function alterarPerfilAssociacao(Request $request){
+        $utilizador =  $request->user();
+        if ($utilizador == null)
+            return response(['erro' => 'Utilizador não encontrado'], 404);
+
+        //Validar os dados que recebo
+        $validated = $request->validate([
+            'nome' => 'required|string',
+            'email' => 'required|email|unique:utilizadores,email,' . $utilizador->id,
+            'telefone' => 'string',
+            'fotografia' => 'file',
+            'localizacao' => 'string',
+            'website' => 'string',
+            'facebook' => 'string',
+            'instagram' => 'string',
+            'horario' => 'json'
+        ]);
+
+        $utilizador->nome = $validated['nome'];
+        $utilizador->email = $validated['email'];
+
+        if ($request->telefone != null) {
+            $utilizador->telefone = $request->telefone;
+        }
+
+        if($request->localizacao != null){
+            $utilizador->localizacao = $request->localizacao;
+        }
 
         if ($request->fotografia != null) {
             $nomeFotografia = $utilizador->id . $utilizador->nome . '.' . $request->fotografia->extension();
@@ -108,8 +154,22 @@ class UtilizadorController extends Controller
             $utilizador->fotografia = $nomeFotografia;
         }
 
+        if($request->website != null){
+            $utilizador->website = $request->website;
+        }
 
+        if($request->facebook != null){
+            $utilizador->facebook = $request->facebook;
+        }
 
+        if($request->instagram != null){
+            $utilizador->instagram = $request->instagram;
+        }
+
+        if($request->horario != null){
+            $utilizador->horario = $request->horario;
+        }
+        
 
         //Guardar na  base de dados
         $utilizador->save();
