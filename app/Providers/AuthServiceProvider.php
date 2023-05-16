@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         ResetPassword::createUrlUsing(function ($user, string $token) {
-            return 'https://localhost:8080/reset-password?token='.$token;
+            return 'http://localhost:8080/novapassword/'.$token;
         });
         //
     }

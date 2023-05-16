@@ -64,4 +64,6 @@ Route::get('/reset-password/{token}', function (string $token) {
     return 0;
 })->middleware('guest')->name('password.reset');
 
+Route::post('/reset-password', [UtilizadorController::class, 'resetPassword'])->middleware('guest')->name('password.update');
+
 
