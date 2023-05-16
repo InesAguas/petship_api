@@ -25,6 +25,8 @@ class UtilizadorResource extends JsonResource
             'website' => $this->website,
             'facebook' => $this->facebook,
             'instagram' => $this->instagram,
+            'horario' => $this->getHorario(),
+
         ];
     }
 }

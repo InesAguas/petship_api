@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('mensagens/{id_recebe}', [MensagemController::class, 'lerConversa']);
     Route::get('conversasativas', [MensagemController::class, 'conversasAtivas']);
     Route::post('editarperfil', [UtilizadorController::class, 'alterarPerfil']);
+    Route::post('editarperfilA', [UtilizadorController::class, 'alterarPerfilAssociacao']);
 });
 
 
