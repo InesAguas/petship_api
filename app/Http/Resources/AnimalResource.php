@@ -53,4 +53,23 @@ class AnimalResource extends JsonResource
             'anunciado' => Anuncio::where('id_animal', $this->id)->exists(),
         ];
     }
+
+    public function toArrayNumeric() {
+        return [
+            'id' => $this->id,
+            'nome' => $this->nome,
+            'sexo' => $this->sexo,
+            'especie' => $this->especie,
+            'raca' => $this->raca,
+            'porte' => $this->porte,
+            'idade' => $this->idade,
+            'cor' => $this->cor,
+            'ferido' => $this->ferido ? 1 : 0,
+            'agressivo' => $this->agressivo ? 1 : 0,
+            'data_recolha' => $this->data_recolha,
+            'local_captura' => $this->local_captura,
+            'fotografia' =>  $this->fotografia ? asset('storage/img/animais/'.$this->fotografia) : null,
+            'anunciado' => Anuncio::where('id_animal', $this->id)->exists() ? 1 : 0,
+        ];
+    }
 }

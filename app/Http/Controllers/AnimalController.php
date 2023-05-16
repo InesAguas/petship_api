@@ -7,6 +7,7 @@ use App\Http\Resources\UtilizadorResource;
 use Illuminate\Http\Request;
 use App\Models\Utilizador;
 use App\Models\Animal;
+use App\Models\Anuncio;
 
 class AnimalController extends Controller
 {
@@ -69,7 +70,7 @@ class AnimalController extends Controller
 
         $animal->save();
 
-        return response(['sucesso' => 'Animal inserido com sucesso'], 200);
+        return response(['animal' => new AnimalResource($animal)], 200);
     }
 
 
@@ -80,6 +81,35 @@ class AnimalController extends Controller
             return response(['animais' => AnimalResource::collection($animais)->map->toArrayEnglish()], 200);
         }
         return response(['animais' => AnimalResource::collection($animais)], 200);
+    }
+
+    function removerAnimal(Request $request) {
+        $animal = Animal::where('id', $request->id)->first();
+        if($animal == null) {
+            return response(['erro' => 'Animal não encontrado'], 404);
+        }
+        if($animal->id_utilizador != $request->user()->id) {
+            return response(['erro' => 'Não tem permissões para remover este animal'], 403);
+        }
+
+        Anuncio::where('id_animal', $animal->id)->delete();
+        $animal->delete();
+        return response(['sucesso' => 'Animal removido com sucesso'], 200);
+    }
+
+    function dadosAnimalNum(Request $request) {
+        $animal = Animal::where('id', $request->id)->first();
+
+        if($animal == null) {
+            return response(['erro' => 'Animal não encontrado'], 404);
+        }
+
+        if($animal->id_utilizador != $request->user()->id) {
+            return response(['erro' => 'Não tem permissões para remover este animal'], 403);
+        }
+
+        return response(['animal' => (new AnimalResource($animal))->toArrayNumeric()], 200);
+
     }
 
 }

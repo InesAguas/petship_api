@@ -126,6 +126,8 @@ class UtilizadorController extends Controller
             $request->only('email')
         );
 
+        Password:
+
         return  __($status);
     }
 }
