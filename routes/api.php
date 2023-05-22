@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\MensagemController;
 use App\Http\Controllers\AnuncioController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,11 +60,10 @@ Route::get('petsitting', [AnuncioController::class, 'listarAnimaisPetsitting']);
 Route::get('animal/{id}', [AnuncioController::class, 'verAnuncioAnimal']);
 
 Route::post('/forgot-password', [UtilizadorController::class, 'forgotPassword'])->middleware('guest')->name('password.email');
-
-Route::get('/reset-password/{token}', function (string $token) {
-    return 0;
-})->middleware('guest')->name('password.reset');
-
 Route::post('/reset-password', [UtilizadorController::class, 'resetPassword'])->middleware('guest')->name('password.update');
 
+
+//rotas dos emails
+
+Route::get('/email/verify/{id}/{hash}', [UtilizadorController::class, 'verificaEmail'])->name('verification.verify');
 

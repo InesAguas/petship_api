@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->json('horario')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }

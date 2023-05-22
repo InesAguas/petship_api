@@ -8,6 +8,7 @@ use App\Models\Utilizador;
 use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\Registered;
 
 class UtilizadorController extends Controller
 {
@@ -28,6 +29,10 @@ class UtilizadorController extends Controller
 
         if (!Hash::check(($request->password), $utilizador->password)) {
             return response(['erro' => 'Email ou password incorretos'], 422);
+        }
+
+        if (!$utilizador->hasVerifiedEmail()) {
+            return response(['erro' => 'Email não verificado'], 403);
         }
 
         //apaga tokens anteriores e cria um novo
@@ -58,6 +63,8 @@ class UtilizadorController extends Controller
 
         //Guardar na  base de dados
         $utilizador->save();
+
+        Event(new Registered($utilizador));
 
         return response(['sucesso' => 'Registo realizado com sucesso'], 200);
     }
@@ -146,5 +153,16 @@ class UtilizadorController extends Controller
         );
 
         return  __($status);
+    }
+
+    function verificaEmail(Request $request) {
+        $utilizador = Utilizador::where('id', $request->id)->first();
+
+        if (hash_equals(sha1($utilizador->getEmailForVerification()), $request->hash)) {
+            $utilizador->markEmailAsVerified();
+            return redirect('http://localhost:8080/login')->with('success', 'Email verificado com sucesso');
+        }
+
+       abort(404, 'Email não verificado');
     }
 }
