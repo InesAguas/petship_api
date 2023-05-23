@@ -112,4 +112,72 @@ class AnimalController extends Controller
 
     }
 
+    function editarAnimal(Request $request) {
+        $animal = Animal::where('id', $request->id)->first();
+
+        if($animal == null) {
+            return response(['erro' => 'Animal não encontrado'], 404);
+        }
+
+        if($animal->id_utilizador != $request->user()->id) {
+            return response(['erro' => 'Não tem permissões para remover este animal'], 403);
+        }
+
+        $validated = $request->validate([
+            'data_recolha' => 'required|date',
+            'ferido' => 'required|boolean',
+            'agressivo' => 'required|boolean',
+            'nome' => 'required',
+            'sexo' => 'required',
+            'especie' => 'required',
+            'raca' => 'required',
+            'porte' => 'required',
+            'idade' => 'required',
+            'cor' => 'required',
+        ]);
+        
+        $animal->data_recolha = $validated['data_recolha'];
+        $animal->ferido = $validated['ferido'];
+        $animal->agressivo = $validated['agressivo'];
+        $animal->nome = $validated['nome'];
+        $animal->sexo = $validated['sexo'];
+        $animal->especie = $validated['especie'];
+        $animal->raca = $validated['raca'];
+        $animal->porte = $validated['porte'];
+        $animal->idade = $validated['idade'];
+        $animal->cor = $validated['cor'];
+        $animal->save();
+
+        if($request->local_captura != null) {
+            $animal->local_captura = $request->local_captura;
+        }
+
+        if($request->fotografia != null) {
+            $nome_fotografia = $animal->id . $animal->nome . '.' . $request->fotografia->extension();
+            $request->fotografia->move(public_path('storage/img/animais'), $nome_fotografia);
+            $animal->fotografia = $nome_fotografia;
+        }
+
+        if($request->chip != null) {
+            $animal->chip = $request->chip;
+        }
+
+        if($request->temperatura != null) {
+            $animal->temperatura = $request->temperatura;
+        }
+
+        if($request->desparasitacao != null) {
+            $animal->desparasitacao = $request->desparasitacao;
+        }
+
+        if($request->medicacao != null) {
+            $animal->medicacao = $request->medicacao;
+        }
+
+        $animal->save();
+
+        return response(['animal' => new AnimalResource($animal)], 200);
+
+    }
+
 }
