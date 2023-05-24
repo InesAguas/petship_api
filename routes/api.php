@@ -41,6 +41,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('mensagens/{id_recebe}', [MensagemController::class, 'lerConversa']);
     Route::get('conversasativas', [MensagemController::class, 'conversasAtivas']);
     Route::post('editarperfil', [UtilizadorController::class, 'alterarPerfil']);
+    Route::get('utilizador/anuncios', [AnuncioController::class, 'listarAnunciosUtilizador']);
+    Route::delete('removeranuncio/{id}', [AnuncioController::class, 'removerAnuncio']);
+    Route::get('anuncio/num/{id}', [AnuncioController::class, 'dadosAnuncioNum']);
+    Route::post('editaranuncio/{id}', [AnuncioController::class, 'editarAnuncio']);
 });
 
 

@@ -55,4 +55,24 @@ class AnuncioResource extends JsonResource
             'created_at' => $this->created_at->format('d-m-Y'),
         ];
     }
+
+    public function toArrayNumeric() {
+        $animal = Animal::where('id', $this->id_animal)->first();
+
+        return [
+            'id' => $this->id,
+            'nome' => $animal->nome,
+            'sexo' =>$animal->sexo,
+            'especie' => $animal->especie,
+            'raca' => $animal->raca,
+            'porte' => $animal->porte,
+            'idade' => $animal->idade,
+            'cor' => $animal->cor,
+            'distrito' => $this->distrito,
+            'etiqueta' => $this->etiqueta,
+            'descricao' => $this->descricao,
+            'fotografias' => $this->fotografiasUrls(),
+            'created_at' => $this->created_at->format('d-m-Y'),
+        ];
+    }
 }
