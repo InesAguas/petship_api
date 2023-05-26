@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\MensagemController;
 use App\Http\Controllers\AnuncioController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,9 @@ Route::middleware(['auth:sanctum', 'associacao'])->group(function () {
     Route::post('publicaranimal', [AnimalController::class, 'publicarAnimal']);
     Route::post('anunciaranimal', [AnimalController::class, 'anunciarAnimal']);
     Route::get('associacao/animais', [AnimalController::class, 'listarAnimaisAssociacao']);
+    Route::delete('removeranimal/{id}', [AnimalController::class, 'removerAnimal']);
+    Route::post('editaranimal/{id}', [AnimalController::class, 'editarAnimal']);
+    Route::get('associacao/animal/num/{id}', [AnimalController::class, 'dadosAnimalNum']);
 });
 
 //rotas em que o utilizador apenas tem de estar logged in
@@ -38,6 +42,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('conversasativas', [MensagemController::class, 'conversasAtivas']);
     Route::post('editarperfil', [UtilizadorController::class, 'alterarPerfil']);
     Route::post('editarperfilA', [UtilizadorController::class, 'alterarPerfilAssociacao']);
+    Route::get('utilizador/anuncios', [AnuncioController::class, 'listarAnunciosUtilizador']);
+    Route::delete('removeranuncio/{id}', [AnuncioController::class, 'removerAnuncio']);
+    Route::get('anuncio/num/{id}', [AnuncioController::class, 'dadosAnuncioNum']);
+    Route::post('editaranuncio/{id}', [AnuncioController::class, 'editarAnuncio']);
 });
 
 
@@ -56,5 +64,11 @@ Route::get('petsitting', [AnuncioController::class, 'listarAnimaisPetsitting']);
 
 Route::get('animal/{id}', [AnuncioController::class, 'verAnuncioAnimal']);
 
+Route::post('/forgot-password', [UtilizadorController::class, 'forgotPassword'])->middleware('guest')->name('password.email');
+Route::post('/reset-password', [UtilizadorController::class, 'resetPassword'])->middleware('guest')->name('password.update');
 
+
+//rotas dos emails
+
+Route::get('/email/verify/{id}/{hash}', [UtilizadorController::class, 'verificaEmail'])->name('verification.verify');
 

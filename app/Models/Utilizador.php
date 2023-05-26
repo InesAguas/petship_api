@@ -3,12 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Utilizador extends Model
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\CanResetPassword;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Auth\Passwords\CanResetPassword as PasswordsCanResetPassword;
+
+class Utilizador extends Authenticatable implements CanResetPassword, MustVerifyEmail
 {
-    use HasFactory, HasApiTokens;
+    use HasFactory, HasApiTokens, Notifiable, PasswordsCanResetPassword;
     protected $table = 'utilizadores';
 
 

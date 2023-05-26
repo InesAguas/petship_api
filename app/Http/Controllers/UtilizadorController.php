@@ -6,7 +6,9 @@ use App\Http\Resources\UtilizadorResource;
 use Illuminate\Http\Request;
 use App\Models\Utilizador;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\Registered;
 
 class UtilizadorController extends Controller
 {
@@ -27,6 +29,10 @@ class UtilizadorController extends Controller
 
         if (!Hash::check(($request->password), $utilizador->password)) {
             return response(['erro' => 'Email ou password incorretos'], 422);
+        }
+
+        if (!$utilizador->hasVerifiedEmail()) {
+            return response(['erro' => 'Email não verificado'], 403);
         }
 
         //apaga tokens anteriores e cria um novo
@@ -57,6 +63,8 @@ class UtilizadorController extends Controller
 
         //Guardar na  base de dados
         $utilizador->save();
+
+        Event(new Registered($utilizador));
 
         return response(['sucesso' => 'Registo realizado com sucesso'], 200);
     }
@@ -175,5 +183,46 @@ class UtilizadorController extends Controller
         $utilizador->save();
 
         return response(['utilizador' => new UtilizadorResource($utilizador)], 200);
+    }
+
+
+    function forgotPassword(Request $request) {
+        $request->validate(['email' => 'required|email']);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return  __($status);
+    }
+
+    function resetPassword(Request $request) {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->save();
+            }
+        );
+
+        return  __($status);
+    }
+
+    function verificaEmail(Request $request) {
+        $utilizador = Utilizador::where('id', $request->id)->first();
+
+        if (hash_equals(sha1($utilizador->getEmailForVerification()), $request->hash)) {
+            $utilizador->markEmailAsVerified();
+            return redirect('http://localhost:8080/login')->with('success', 'Email verificado com sucesso');
+        }
+
+       abort(404, 'Email não verificado');
     }
 }
