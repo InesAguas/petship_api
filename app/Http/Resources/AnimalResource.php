@@ -34,7 +34,7 @@ class AnimalResource extends JsonResource
         ];
     }
 
-    public function toArrayEnglish($request)
+    public function toArrayEnglish()
     {
         return [
             'id' => $this->id,

@@ -34,8 +34,8 @@ class AnuncioResource extends JsonResource
             'created_at' => $this->created_at->format('d-m-Y'),
         ];
     }
-
-    public function toArrayEnglish($request)
+    
+    public function toArrayEnglish()
     {
         $animal = Animal::where('id', $this->id_animal)->first();
 
