@@ -225,4 +225,15 @@ class UtilizadorController extends Controller
 
        abort(404, 'Email não verificado');
     }
+
+
+    //Eliminar conta e todos os dados associados
+    function eliminarConta(Request $request){
+       $utilizador = Utilizador::where('id', $request->id)->first();
+         if($utilizador == null)
+                return response(['erro' => 'Utilizador não encontrado'], 404);
+    
+          $utilizador->delete();
+          return response(['sucesso' => 'Conta eliminada com sucesso'], 200);
+    }
 }
