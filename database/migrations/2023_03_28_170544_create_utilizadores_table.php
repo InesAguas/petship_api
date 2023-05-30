@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('password');
             $table->integer('tipo');
             $table->string('localizacao')->nullable();
+            $table->string('distrito', 30)->nullable();
+            $table->string('codigo_postal', 8)->nullable();
             $table->string('telefone')->nullable();
             $table->string('fotografia')->nullable();
             $table->string('website')->nullable();
@@ -27,6 +29,7 @@ return new class extends Migration
             $table->string('instagram')->nullable();
             $table->json('horario')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }
