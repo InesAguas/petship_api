@@ -30,6 +30,8 @@ class Utilizador extends Authenticatable implements CanResetPassword, MustVerify
         'password',
         'tipo',
         'localizacao',
+        'distrito',
+        'codigo_postal',
         'telefone',
         'fotografia',
         'website',
