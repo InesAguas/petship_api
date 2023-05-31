@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreignId('id_animal')->constrained('animais');
             $table->string('distrito', 30);
             $table->string('etiqueta', 30);
-            $table->string('descricao', 30)->nullable();
+            $table->string('descricao', 300)->nullable();
+            $table->string('estado', 30)->nullable();
             $table->json('fotografias')->nullable();
             $table->timestamps();
         });

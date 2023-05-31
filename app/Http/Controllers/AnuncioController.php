@@ -51,6 +51,7 @@ class AnuncioController extends Controller
         $anuncio->id_utilizador = $request->user()->id;
         $anuncio->distrito = $validated['distrito'];
         $anuncio->etiqueta = $validated['etiqueta'];
+        $anuncio->estado = true;
 
         $anuncio->save();
 
@@ -245,7 +246,30 @@ class AnuncioController extends Controller
 
         if ($request->lang == 'en') {
 
-            return response(['anuncio' => new AnuncioResource($anuncio->toArrayEnglish())], 200);
+            return response(['anuncio' => (new AnuncioResource($anuncio))->toArrayEnglish()], 200);
+        }
+
+        return response(['anuncio' => new AnuncioResource($anuncio)], 200);
+    }
+
+    function alterarEstadoAnuncio(Request $request) {
+        $anuncio = Anuncio::find($request->id);
+
+        if($anuncio == null) {
+            return response(['erro' => 'Anuncio não encontrado'], 404);
+        }
+
+        if($anuncio->id_utilizador != $request->user()->id) {
+            return response(['erro' => 'Não tem permissões para alterar o estado deste anuncio'], 403);
+        }
+
+        $anuncio->estado = !$anuncio->estado;
+
+        $anuncio->save();
+
+        if ($request->lang == 'en') {
+
+            return response(['anuncio' =>(new AnuncioResource($anuncio))->toArrayEnglish()], 200);
         }
 
         return response(['anuncio' => new AnuncioResource($anuncio)], 200);

@@ -14,7 +14,8 @@ class Anuncio extends Model
         'distrito',
         'etiqueta',
         'descricao',
-        'fotografias'
+        'fotografias',
+        'estado'
     ];
 
         protected $casts = [
