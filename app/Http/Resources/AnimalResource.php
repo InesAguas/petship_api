@@ -29,6 +29,10 @@ class AnimalResource extends JsonResource
             'agressivo' => $this->agressivo,
             'data_recolha' => $this->data_recolha,
             'local_captura' => $this->local_captura,
+            'chip' => $this->chip,
+            'temperatura' => $this->temperatura,
+            'desparasitacao' => $this->desparasitacao,
+            'medicacao' => $this->medicacao,
             'fotografia' => $this->fotografia ? asset('storage/img/animais/'.$this->fotografia) : null,
             'anunciado' => Anuncio::where('id_animal', $this->id)->exists(),
         ];
@@ -49,6 +53,10 @@ class AnimalResource extends JsonResource
             'agressivo' => $this->agressivo,
             'data_recolha' => $this->data_recolha,
             'local_captura' => $this->local_captura,
+            'chip' => $this->chip,
+            'temperatura' => $this->temperatura,
+            'desparasitacao' => $this->desparasitacao,
+            'medicacao' => $this->medicacao,
             'fotografia' =>  $this->fotografia ? asset('storage/img/animais/'.$this->fotografia) : null,
             'anunciado' => Anuncio::where('id_animal', $this->id)->exists(),
         ];
@@ -68,6 +76,10 @@ class AnimalResource extends JsonResource
             'agressivo' => $this->agressivo ? 1 : 0,
             'data_recolha' => $this->data_recolha,
             'local_captura' => $this->local_captura,
+            'chip' => $this->chip,
+            'temperatura' => $this->temperatura,
+            'desparasitacao' => $this->desparasitacao,
+            'medicacao' => $this->medicacao,
             'fotografia' =>  $this->fotografia ? asset('storage/img/animais/'.$this->fotografia) : null,
             'anunciado' => Anuncio::where('id_animal', $this->id)->exists() ? 1 : 0,
         ];

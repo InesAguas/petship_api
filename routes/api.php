@@ -47,6 +47,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('anuncio/num/{id}', [AnuncioController::class, 'dadosAnuncioNum']);
     Route::post('editaranuncio/{id}', [AnuncioController::class, 'editarAnuncio']);
     Route::delete('eliminarconta/{id}', [UtilizadorController::class, 'eliminarConta']);
+    Route::post('anuncio/estado/{id}', [AnuncioController::class, 'alterarEstadoAnuncio']);
+    
 });
 
 
