@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\MensagemController;
 use App\Http\Controllers\AnuncioController;
+use App\Http\Controllers\StockController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -32,6 +33,7 @@ Route::middleware(['auth:sanctum', 'associacao'])->group(function () {
     Route::delete('removeranimal/{id}', [AnimalController::class, 'removerAnimal']);
     Route::post('editaranimal/{id}', [AnimalController::class, 'editarAnimal']);
     Route::get('associacao/animal/num/{id}', [AnimalController::class, 'dadosAnimalNum']);
+    Route::post('adicionarstock',[StockController::class, 'adicionarStock']);
 });
 
 //rotas em que o utilizador apenas tem de estar logged in
