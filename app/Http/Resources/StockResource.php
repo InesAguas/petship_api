@@ -19,7 +19,12 @@ class StockResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'nome' => $stock->nome,
+            'nome' => $this->nome,
+            'descricao' => $this->descricao,
+            'qnt_atual' => $this->qnt_atual,
+            'qnt_min' => $this->qnt_min,
+            'observacoes' => $this->observacoes,
+
     
         ];
       

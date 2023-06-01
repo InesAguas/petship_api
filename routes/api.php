@@ -50,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('editaranuncio/{id}', [AnuncioController::class, 'editarAnuncio']);
     Route::delete('eliminarconta/{id}', [UtilizadorController::class, 'eliminarConta']);
     Route::post('anuncio/estado/{id}', [AnuncioController::class, 'alterarEstadoAnuncio']);
+    Route::get('utilizador/stock', [StockController::class, 'listarStockUtilizador']);
     
 });
 
