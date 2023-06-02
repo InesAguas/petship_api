@@ -45,4 +45,18 @@ class StockController extends Controller
         //Retornar os stocks
         return response(['stocks' => StockResource::collection($stocks)], 200);
     }
+
+    function removerStock(Request $request)
+    {
+        $stock = Stock::where('id',$request->id)->first();
+
+        if($stock == null) {
+            return response(['message' => 'Stock não encontrado'], 404);
+        }
+
+
+        $stock->delete();
+
+        return response(['message' => 'Stock removido com sucesso'], 200);
+    }
 }
