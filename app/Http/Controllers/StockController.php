@@ -59,4 +59,24 @@ class StockController extends Controller
 
         return response(['message' => 'Stock removido com sucesso'], 200);
     }
+
+    function editarStock(Request $request)
+    {
+        $stock = Stock::where('id',$request->id)->first();
+
+        if($stock == null) {
+            return response(['message' => 'Stock não encontrado'], 404);
+        }
+
+        $validated = $request->validate([
+            'qnt_atual' => 'required|numeric',
+        ]);
+
+      
+        $stock->qnt_atual = $validated['qnt_atual'];
+
+        $stock->save();
+
+        return response(['produto' => new StockResource($stock)], 200);
+    }
 }
