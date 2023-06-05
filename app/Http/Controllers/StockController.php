@@ -40,7 +40,7 @@ class StockController extends Controller
     function listarStockUtilizador(Request $request)
     {
         //Listar todos os stocks de um utilizador
-        $stocks = Stock::where('u_id', $request->user()->id)->get();
+        $stocks = Stock::where('u_id', $request->user()->id)->orderBy('id', 'desc')->get();
 
         //Retornar os stocks
         return response(['stocks' => StockResource::collection($stocks)], 200);
