@@ -220,7 +220,8 @@ class UtilizadorController extends Controller
 
         if (hash_equals(sha1($utilizador->getEmailForVerification()), $request->hash)) {
             $utilizador->markEmailAsVerified();
-            return redirect('https://petship-8xfjf.ondigitalocean.app/login')->with('success', 'Email verificado com sucesso');
+            
+            return redirect('https://petship.pt/login')->with('success', 'Email verificado com sucesso');
         }
 
        abort(404, 'Email não verificado');

@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         ResetPassword::createUrlUsing(function ($user, string $token) {
-            return 'https://petship-8xfjf.ondigitalocean.app/novapassword/'.$token;
+            return 'https://petship.pt/novapassword/'.$token;
         });
         //
     }

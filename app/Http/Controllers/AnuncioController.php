@@ -91,12 +91,6 @@ class AnuncioController extends Controller
         return response(['anuncio' => new AnuncioResource($anuncio)], 200);
     }
 
-
-    public function anunciarAnimal(Request $request) {
-
-    }
-
-
     function listarAnimaisAdocao(Request $request)
     {
         $anuncios = Anuncio::where('etiqueta', 1)->get();
