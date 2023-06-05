@@ -102,7 +102,9 @@ class UtilizadorController extends Controller
             'email' => 'required|email|unique:utilizadores,email,' . $utilizador->id,
             'telefone' => 'string',
             'fotografia' => 'file',
-            'localizacao' => 'string'
+            'localizacao' => 'string',
+            'distrito' => 'string',
+            'codigo_postal' => 'string'
         ]);
 
         $utilizador->nome = $validated['nome'];
@@ -114,6 +116,14 @@ class UtilizadorController extends Controller
 
         if($request->localizacao != null){
             $utilizador->localizacao = $request->localizacao;
+        }
+
+        if($request->distrito != null){
+            $utilizador->distrito = $request->distrito;
+        }
+
+        if($request->codigo_postal != null){
+            $utilizador->codigo_postal = $request->codigo_postal;
         }
 
         if ($request->fotografia != null) {

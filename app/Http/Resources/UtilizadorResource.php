@@ -20,6 +20,8 @@ class UtilizadorResource extends JsonResource
             'email' => $this->email,
             'tipo' => $this->tipo,
             'localizacao' => $this->localizacao,
+            'distrito' => $this->distrito,
+            'codigo_postal' => $this->codigo_postal,
             'telefone' => $this->telefone,
             'fotografia' => $this->fotografiaUrl(),
             'website' => $this->website,
