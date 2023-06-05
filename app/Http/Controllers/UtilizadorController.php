@@ -12,7 +12,31 @@ use Illuminate\Auth\Events\Registered;
 
 class UtilizadorController extends Controller
 {
-    //
+   
+     /**
+     * @OA\Post(
+     *    path="/api/login",
+     *    summary="Login with email and password",
+     *    description="Get the token",
+     *    tags={"User Auth"},
+     *    @OA\RequestBody(
+     *         required=true,
+     *         description="",
+        *         @OA\JsonContent(
+     *            required={"email", "password"},
+     *            @OA\Property(property="email", type="string", format="string", example="johndoe@gmail.com"),
+     *            @OA\Property(property="password", type="string", format="string", example="password123"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function login(Request $request)
     {
 
@@ -43,6 +67,31 @@ class UtilizadorController extends Controller
         return response(['utilizador' => new UtilizadorResource($utilizador), 'token' => $token->plainTextToken], 200);
     }
 
+    /**
+     * @OA\Post(
+     *    path="/asdad",
+     *    operationId="index",
+     *    tags={"Articles"},
+     *    summary="Get list of articles",
+     *    description="Get list of articles",
+     *    @OA\Parameter(name="limit", in="query", description="limit", required=false,
+     *        @OA\Schema(type="integer")
+     *    ),
+     *    @OA\Parameter(name="page", in="query", description="the page number", required=false,
+     *        @OA\Schema(type="integer")
+     *    ),
+     *    @OA\Parameter(name="order", in="query", description="order  accepts 'asc' or 'desc'", required=false,
+     *        @OA\Schema(type="string")
+     *    ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function registar(Request $request)
     {
 
