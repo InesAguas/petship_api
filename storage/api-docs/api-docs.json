@@ -1,0 +1,13 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Example API",
+        "description": "This is an example API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api": {
+            "description": "All the routes"
+        }
+    }
+}
