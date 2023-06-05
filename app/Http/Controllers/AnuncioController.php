@@ -32,9 +32,17 @@ class AnuncioController extends Controller
             'etiqueta' => 'required|string',
         ]);
 
+        if($request->animal_id != null) {
+            $animal = Animal::find($request->animal_id);
+            if($animal->id_utilizador != $request->user()->id) {
+                return response()->json(['message' => 'Não tem permissões para editar este animal'], 403);
+            }
+        } else {
+            $animal = new Animal();
+            $animal->id_utilizador = $request->user()->id;
+        }
         //Criar novo objeto Animal
-        $animal = new Animal();
-        $animal->id_utilizador = $request->user()->id;
+
         $animal->nome = $validated['nome'];
         $animal->sexo = $validated['sexo'];
         $animal->especie = $validated['especie'];
@@ -198,15 +206,15 @@ class AnuncioController extends Controller
 
         //Validar os dados que recebo
         $validated = $request->validate([
-            'nome' => 'required|string',
-            'sexo' => 'required|string',
-            'especie' => 'required|string',
-            'raca' => 'required|string',
-            'porte' => 'required|string',
-            'idade' => 'required|string',
-            'cor' => 'required|string',
-            'distrito' => 'required|string',
-            'etiqueta' => 'required|string',
+            'nome' => 'required|',
+            'sexo' => 'required|',
+            'especie' => 'required|',
+            'raca' => 'required|',
+            'porte' => 'required|',
+            'idade' => 'required|',
+            'cor' => 'required|',
+            'distrito' => 'required|',
+            'etiqueta' => 'required|',
         ]);
 
         $animal->nome = $validated['nome'];
