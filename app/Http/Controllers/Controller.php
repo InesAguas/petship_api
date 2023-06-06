@@ -9,13 +9,17 @@ use Illuminate\Routing\Controller as BaseController;
 
 /**
  * @OA\Info(
- *     description="This is an example API",
- *     version="1.0.0",
- *     title="Example API"
+ *     description="Petship API",
+ *     version="0.0.1",
+ *     title="Documentação da API"
  * ),
  * @OA\PathItem(
  *    path="/api",
  *   description="All the routes",
+ * ),
+ * @OA\Server(
+ *    description="Petship API",
+ *   url="http://api.petship.pt"
  * )
  */
 class Controller extends BaseController
