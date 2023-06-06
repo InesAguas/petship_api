@@ -15,40 +15,62 @@
         "/api": {
             "description": "All the routes"
         },
-        "/api/adicionarstock": {
+        "/api/publicaranimal": {
             "post": {
                 "tags": [
-                    "Stock"
+                    "Animais"
                 ],
-                "summary": "Adicionar Stock",
-                "description": "Adiciona um novo produto de stock.",
-                "operationId": "c5059ac43a35a0ccfd3fc4b7047c2f63",
+                "summary": "Registar um animal",
+                "description": "",
+                "operationId": "2527b12868b5ffa6f9e590839cf1c9cd",
                 "requestBody": {
+                    "description": "",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "data_recolha",
+                                    "ferido",
+                                    "agressivo",
+                                    "nome",
+                                    "sexo",
+                                    "especie",
+                                    "raca",
+                                    "porte",
+                                    "idade",
+                                    "cor"
+                                ],
                                 "properties": {
+                                    "data_recolha": {
+                                        "example": "Coimbra"
+                                    },
+                                    "ferido": {
+                                        "example": "1"
+                                    },
+                                    "agressivo": {
+                                        "example": "Coimbra"
+                                    },
                                     "nome": {
-                                        "type": "string",
-                                        "example": "Produto A"
+                                        "example": "Rufus"
                                     },
-                                    "descricao": {
-                                        "type": "string",
-                                        "example": "Descrição do produto A"
+                                    "sexo": {
+                                        "example": "1"
                                     },
-                                    "qnt_atual": {
-                                        "type": "number",
-                                        "example": 10
+                                    "especie": {
+                                        "example": "1"
                                     },
-                                    "qnt_min": {
-                                        "type": "number",
-                                        "example": 5
+                                    "raca": {
+                                        "example": "1"
                                     },
-                                    "observacoes": {
-                                        "type": "string",
-                                        "example": "Observações do produto A",
-                                        "nullable": true
+                                    "porte": {
+                                        "example": "1"
+                                    },
+                                    "idade": {
+                                        "example": "1"
+                                    },
+                                    "cor": {
+                                        "example": "1"
                                     }
                                 },
                                 "type": "object"
@@ -57,13 +79,17 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "Produto do stock adicionado com sucesso",
+                    "200": {
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "produto": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
                                             "type": "object"
                                         }
                                     },
@@ -71,112 +97,192 @@
                                 }
                             }
                         }
-                    },
-                    "400": {
-                        "description": "Erro na validação dos dados de entrada"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
-        "/api/utilizador/stock": {
+        "/api/associacao/animais": {
             "get": {
                 "tags": [
-                    "Stock"
+                    "Animais"
                 ],
-                "summary": "Listar Stock de um determinado Utilizador",
-                "description": "Lista todos os produtos de stock pertencentes a um determinado utilizador.",
-                "operationId": "cbbf82c67945bd9feeb3791d035acf5d",
+                "summary": "Listar animais da associação logada",
+                "description": "",
+                "operationId": "b7375e8ad240d92bcf3821c06ba8282f",
                 "responses": {
                     "200": {
-                        "description": "Lista de produtos do utilizador",
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "stocks": {}
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
                                     },
                                     "type": "object"
                                 }
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
-        "/api/removerstock/{id}": {
-            "delete": {
+        "/api/removeranimal/{id}": {
+            "post": {
                 "tags": [
-                    "Stock"
+                    "Animais"
                 ],
-                "summary": "Remover Stock",
-                "description": "Remove um produto do stock.",
-                "operationId": "98e22dbeda3e14777fa312e2995698e3",
+                "summary": "Remover um animal",
+                "description": "",
+                "operationId": "c1c76b39591f15e463ae875981bccf89",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "query",
-                        "description": "ID do produto do stock a ser removido",
+                        "in": "path",
+                        "description": "Id do animal",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Produto do stock removido com sucesso"
-                    },
-                    "404": {
-                        "description": "Produto do stock não encontrado"
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
-        "/api/editarstock/{id}": {
-            "post": {
+        "/api/associacao/animal/num/{id}": {
+            "get": {
                 "tags": [
-                    "Stock"
+                    "Animais"
                 ],
-                "summary": "Editar Stock",
-                "description": "Atualiza a quantidade atual de um produto do stock.",
-                "operationId": "73d9f04c0253ddc56c9c39e49e1b6885",
+                "summary": "Obter dados numéricos de um animal",
+                "description": "",
+                "operationId": "a96a3aa223ce004b7a40ffe888f77b87",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "query",
-                        "description": "ID do produto do stock a ser editado",
+                        "in": "path",
+                        "description": "Id do animal",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/editaranimal/{id}": {
+            "post": {
+                "tags": [
+                    "Animais"
+                ],
+                "summary": "Editar dados de um animal",
+                "description": "",
+                "operationId": "35405237efce3ac032e01676407748f7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do animal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
                         }
                     }
                 ],
                 "requestBody": {
+                    "description": "",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "data_recolha",
+                                    "ferido",
+                                    "agressivo",
+                                    "nome",
+                                    "sexo",
+                                    "especie",
+                                    "raca",
+                                    "porte",
+                                    "idade",
+                                    "cor"
+                                ],
                                 "properties": {
-                                    "qnt_atual": {
-                                        "type": "number",
-                                        "example": 20
+                                    "data_recolha": {
+                                        "example": "Coimbra"
+                                    },
+                                    "ferido": {
+                                        "example": "1"
+                                    },
+                                    "agressivo": {
+                                        "example": "Coimbra"
+                                    },
+                                    "nome": {
+                                        "example": "Rufus"
+                                    },
+                                    "sexo": {
+                                        "example": "1"
+                                    },
+                                    "especie": {
+                                        "example": "1"
+                                    },
+                                    "raca": {
+                                        "example": "1"
+                                    },
+                                    "porte": {
+                                        "example": "1"
+                                    },
+                                    "idade": {
+                                        "example": "1"
+                                    },
+                                    "cor": {
+                                        "example": "1"
                                     }
                                 },
                                 "type": "object"
@@ -186,12 +292,16 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Produto do stock atualizado com sucesso",
+                        "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "produto": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
                                             "type": "object"
                                         }
                                     },
@@ -199,19 +309,8 @@
                                 }
                             }
                         }
-                    },
-                    "400": {
-                        "description": "Erro na validação dos dados de entrada"
-                    },
-                    "404": {
-                        "description": "Produto do stock não encontrado"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/api/novoanuncio": {
@@ -755,6 +854,205 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/adicionarstock": {
+            "post": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Adicionar Stock",
+                "description": "Adiciona um novo produto de stock.",
+                "operationId": "c5059ac43a35a0ccfd3fc4b7047c2f63",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Produto A"
+                                    },
+                                    "descricao": {
+                                        "type": "string",
+                                        "example": "Descrição do produto A"
+                                    },
+                                    "qnt_atual": {
+                                        "type": "number",
+                                        "example": 10
+                                    },
+                                    "qnt_min": {
+                                        "type": "number",
+                                        "example": 5
+                                    },
+                                    "observacoes": {
+                                        "type": "string",
+                                        "example": "Observações do produto A",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Produto do stock adicionado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "produto": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados de entrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/utilizador/stock": {
+            "get": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Listar Stock de um determinado Utilizador",
+                "description": "Lista todos os produtos de stock pertencentes a um determinado utilizador.",
+                "operationId": "cbbf82c67945bd9feeb3791d035acf5d",
+                "responses": {
+                    "200": {
+                        "description": "Lista de produtos do utilizador",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "stocks": {}
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/removerstock/{id}": {
+            "delete": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Remover Stock",
+                "description": "Remove um produto do stock.",
+                "operationId": "98e22dbeda3e14777fa312e2995698e3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID do produto do stock a ser removido",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produto do stock removido com sucesso"
+                    },
+                    "404": {
+                        "description": "Produto do stock não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/editarstock/{id}": {
+            "post": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Editar Stock",
+                "description": "Atualiza a quantidade atual de um produto do stock.",
+                "operationId": "73d9f04c0253ddc56c9c39e49e1b6885",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID do produto do stock a ser editado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "qnt_atual": {
+                                        "type": "number",
+                                        "example": 20
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produto do stock atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "produto": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados de entrada"
+                    },
+                    "404": {
+                        "description": "Produto do stock não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/login": {
