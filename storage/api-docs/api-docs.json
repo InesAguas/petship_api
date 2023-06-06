@@ -9,12 +9,211 @@
         "/api": {
             "description": "All the routes"
         },
+        "/api/adicionarstock": {
+            "post": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Adicionar Stock",
+                "description": "Adiciona um novo produto de stock.",
+                "operationId": "c5059ac43a35a0ccfd3fc4b7047c2f63",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Produto A"
+                                    },
+                                    "descricao": {
+                                        "type": "string",
+                                        "example": "Descrição do produto A"
+                                    },
+                                    "qnt_atual": {
+                                        "type": "number",
+                                        "example": 10
+                                    },
+                                    "qnt_min": {
+                                        "type": "number",
+                                        "example": 5
+                                    },
+                                    "observacoes": {
+                                        "type": "string",
+                                        "example": "Observações do produto A",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Produto do stock adicionado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "produto": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados de entrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/utilizador/stock": {
+            "get": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Listar Stock de um determinado Utilizador",
+                "description": "Lista todos os produtos de stock pertencentes a um determinado utilizador.",
+                "operationId": "cbbf82c67945bd9feeb3791d035acf5d",
+                "responses": {
+                    "200": {
+                        "description": "Lista de produtos do utilizador",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "stocks": {}
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/removerstock/{id}": {
+            "delete": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Remover Stock",
+                "description": "Remove um produto do stock.",
+                "operationId": "98e22dbeda3e14777fa312e2995698e3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID do produto do stock a ser removido",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produto do stock removido com sucesso"
+                    },
+                    "404": {
+                        "description": "Produto do stock não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/editarstock/{id}": {
+            "post": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Editar Stock",
+                "description": "Atualiza a quantidade atual de um produto do stock.",
+                "operationId": "73d9f04c0253ddc56c9c39e49e1b6885",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID do produto do stock a ser editado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "qnt_atual": {
+                                        "type": "number",
+                                        "example": 20
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produto do stock atualizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "produto": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Erro na validação dos dados de entrada"
+                    },
+                    "404": {
+                        "description": "Produto do stock não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/login": {
             "post": {
                 "tags": [
                     "Utilizadores"
                 ],
-                "summary": "Login with email and password",
+                "summary": "Autenticação do utilizador",
                 "description": "Get the token",
                 "operationId": "72e2dd71e8d5a15cf6308453f61513df",
                 "requestBody": {
@@ -72,7 +271,7 @@
                 "tags": [
                     "Utilizadores"
                 ],
-                "summary": "Get list of articles",
+                "summary": "Registar um utilizador",
                 "description": "Get list of articles",
                 "operationId": "index",
                 "parameters": [

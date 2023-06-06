@@ -68,22 +68,23 @@ class StockController extends Controller
         return response(['produto' => new StockResource($stock)], 201);
     }
 
+
     /**
      * @OA\Get(
      *     path="/api/utilizador/stock",
      *     summary="Listar Stock de um determinado Utilizador",
      *     description="Lista todos os produtos de stock pertencentes a um determinado utilizador.",
      *     tags={"Stock"},
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
      *     @OA\Response(
      *         response=200,
      *         description="Lista de produtos do utilizador",
      *         @OA\JsonContent(
-     *             @OA\Property(property="stocks", type="array")
+     *             @OA\Property(property="stocks")
      *         )
-     *     ),
-     *     security={
-     *         {"bearerAuth": {}}
-     *     }
+     *     )
      * )
      */
     function listarStockUtilizador(Request $request)
