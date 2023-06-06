@@ -13,6 +13,39 @@ class AnimalController extends Controller
 {
     //
 
+    /**
+     * @OA\Post(
+     *    path="/api/publicaranimal",
+     *    tags={"Animais"},
+     *    summary="Registar um animal",
+     *    description="",
+     *    @OA\RequestBody(
+     *         required=true,
+     *         description="",
+     *         @OA\JsonContent(
+     *            required={"data_recolha", "ferido", "agressivo", "nome", "sexo", "especie", "raca", "porte", "idade", "cor"},
+     *            @OA\Property(property="data_recolha",  example="Coimbra"),
+     *            @OA\Property(property="ferido", example="1"),
+     *            @OA\Property(property="agressivo",  example="Coimbra"),           
+     *            @OA\Property(property="nome", example="Rufus"),
+     *            @OA\Property(property="sexo",  example="1"),
+     *            @OA\Property(property="especie", example="1"),
+     *            @OA\Property(property="raca",  example="1"),
+     *            @OA\Property(property="porte", example="1"),
+     *            @OA\Property(property="idade",  example="1"),
+     *            @OA\Property(property="cor", example="1"),
+     *            
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function publicarAnimal(Request $request) {
         
         $validated = $request->validate([
@@ -74,6 +107,21 @@ class AnimalController extends Controller
     }
 
 
+     /**
+     * @OA\Get(
+     *    path="/api/associacao/animais",
+     *    tags={"Animais"},
+     *    summary="Listar animais da associação logada",
+     *    description="",
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function listarAnimaisAssociacao(Request $request) {
         $animais = Animal::where('id_utilizador', $request->user()->id)->get();
 
@@ -83,6 +131,30 @@ class AnimalController extends Controller
         return response(['animais' => AnimalResource::collection($animais)], 200);
     }
 
+    /**
+     * @OA\Post(
+     *    path="/api/removeranimal/{id}",
+     *    tags={"Animais"},
+     *    summary="Remover um animal",
+     *    description="",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Id do animal",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function removerAnimal(Request $request) {
         $animal = Animal::where('id', $request->id)->first();
         if($animal == null) {
@@ -97,6 +169,31 @@ class AnimalController extends Controller
         return response(['sucesso' => 'Animal removido com sucesso'], 200);
     }
 
+
+    /**
+     * @OA\Get(
+     *    path="/api/associacao/animal/num/{id}",
+     *    tags={"Animais"},
+     *    summary="Obter dados numéricos de um animal",
+     *    description="",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Id do animal",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function dadosAnimalNum(Request $request) {
         $animal = Animal::where('id', $request->id)->first();
 
@@ -112,6 +209,49 @@ class AnimalController extends Controller
 
     }
 
+    
+    /**
+     * @OA\Post(
+     *    path="/api/editaranimal/{id}",
+     *    tags={"Animais"},
+     *    summary="Editar dados de um animal",
+     *    description="",
+     *  @OA\Parameter(
+     *          name="id",
+     *          description="Id do animal",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *    @OA\RequestBody(
+     *         required=true,
+     *         description="",
+     *         @OA\JsonContent(
+     *            required={"data_recolha", "ferido", "agressivo", "nome", "sexo", "especie", "raca", "porte", "idade", "cor"},
+     *            @OA\Property(property="data_recolha",  example="Coimbra"),
+     *            @OA\Property(property="ferido", example="1"),
+     *            @OA\Property(property="agressivo",  example="Coimbra"),           
+     *            @OA\Property(property="nome", example="Rufus"),
+     *            @OA\Property(property="sexo",  example="1"),
+     *            @OA\Property(property="especie", example="1"),
+     *            @OA\Property(property="raca",  example="1"),
+     *            @OA\Property(property="porte", example="1"),
+     *            @OA\Property(property="idade",  example="1"),
+     *            @OA\Property(property="cor", example="1"),
+     *            
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function editarAnimal(Request $request) {
         $animal = Animal::where('id', $request->id)->first();
 

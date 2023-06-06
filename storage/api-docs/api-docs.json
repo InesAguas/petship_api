@@ -1,13 +1,860 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Example API",
-        "description": "This is an example API",
-        "version": "1.0.0"
+        "title": "Documentação da API",
+        "description": "Petship API",
+        "version": "0.0.1"
     },
+    "servers": [
+        {
+            "url": "http://api.petship.pt",
+            "description": "Petship API"
+        }
+    ],
     "paths": {
         "/api": {
             "description": "All the routes"
+        },
+        "/api/publicaranimal": {
+            "post": {
+                "tags": [
+                    "Animais"
+                ],
+                "summary": "Registar um animal",
+                "description": "",
+                "operationId": "2527b12868b5ffa6f9e590839cf1c9cd",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "data_recolha",
+                                    "ferido",
+                                    "agressivo",
+                                    "nome",
+                                    "sexo",
+                                    "especie",
+                                    "raca",
+                                    "porte",
+                                    "idade",
+                                    "cor"
+                                ],
+                                "properties": {
+                                    "data_recolha": {
+                                        "example": "Coimbra"
+                                    },
+                                    "ferido": {
+                                        "example": "1"
+                                    },
+                                    "agressivo": {
+                                        "example": "Coimbra"
+                                    },
+                                    "nome": {
+                                        "example": "Rufus"
+                                    },
+                                    "sexo": {
+                                        "example": "1"
+                                    },
+                                    "especie": {
+                                        "example": "1"
+                                    },
+                                    "raca": {
+                                        "example": "1"
+                                    },
+                                    "porte": {
+                                        "example": "1"
+                                    },
+                                    "idade": {
+                                        "example": "1"
+                                    },
+                                    "cor": {
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/associacao/animais": {
+            "get": {
+                "tags": [
+                    "Animais"
+                ],
+                "summary": "Listar animais da associação logada",
+                "description": "",
+                "operationId": "b7375e8ad240d92bcf3821c06ba8282f",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/removeranimal/{id}": {
+            "post": {
+                "tags": [
+                    "Animais"
+                ],
+                "summary": "Remover um animal",
+                "description": "",
+                "operationId": "c1c76b39591f15e463ae875981bccf89",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do animal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/associacao/animal/num/{id}": {
+            "get": {
+                "tags": [
+                    "Animais"
+                ],
+                "summary": "Obter dados numéricos de um animal",
+                "description": "",
+                "operationId": "a96a3aa223ce004b7a40ffe888f77b87",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do animal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/editaranimal/{id}": {
+            "post": {
+                "tags": [
+                    "Animais"
+                ],
+                "summary": "Editar dados de um animal",
+                "description": "",
+                "operationId": "35405237efce3ac032e01676407748f7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do animal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "data_recolha",
+                                    "ferido",
+                                    "agressivo",
+                                    "nome",
+                                    "sexo",
+                                    "especie",
+                                    "raca",
+                                    "porte",
+                                    "idade",
+                                    "cor"
+                                ],
+                                "properties": {
+                                    "data_recolha": {
+                                        "example": "Coimbra"
+                                    },
+                                    "ferido": {
+                                        "example": "1"
+                                    },
+                                    "agressivo": {
+                                        "example": "Coimbra"
+                                    },
+                                    "nome": {
+                                        "example": "Rufus"
+                                    },
+                                    "sexo": {
+                                        "example": "1"
+                                    },
+                                    "especie": {
+                                        "example": "1"
+                                    },
+                                    "raca": {
+                                        "example": "1"
+                                    },
+                                    "porte": {
+                                        "example": "1"
+                                    },
+                                    "idade": {
+                                        "example": "1"
+                                    },
+                                    "cor": {
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/novoanuncio": {
+            "post": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Criar um anuncio",
+                "description": "Rota para criar um anuncio, o utilizador tem de estar logado. Se o anuncio for criado com sucesso retorna o status 200",
+                "operationId": "1dce6c0f5c7034abc822fc089714c2ef",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "sexo",
+                                    "especie",
+                                    "raca",
+                                    "porte",
+                                    "idade",
+                                    "cor",
+                                    "distrito",
+                                    "etiqueta"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "example": "Rufus"
+                                    },
+                                    "sexo": {
+                                        "example": "1"
+                                    },
+                                    "especie": {
+                                        "example": "1"
+                                    },
+                                    "raca": {
+                                        "example": "1"
+                                    },
+                                    "porte": {
+                                        "example": "1"
+                                    },
+                                    "idade": {
+                                        "example": "1"
+                                    },
+                                    "cor": {
+                                        "example": "1"
+                                    },
+                                    "distrito": {
+                                        "example": "Coimbra"
+                                    },
+                                    "etiqueta": {
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/adotar": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar animais para adoção",
+                "description": "",
+                "operationId": "a5bc8d86abc86311946780dfb8690619",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/desaparecido": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar animais desaparecidos",
+                "description": "",
+                "operationId": "da7ae2ec261a1e620b7203cdd26267ce",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/petsitting": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar animais para petsitting",
+                "description": "",
+                "operationId": "5ada27862e4726cd5c046ffa85ebc34e",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/animal/{id}": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar animais para adoção",
+                "description": "",
+                "operationId": "6eeaaf2a04a3594255e071bc5d082cf8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do animal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/utilizador/anuncios": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar anuncios de um utilizador",
+                "description": "",
+                "operationId": "d676196acdb8b5fc3ea6d6c463d0df1c",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/removeranuncio/{id}": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Remover anuncio",
+                "description": "",
+                "operationId": "8fa18fb01189ad19f502842b39065aa3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anuncio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/anuncio/num/{id}": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Dados de um anuncio (numéricos)",
+                "description": "",
+                "operationId": "5b1ee0564bfab367a69344bd66ae5d32",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anuncio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/editaranuncio/{id}": {
+            "post": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Editar anuncio",
+                "description": "",
+                "operationId": "d4029006a3097e865b0d616ab469fd26",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anuncio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/anuncio/estado/{id}": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Alterar estado do anuncio",
+                "description": "",
+                "operationId": "b6de613dc0c2119ed63a0398ca52149d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anuncio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/enviarmensagem": {
+            "post": {
+                "tags": [
+                    "Mensagens"
+                ],
+                "summary": "Enviar mensagem a um utilizador",
+                "description": "Rota para enviar mensagem a um utilizador, o utilizador tem de estar logado. Se a mensagem for enviada com sucesso retorna o status 200",
+                "operationId": "f2a2fb60156538837b0fe5235594b71b",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_recebe",
+                                    "mensagem"
+                                ],
+                                "properties": {
+                                    "id_recebe": {
+                                        "example": "1"
+                                    },
+                                    "mensagem": {
+                                        "example": "Olá, tudo bem?"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/mensagens/{id_recebe}": {
+            "get": {
+                "tags": [
+                    "Mensagens"
+                ],
+                "summary": "Ler conversa com um utilizador",
+                "description": "Rota para ler a conversa com um utilizador, o utilizador tem de estar logado. Se a conversa for lida com sucesso retorna o status 200",
+                "operationId": "906b8fc05b0b2196bca1e128ff4b1fab",
+                "parameters": [
+                    {
+                        "name": "id_recebe",
+                        "in": "path",
+                        "description": "Id do utilizador com quem quer ler a conversa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/conversasativas": {
+            "get": {
+                "tags": [
+                    "Mensagens"
+                ],
+                "summary": "Obter conversas ativas",
+                "description": "Rota para obter todas as conversas que se tem ativas (com mensagens enviadas ou recebidas). O utilizador tem de estar logado. Se as conversas forem obtidas com sucesso retorna o status 200",
+                "operationId": "4b48462fa1bfb72b575e29775a59315a",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         },
         "/api/adicionarstock": {
             "post": {
