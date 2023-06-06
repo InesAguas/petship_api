@@ -12,30 +12,44 @@ use Illuminate\Auth\Events\Registered;
 
 class UtilizadorController extends Controller
 {
-   
-     /**
+
+    /**
      * @OA\Post(
-     *    path="/api/login",
-     *    summary="Autenticação do utilizador",
-     *    description="Get the token",
-     *    tags={"Utilizadores"},
-     *    @OA\RequestBody(
+     *     path="/api/login",
+     *     summary="Login",
+     *     description="Realiza o login de um utilizador.",
+     *     tags={"Utilizadores"},
+     *     @OA\RequestBody(
      *         required=true,
-     *         description="",
-        *         @OA\JsonContent(
-     *            required={"email", "password"},
-     *            @OA\Property(property="email", type="string", format="string", example="johndoe@gmail.com"),
-     *            @OA\Property(property="password", type="string", format="string", example="password123"),
-     *         ),
+     *         description="Dados de login",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="email", type="string", format="email", example="example@example.com"),
+     *             @OA\Property(property="password", type="string", example="password")
+     *         )
      *     ),
      *     @OA\Response(
-     *          response=200, description="Success",
-     *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
-     *          )
-     *       )
-     *  )
+     *         response=200,
+     *         description="Login bem-sucedido",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="utilizador", type="object"),
+     *             @OA\Property(property="token", type="string", description="Token de acesso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=403,
+     *         description="Email não verificado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="erro", type="string", description="Email não verificado")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Email ou password incorretos",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="erro", type="string", description="Email ou password incorretos")
+     *         )
+     *     )
+     * )
      */
     function login(Request $request)
     {
@@ -69,28 +83,36 @@ class UtilizadorController extends Controller
 
     /**
      * @OA\Post(
-     *    path="/api/registar",
-     *    operationId="index",
-     *    tags={"Utilizadores"},
-     *    summary="Registar um utilizador",
-     *    description="Get list of articles",
-     *    @OA\Parameter(name="limit", in="query", description="limit", required=false,
-     *        @OA\Schema(type="integer")
-     *    ),
-     *    @OA\Parameter(name="page", in="query", description="the page number", required=false,
-     *        @OA\Schema(type="integer")
-     *    ),
-     *    @OA\Parameter(name="order", in="query", description="order  accepts 'asc' or 'desc'", required=false,
-     *        @OA\Schema(type="string")
-     *    ),
+     *     path="/api/registar",
+     *     summary="Registar",
+     *     description="Regista um novo utilizador.",
+     *     tags={"Utilizadores"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Dados de registo",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nome", type="string", example="Nome do Utilizador"),
+     *             @OA\Property(property="email", type="string", format="email", example="example@example.com"),
+     *             @OA\Property(property="password", type="string", example="password"),
+     *             @OA\Property(property="tipo", type="integer", example="1")
+     *         )
+     *     ),
      *     @OA\Response(
-     *          response=200, description="Success",
-     *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
-     *          )
-     *       )
-     *  )
+     *         response=200,
+     *         description="Registo realizado com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="sucesso", type="string", description="Registo realizado com sucesso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Erro de validação",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Erro de validação"),
+     *             @OA\Property(property="errors", type="object", description="Detalhes dos erros de validação")
+     *         )
+     *     )
+     * )
      */
     function registar(Request $request)
     {
@@ -118,12 +140,40 @@ class UtilizadorController extends Controller
         return response(['sucesso' => 'Registo realizado com sucesso'], 200);
     }
 
+
     function logout(Request $request)
     {
         $request->user()->tokens()->delete();
         return response(['sucesso' => 'Logout realizado com sucesso'], 200);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/associacoes",
+     *     summary="Listar Associações",
+     *     description="Retorna uma lista de associações.",
+     *     tags={"Utilizadores"},
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de associações",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="associacoes"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Não autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Não autorizado")
+     *         )
+     *     )
+     * )
+     */
     function listarAssociacoes(Request $request)
     {
         //return todos os utilizadores que sao do tipo 2
@@ -131,6 +181,47 @@ class UtilizadorController extends Controller
         return response(['associacoes' => UtilizadorResource::collection($utilizadores)], 200);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/perfil/{id}",
+     *     summary="Perfil do Utilizador",
+     *     description="Retorna o perfil de um utilizador pelo seu ID.",
+     *     tags={"Utilizadores"},
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID do utilizador",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Perfil do utilizador",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="utilizador"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Não autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Não autorizado")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Utilizador não encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="erro", type="string", description="Utilizador não encontrado")
+     *         )
+     *     )
+     * )
+     */
     function perfilUtilizador(Request $request)
     {
         $utilizador = Utilizador::where('id', $request->id)->first();
@@ -139,8 +230,54 @@ class UtilizadorController extends Controller
         return response(['utilizador' => new UtilizadorResource($utilizador)], 200);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/editarperfil",
+     *     summary="Alterar Perfil do Utilizador Particular",
+     *     description="Atualiza o perfil do utilizador autenticado.",
+     *     tags={"Utilizadores"},
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nome", type="string", description="Nome do utilizador"),
+     *             @OA\Property(property="email", type="string", format="email", description="Email do utilizador"),
+     *             @OA\Property(property="telefone", type="string", description="Telefone do utilizador"),
+     *             @OA\Property(property="fotografia", type="string", format="binary", description="Fotografia do utilizador"),
+     *             @OA\Property(property="localizacao", type="string", description="Localização do utilizador"),
+     *             @OA\Property(property="distrito", type="string", description="Distrito do utilizador"),
+     *             @OA\Property(property="codigo_postal", type="string", description="Código postal do utilizador")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Perfil do utilizador atualizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="utilizador"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Não autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Não autorizado")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Utilizador não encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="erro", type="string", description="Utilizador não encontrado")
+     *         )
+     *     )
+     * )
+     */
     function alterarPerfil(Request $request)
-    {   
+    {
         $utilizador =  $request->user();
         if ($utilizador == null)
             return response(['erro' => 'Utilizador não encontrado'], 404);
@@ -163,15 +300,15 @@ class UtilizadorController extends Controller
             $utilizador->telefone = $request->telefone;
         }
 
-        if($request->localizacao != null){
+        if ($request->localizacao != null) {
             $utilizador->localizacao = $request->localizacao;
         }
 
-        if($request->distrito != null){
+        if ($request->distrito != null) {
             $utilizador->distrito = $request->distrito;
         }
 
-        if($request->codigo_postal != null){
+        if ($request->codigo_postal != null) {
             $utilizador->codigo_postal = $request->codigo_postal;
         }
 
@@ -186,7 +323,56 @@ class UtilizadorController extends Controller
         return response(['utilizador' => new UtilizadorResource($utilizador)], 200);
     }
 
-    function alterarPerfilAssociacao(Request $request){
+    /**
+     * @OA\Post(
+     *     path="/api/editarperfilA",
+     *     summary="Alterar Perfil da Associação",
+     *     description="Atualiza o perfil da associação (utilizador autenticado como uma associação).",
+     *     tags={"Utilizadores"},
+     *     security={
+     *         {"bearerAuth": {}}
+     *     },
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nome", type="string", description="Nome da associação"),
+     *             @OA\Property(property="email", type="string", format="email", description="Email da associação"),
+     *             @OA\Property(property="telefone", type="string", description="Telefone da associação"),
+     *             @OA\Property(property="fotografia", type="string", format="binary", description="Fotografia da associação"),
+     *             @OA\Property(property="localizacao", type="string", description="Localização da associação"),
+     *             @OA\Property(property="website", type="string", description="Website da associação"),
+     *             @OA\Property(property="facebook", type="string", description="Página do Facebook da associação"),
+     *             @OA\Property(property="instagram", type="string", description="Perfil do Instagram da associação"),
+     *             @OA\Property(property="horario", type="string", description="Horário de funcionamento da associação")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Perfil da associação atualizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="utilizador"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Não autorizado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Não autorizado")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Utilizador não encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="erro", type="string", description="Utilizador não encontrado")
+     *         )
+     *     )
+     * )
+     */
+    function alterarPerfilAssociacao(Request $request)
+    {
         $utilizador =  $request->user();
         if ($utilizador == null)
             return response(['erro' => 'Utilizador não encontrado'], 404);
@@ -211,7 +397,7 @@ class UtilizadorController extends Controller
             $utilizador->telefone = $request->telefone;
         }
 
-        if($request->localizacao != null){
+        if ($request->localizacao != null) {
             $utilizador->localizacao = $request->localizacao;
         }
 
@@ -221,22 +407,22 @@ class UtilizadorController extends Controller
             $utilizador->fotografia = $nomeFotografia;
         }
 
-        if($request->website != null){
+        if ($request->website != null) {
             $utilizador->website = $request->website;
         }
 
-        if($request->facebook != null){
+        if ($request->facebook != null) {
             $utilizador->facebook = $request->facebook;
         }
 
-        if($request->instagram != null){
+        if ($request->instagram != null) {
             $utilizador->instagram = $request->instagram;
         }
 
-        if($request->horario != null){
+        if ($request->horario != null) {
             $utilizador->horario = $request->horario;
         }
-        
+
 
         //Guardar na  base de dados
         $utilizador->save();
@@ -244,8 +430,36 @@ class UtilizadorController extends Controller
         return response(['utilizador' => new UtilizadorResource($utilizador)], 200);
     }
 
-
-    function forgotPassword(Request $request) {
+    /**
+     * @OA\Post(
+     *     path="/api/forgot-password",
+     *     summary="Esqueceu a password",
+     *     description="Envia um link de redefinição de password para o email fornecido.",
+     *     tags={"Utilizadores"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="email", type="string", format="email", description="Email do utilizador")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Link de redefinição de password enviado com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Link de redefinição de password enviado com sucesso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Dados inválidos",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Os dados fornecidos são inválidos")
+     *         )
+     *     )
+     * )
+     */
+    function forgotPassword(Request $request)
+    {
         $request->validate(['email' => 'required|email']);
 
         $status = Password::sendResetLink(
@@ -255,7 +469,39 @@ class UtilizadorController extends Controller
         return  __($status);
     }
 
-    function resetPassword(Request $request) {
+    /**
+     * @OA\Post(
+     *     path="/api/reset-password",
+     *     summary="Redefinir password",
+     *     description="Redefine a password do utilizador com base no token de redefinição e no email fornecidos.",
+     *     tags={"Utilizadores"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="token", type="string", description="Token de redefinição da password"),
+     *             @OA\Property(property="email", type="string", format="email", description="Email do utilizador"),
+     *             @OA\Property(property="password", type="string", format="password", description="Nova password"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password", description="Confirmação da nova password")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Password redefinida com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Password redefinida com sucesso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Dados inválidos",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Os dados fornecidos são inválidos")
+     *         )
+     *     )
+     * )
+     */
+    function resetPassword(Request $request)
+    {
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
@@ -274,26 +520,91 @@ class UtilizadorController extends Controller
         return  __($status);
     }
 
-    function verificaEmail(Request $request) {
+    /**
+     * @OA\Get(
+     *     path="/api/email/verify/{id}/{hash}",
+     *     summary="Verificar email",
+     *     description="Verifica o email de um utilizador com base no ID do utilizador e no hash fornecidos.",
+     *     tags={"Utilizadores"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         required=true,
+     *         description="ID do utilizador",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="hash",
+     *         in="query",
+     *         required=true,
+     *         description="Hash para verificação do email",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Email verificado com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Email verificado com sucesso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Email não verificado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Email não verificado")
+     *         )
+     *     )
+     * )
+     */
+    function verificaEmail(Request $request)
+    {
         $utilizador = Utilizador::where('id', $request->id)->first();
 
         if (hash_equals(sha1($utilizador->getEmailForVerification()), $request->hash)) {
             $utilizador->markEmailAsVerified();
-            
+
             return redirect('https://petship.pt/login')->with('success', 'Email verificado com sucesso');
         }
 
-       abort(404, 'Email não verificado');
+        abort(404, 'Email não verificado');
     }
 
+    /**
+     * @OA\Delete(
+     *     path="/api/eliminarconta/{id}",
+     *     summary="Eliminar conta",
+     *     description="Elimina a conta de um utilizador com base no ID do utilizador.",
+     *     tags={"Utilizadores"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="query",
+     *         required=true,
+     *         description="ID do utilizador",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Conta eliminada com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Conta eliminada com sucesso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Utilizador não encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Utilizador não encontrado")
+     *         )
+     *     )
+     * )
+     */
+    function eliminarConta(Request $request)
+    {
+        $utilizador = Utilizador::where('id', $request->id)->first();
+        if ($utilizador == null)
+            return response(['erro' => 'Utilizador não encontrado'], 404);
 
-    //Eliminar conta e todos os dados associados
-    function eliminarConta(Request $request){
-       $utilizador = Utilizador::where('id', $request->id)->first();
-         if($utilizador == null)
-                return response(['erro' => 'Utilizador não encontrado'], 404);
-    
-          $utilizador->delete();
-          return response(['sucesso' => 'Conta eliminada com sucesso'], 200);
+        $utilizador->delete();
+        return response(['sucesso' => 'Conta eliminada com sucesso'], 200);
     }
 }

@@ -213,29 +213,24 @@
                 "tags": [
                     "Utilizadores"
                 ],
-                "summary": "Autenticação do utilizador",
-                "description": "Get the token",
+                "summary": "Login",
+                "description": "Realiza o login de um utilizador.",
                 "operationId": "72e2dd71e8d5a15cf6308453f61513df",
                 "requestBody": {
-                    "description": "",
+                    "description": "Dados de login",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "email",
-                                    "password"
-                                ],
                                 "properties": {
                                     "email": {
                                         "type": "string",
-                                        "format": "string",
-                                        "example": "johndoe@gmail.com"
+                                        "format": "email",
+                                        "example": "example@example.com"
                                     },
                                     "password": {
                                         "type": "string",
-                                        "format": "string",
-                                        "example": "password123"
+                                        "example": "password"
                                     }
                                 },
                                 "type": "object"
@@ -245,17 +240,49 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Success",
+                        "description": "Login bem-sucedido",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
+                                        "utilizador": {
                                             "type": "object"
+                                        },
+                                        "token": {
+                                            "description": "Token de acesso",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Email não verificado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "erro": {
+                                            "description": "Email não verificado",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Email ou password incorretos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "erro": {
+                                            "description": "Email ou password incorretos",
+                                            "type": "string"
                                         }
                                     },
                                     "type": "object"
@@ -271,33 +298,573 @@
                 "tags": [
                     "Utilizadores"
                 ],
-                "summary": "Registar um utilizador",
-                "description": "Get list of articles",
-                "operationId": "index",
+                "summary": "Registar",
+                "description": "Regista um novo utilizador.",
+                "operationId": "007a1da2c8bc6130c0ac5b58b217d3db",
+                "requestBody": {
+                    "description": "Dados de registo",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Nome do Utilizador"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "example@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    },
+                                    "tipo": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registo realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "sucesso": {
+                                            "description": "Registo realizado com sucesso",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "description": "Detalhes dos erros de validação",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/associacoes": {
+            "get": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Listar Associações",
+                "description": "Retorna uma lista de associações.",
+                "operationId": "a724c60c5400aa3bf904d8e0174b4d72",
+                "responses": {
+                    "200": {
+                        "description": "Lista de associações",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "associacoes": {}
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/perfil/{id}": {
+            "get": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Perfil do Utilizador",
+                "description": "Retorna o perfil de um utilizador pelo seu ID.",
+                "operationId": "b3bac95cbb44d750f3b55eadefa3cd80",
                 "parameters": [
                     {
-                        "name": "limit",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do utilizador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Perfil do utilizador",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "utilizador": {}
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilizador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "erro": {
+                                            "description": "Utilizador não encontrado",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/editarperfil": {
+            "post": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Alterar Perfil do Utilizador Particular",
+                "description": "Atualiza o perfil do utilizador autenticado.",
+                "operationId": "97100d2694c1ced97dd6a3576aeaccf7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do utilizador",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Email do utilizador",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "telefone": {
+                                        "description": "Telefone do utilizador",
+                                        "type": "string"
+                                    },
+                                    "fotografia": {
+                                        "description": "Fotografia do utilizador",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "localizacao": {
+                                        "description": "Localização do utilizador",
+                                        "type": "string"
+                                    },
+                                    "distrito": {
+                                        "description": "Distrito do utilizador",
+                                        "type": "string"
+                                    },
+                                    "codigo_postal": {
+                                        "description": "Código postal do utilizador",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Perfil do utilizador atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "utilizador": {}
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilizador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "erro": {
+                                            "description": "Utilizador não encontrado",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/editarperfilA": {
+            "post": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Alterar Perfil da Associação",
+                "description": "Atualiza o perfil da associação (utilizador autenticado como uma associação).",
+                "operationId": "f9b14b4fca761b3bd773490f4d2a6247",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome da associação",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Email da associação",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "telefone": {
+                                        "description": "Telefone da associação",
+                                        "type": "string"
+                                    },
+                                    "fotografia": {
+                                        "description": "Fotografia da associação",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "localizacao": {
+                                        "description": "Localização da associação",
+                                        "type": "string"
+                                    },
+                                    "website": {
+                                        "description": "Website da associação",
+                                        "type": "string"
+                                    },
+                                    "facebook": {
+                                        "description": "Página do Facebook da associação",
+                                        "type": "string"
+                                    },
+                                    "instagram": {
+                                        "description": "Perfil do Instagram da associação",
+                                        "type": "string"
+                                    },
+                                    "horario": {
+                                        "description": "Horário de funcionamento da associação",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Perfil da associação atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "utilizador": {}
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilizador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "erro": {
+                                            "description": "Utilizador não encontrado",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/forgot-password": {
+            "post": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Esqueceu a password",
+                "description": "Envia um link de redefinição de password para o email fornecido.",
+                "operationId": "cf693baf1026507491f7064e20350feb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email do utilizador",
+                                        "type": "string",
+                                        "format": "email"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Link de redefinição de password enviado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Link de redefinição de password enviado com sucesso",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Os dados fornecidos são inválidos",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reset-password": {
+            "post": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Redefinir password",
+                "description": "Redefine a password do utilizador com base no token de redefinição e no email fornecidos.",
+                "operationId": "cf0f0e65200d8e2f116f04f297dcecf6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "token": {
+                                        "description": "Token de redefinição da password",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Email do utilizador",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "description": "Nova password",
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Confirmação da nova password",
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password redefinida com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Password redefinida com sucesso",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Os dados fornecidos são inválidos",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/email/verify/{id}/{hash}": {
+            "get": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Verificar email",
+                "description": "Verifica o email de um utilizador com base no ID do utilizador e no hash fornecidos.",
+                "operationId": "1bb6c9b62845fd7f43d0a122231f4b4e",
+                "parameters": [
+                    {
+                        "name": "id",
                         "in": "query",
-                        "description": "limit",
-                        "required": false,
+                        "description": "ID do utilizador",
+                        "required": true,
                         "schema": {
                             "type": "integer"
                         }
                     },
                     {
-                        "name": "page",
+                        "name": "hash",
                         "in": "query",
-                        "description": "the page number",
-                        "required": false,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "order",
-                        "in": "query",
-                        "description": "order  accepts 'asc' or 'desc'",
-                        "required": false,
+                        "description": "Hash para verificação do email",
+                        "required": true,
                         "schema": {
                             "type": "string"
                         }
@@ -305,17 +872,85 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Success",
+                        "description": "Email verificado com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "message": {
+                                            "description": "Email verificado com sucesso",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Email não verificado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Email não verificado",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/eliminarconta/{id}": {
+            "delete": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Eliminar conta",
+                "description": "Elimina a conta de um utilizador com base no ID do utilizador.",
+                "operationId": "c6c9341cfa384b39fa07a4efee4f5c6e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID do utilizador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Conta eliminada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Conta eliminada com sucesso",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilizador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Utilizador não encontrado",
+                                            "type": "string"
                                         }
                                     },
                                     "type": "object"
