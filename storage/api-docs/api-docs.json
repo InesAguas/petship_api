@@ -1,20 +1,127 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Example API",
-        "description": "This is an example API",
-        "version": "1.0.0"
+        "title": "Documentação da API",
+        "description": "Petship API",
+        "version": "0.0.1"
     },
+    "servers": [
+        {
+            "url": "http://api.petship.pt",
+            "description": "Petship API"
+        }
+    ],
     "paths": {
         "/api": {
             "description": "All the routes"
+        },
+        "/api/enviarmensagem": {
+            "post": {
+                "tags": [
+                    "Mensagens"
+                ],
+                "summary": "Enviar mensagem a um utilizador",
+                "description": "Rota para enviar mensagem a um utilizador, o utilizador tem de estar logado. Se a mensagem for enviada com sucesso retorna o status 200",
+                "operationId": "f2a2fb60156538837b0fe5235594b71b",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_recebe",
+                                    "mensagem"
+                                ],
+                                "properties": {
+                                    "id_recebe": {
+                                        "example": "1"
+                                    },
+                                    "mensagem": {
+                                        "example": "Olá, tudo bem?"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/mensagens/{id_recebe}": {
+            "get": {
+                "tags": [
+                    "Mensagens"
+                ],
+                "summary": "Ler conversa com um utilizador",
+                "description": "Rota para ler a conversa com um utilizador, o utilizador tem de estar logado. Se a conversa for lida com sucesso retorna o status 200",
+                "operationId": "906b8fc05b0b2196bca1e128ff4b1fab",
+                "parameters": [
+                    {
+                        "name": "id_recebe",
+                        "in": "path",
+                        "description": "Id do utilizador com quem quer ler a conversa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
         },
         "/api/login": {
             "post": {
                 "tags": [
                     "Utilizadores"
                 ],
-                "summary": "Login with email and password",
+                "summary": "Autenticação do utilizador",
                 "description": "Get the token",
                 "operationId": "72e2dd71e8d5a15cf6308453f61513df",
                 "requestBody": {
@@ -72,7 +179,7 @@
                 "tags": [
                     "Utilizadores"
                 ],
-                "summary": "Get list of articles",
+                "summary": "Registar um utilizador",
                 "description": "Get list of articles",
                 "operationId": "index",
                 "parameters": [

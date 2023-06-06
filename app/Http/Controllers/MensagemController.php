@@ -7,9 +7,35 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
+
 class MensagemController extends Controller
 {
-    //
+
+    /**
+     * @OA\Post(
+     *    path="/api/enviarmensagem",
+     *    tags={"Mensagens"},
+     *    summary="Enviar mensagem a um utilizador",
+     *    description="Rota para enviar mensagem a um utilizador, o utilizador tem de estar logado. Se a mensagem for enviada com sucesso retorna o status 200",
+     * 
+     *    @OA\RequestBody(
+     *         required=true,
+     *         description="",
+     *         @OA\JsonContent(
+     *            required={"id_recebe", "mensagem"},
+     *            @OA\Property(property="id_recebe", example="1"),
+     *            @OA\Property(property="mensagem",  example="Olá, tudo bem?"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function enviarMensagem(Request $request) {
         $validated = $request->validate([
             'id_recebe' => 'required|integer',
@@ -37,6 +63,30 @@ class MensagemController extends Controller
         return response()->json(['mensagem' => $mensagem], 200);
     }
 
+    /**
+     * @OA\Get(
+     *    path="/api/mensagens/{id_recebe}",
+     *    tags={"Mensagens"},
+     *    summary="Ler conversa com um utilizador",
+     *    description="Rota para ler a conversa com um utilizador, o utilizador tem de estar logado. Se a conversa for lida com sucesso retorna o status 200",
+     *    @OA\Parameter(
+     *          name="id_recebe",
+     *          description="Id do utilizador com quem quer ler a conversa",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function lerConversa(Request $request) {
 
         if(Utilizador::where('id', $request->id_recebe)->doesntExist()) {
@@ -55,6 +105,21 @@ class MensagemController extends Controller
         return response()->json(['mensagens' => $mensagens], 200);
     }
 
+    /**
+     * @OA\Get(
+     *    path="/api/conversasativas",
+     *    tags={"Mensagens"},
+     *    summary="Obter conversas ativas",
+     *    description="Rota para obter todas as conversas que se tem ativas (com mensagens enviadas ou recebidas). O utilizador tem de estar logado. Se as conversas forem obtidas com sucesso retorna o status 200",
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function conversasAtivas(Request $request) {
         $utilizador = Utilizador::find($request->user()->id);
 

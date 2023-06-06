@@ -14,7 +14,38 @@ use App\Http\Resources\UtilizadorResource;
 
 class AnuncioController extends Controller
 {
-    //
+    
+    /**
+     * @OA\Post(
+     *    path="/api/novoanuncio",
+     *    tags={"Anuncios"},
+     *    summary="Criar um anuncio",
+     *    description="Rota para criar um anuncio, o utilizador tem de estar logado. Se o anuncio for criado com sucesso retorna o status 200",
+     *    @OA\RequestBody(
+     *         required=true,
+     *         description="",
+     *         @OA\JsonContent(
+     *            required={"nome", "sexo", "especie", "raca", "porte", "idade", "cor", "distrito", "etiqueta"},
+     *            @OA\Property(property="nome", example="Rufus"),
+     *            @OA\Property(property="sexo",  example="1"),
+     *            @OA\Property(property="especie", example="1"),
+     *            @OA\Property(property="raca",  example="1),
+     *            @OA\Property(property="porte", example="1"),
+     *            @OA\Property(property="idade",  example="1"),
+     *            @OA\Property(property="cor", example="1"),
+     *            @OA\Property(property="distrito",  example="Coimbra"),
+     *            @OA\Property(property="etiqueta", example="1"),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function novoAnuncio(Request $request)
     {
         //funcao para inserir um animal na base de dados
@@ -91,6 +122,21 @@ class AnuncioController extends Controller
         return response(['anuncio' => new AnuncioResource($anuncio)], 200);
     }
 
+    /**
+     * @OA\Get(
+     *    path="/api/adotar",
+     *    tags={"Anuncios"},
+     *    summary="Listar animais para adoção",
+     *    description="",
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function listarAnimaisAdocao(Request $request)
     {
         $anuncios = Anuncio::where('etiqueta', 1)->get();
@@ -102,6 +148,21 @@ class AnuncioController extends Controller
         return response(['animais' => AnuncioResource::collection($anuncios)], 200);
     }
 
+    /**
+     * @OA\Get(
+     *    path="/api/desaparecido",
+     *    tags={"Anuncios"},
+     *    summary="Listar animais desaparecidos",
+     *    description="",
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function listarAnimaisDesaparecidos(Request $request)
     {
         $anuncios = Anuncio::where('etiqueta', 2)->get();
@@ -113,6 +174,21 @@ class AnuncioController extends Controller
         return response(['animais' => AnuncioResource::collection($anuncios)], 200);
     }
 
+    /**
+     * @OA\Get(
+     *    path="/api/petsitting",
+     *    tags={"Anuncios"},
+     *    summary="Listar animais para petsitting",
+     *    description="",
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function listarAnimaisPetsitting(Request $request)
     {
 
@@ -125,6 +201,30 @@ class AnuncioController extends Controller
         return response(['animais' => AnuncioResource::collection($anuncios)], 200);
     }
 
+    /**
+     * @OA\Get(
+     *    path="/api/animal/{id}",
+     *    tags={"Anuncios"},
+     *    summary="Listar animais para adoção",
+     *    description="",
+     *     @OA\Parameter(
+     *          name="id",
+     *          description="Id do animal",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function verAnuncioAnimal(Request $request, $id) {
         $anuncio = Anuncio::find($id);
 
@@ -143,6 +243,21 @@ class AnuncioController extends Controller
 
     }
 
+    /**
+     * @OA\Get(
+     *    path="/utilizador/anuncios",
+     *    tags={"Anuncios"},
+     *    summary="Listar anuncios de um utilizador",
+     *    description="",
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function listarAnunciosUtilizador(Request $request) {
         $anuncios = Anuncio::where('id_utilizador', $request->user()->id)->get();
 
@@ -152,6 +267,30 @@ class AnuncioController extends Controller
         return response(['anuncios' => AnuncioResource::collection($anuncios)], 200);
     }
 
+    /**
+     * @OA\Get(
+     *    path="/api/removeranuncio/{id}",
+     *    tags={"Anuncios"},
+     *    summary="Remover anuncio",
+     *    description="",
+     *     @OA\Parameter(
+     *          name="id",
+     *          description="Id do anuncio",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function removerAnuncio(Request $request) {
         $anuncio = Anuncio::find($request->id);
 
@@ -169,6 +308,30 @@ class AnuncioController extends Controller
     }
 
 
+    /**
+     * @OA\Get(
+     *    path="/api/anuncio/num/{id}",
+     *    tags={"Anuncios"},
+     *    summary="Dados de um anuncio (numéricos)",
+     *    description="",
+     *     @OA\Parameter(
+     *          name="id",
+     *          description="Id do anuncio",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function dadosAnuncioNum(Request $request) {
         $anuncio = Anuncio::where('id', $request->id)->first();
 
@@ -185,6 +348,30 @@ class AnuncioController extends Controller
     }
 
 
+    /**
+     * @OA\Post(
+     *    path="/api/editaranuncio/{id}",
+     *    tags={"Anuncios"},
+     *    summary="Editar anuncio",
+     *    description="",
+     *     @OA\Parameter(
+     *          name="id",
+     *          description="Id do anuncio",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function editarAnuncio(Request $request) {
         $anuncio = Anuncio::find($request->id);
 
@@ -254,6 +441,30 @@ class AnuncioController extends Controller
         return response(['anuncio' => new AnuncioResource($anuncio)], 200);
     }
 
+    /**
+     * @OA\Get(
+     *    path="/api/anuncio/estado/{id}",
+     *    tags={"Anuncios"},
+     *    summary="Alterar estado do anuncio",
+     *    description="",
+     *     @OA\Parameter(
+     *          name="id",
+     *          description="Id do anuncio",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object")
+     *          )
+     *       )
+     *  )
+     */
     function alterarEstadoAnuncio(Request $request) {
         $anuncio = Anuncio::find($request->id);
 
