@@ -15,6 +15,422 @@
         "/api": {
             "description": "All the routes"
         },
+        "/api/novoanuncio": {
+            "post": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Criar um anuncio",
+                "description": "Rota para criar um anuncio, o utilizador tem de estar logado. Se o anuncio for criado com sucesso retorna o status 200",
+                "operationId": "1dce6c0f5c7034abc822fc089714c2ef",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "sexo",
+                                    "especie",
+                                    "raca",
+                                    "porte",
+                                    "idade",
+                                    "cor",
+                                    "distrito",
+                                    "etiqueta"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "example": "Rufus"
+                                    },
+                                    "sexo": {
+                                        "example": "1"
+                                    },
+                                    "especie": {
+                                        "example": "1"
+                                    },
+                                    "raca": {
+                                        "example": "1"
+                                    },
+                                    "porte": {
+                                        "example": "1"
+                                    },
+                                    "idade": {
+                                        "example": "1"
+                                    },
+                                    "cor": {
+                                        "example": "1"
+                                    },
+                                    "distrito": {
+                                        "example": "Coimbra"
+                                    },
+                                    "etiqueta": {
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/adotar": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar animais para adoção",
+                "description": "",
+                "operationId": "a5bc8d86abc86311946780dfb8690619",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/desaparecido": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar animais desaparecidos",
+                "description": "",
+                "operationId": "da7ae2ec261a1e620b7203cdd26267ce",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/petsitting": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar animais para petsitting",
+                "description": "",
+                "operationId": "5ada27862e4726cd5c046ffa85ebc34e",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/animal/{id}": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar animais para adoção",
+                "description": "",
+                "operationId": "6eeaaf2a04a3594255e071bc5d082cf8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do animal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/utilizador/anuncios": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar anuncios de um utilizador",
+                "description": "",
+                "operationId": "d676196acdb8b5fc3ea6d6c463d0df1c",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/removeranuncio/{id}": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Remover anuncio",
+                "description": "",
+                "operationId": "8fa18fb01189ad19f502842b39065aa3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anuncio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/anuncio/num/{id}": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Dados de um anuncio (numéricos)",
+                "description": "",
+                "operationId": "5b1ee0564bfab367a69344bd66ae5d32",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anuncio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/editaranuncio/{id}": {
+            "post": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Editar anuncio",
+                "description": "",
+                "operationId": "d4029006a3097e865b0d616ab469fd26",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anuncio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/anuncio/estado/{id}": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Alterar estado do anuncio",
+                "description": "",
+                "operationId": "b6de613dc0c2119ed63a0398ca52149d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anuncio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/enviarmensagem": {
             "post": {
                 "tags": [
@@ -108,12 +524,38 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "bearer": []
+                }
+            }
+        },
+        "/api/conversasativas": {
+            "get": {
+                "tags": [
+                    "Mensagens"
+                ],
+                "summary": "Obter conversas ativas",
+                "description": "Rota para obter todas as conversas que se tem ativas (com mensagens enviadas ou recebidas). O utilizador tem de estar logado. Se as conversas forem obtidas com sucesso retorna o status 200",
+                "operationId": "4b48462fa1bfb72b575e29775a59315a",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                ]
+                }
             }
         },
         "/api/login": {

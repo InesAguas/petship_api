@@ -29,7 +29,7 @@ class AnuncioController extends Controller
      *            @OA\Property(property="nome", example="Rufus"),
      *            @OA\Property(property="sexo",  example="1"),
      *            @OA\Property(property="especie", example="1"),
-     *            @OA\Property(property="raca",  example="1),
+     *            @OA\Property(property="raca",  example="1"),
      *            @OA\Property(property="porte", example="1"),
      *            @OA\Property(property="idade",  example="1"),
      *            @OA\Property(property="cor", example="1"),
