@@ -12,7 +12,7 @@
         "/api/login": {
             "post": {
                 "tags": [
-                    "User Auth"
+                    "Utilizadores"
                 ],
                 "summary": "Login with email and password",
                 "description": "Get the token",
@@ -67,10 +67,10 @@
                 }
             }
         },
-        "/asdad": {
+        "/api/registar": {
             "post": {
                 "tags": [
-                    "Articles"
+                    "Utilizadores"
                 ],
                 "summary": "Get list of articles",
                 "description": "Get list of articles",

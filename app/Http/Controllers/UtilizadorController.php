@@ -16,9 +16,9 @@ class UtilizadorController extends Controller
      /**
      * @OA\Post(
      *    path="/api/login",
-     *    summary="Login with email and password",
+     *    summary="Autenticação do utilizador",
      *    description="Get the token",
-     *    tags={"User Auth"},
+     *    tags={"Utilizadores"},
      *    @OA\RequestBody(
      *         required=true,
      *         description="",
@@ -69,10 +69,10 @@ class UtilizadorController extends Controller
 
     /**
      * @OA\Post(
-     *    path="/asdad",
+     *    path="/api/registar",
      *    operationId="index",
-     *    tags={"Articles"},
-     *    summary="Get list of articles",
+     *    tags={"Utilizadores"},
+     *    summary="Registar um utilizador",
      *    description="Get list of articles",
      *    @OA\Parameter(name="limit", in="query", description="limit", required=false,
      *        @OA\Schema(type="integer")
