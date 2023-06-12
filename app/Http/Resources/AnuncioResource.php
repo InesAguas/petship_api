@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Animal;
 use App\Models\Traducao;
+use Illuminate\Support\Facades\App;
 
 class AnuncioResource extends JsonResource
 {
@@ -17,18 +18,19 @@ class AnuncioResource extends JsonResource
     public function toArray($request)
     {
         $animal = Animal::where('id', $this->id_animal)->first();
+        $lang = App::getLocale();
 
         return [
             'id' => $this->id,
             'nome' => $animal->nome,
-            'sexo' => Traducao::where('id', $animal->sexo)->where('tipo', 'sexo')->first()->pt,
-            'especie' => Traducao::where('id', $animal->especie)->where('tipo', 'especie')->first()->pt,
-            'raca' => Traducao::where('id', $animal->raca)->where('tipo', $animal->especie == 1 ? 'raca_caes':'raca_gatos')->first()->pt,
-            'porte' => Traducao::where('id', $animal->porte)->where('tipo', 'porte')->first()->pt,
-            'idade' => Traducao::where('id', $animal->idade)->where('tipo', 'idade')->first()->pt,
-            'cor' => Traducao::where('id', $animal->cor)->where('tipo', 'cor')->first()->pt,
+            'sexo' => Traducao::where('id', $animal->sexo)->where('tipo', 'sexo')->first()->$lang,
+            'especie' => Traducao::where('id', $animal->especie)->where('tipo', 'especie')->first()->$lang,
+            'raca' => Traducao::where('id', $animal->raca)->where('tipo', $animal->especie == 1 ? 'raca_caes':'raca_gatos')->first()->$lang,
+            'porte' => Traducao::where('id', $animal->porte)->where('tipo', 'porte')->first()->$lang,
+            'idade' => Traducao::where('id', $animal->idade)->where('tipo', 'idade')->first()->$lang,
+            'cor' => Traducao::where('id', $animal->cor)->where('tipo', 'cor')->first()->$lang,
             'distrito' => $this->distrito,
-            'etiqueta' => Traducao::where('id', $this->etiqueta)->where('tipo', 'etiqueta')->first()->pt,
+            'etiqueta' => Traducao::where('id', $this->etiqueta)->where('tipo', 'etiqueta')->first()->$lang,
             'descricao' => $this->descricao,
             'estado' => $this->estado ? 'Ativo' : 'Inativo',
             'fotografias' => $this->fotografiasUrls(),

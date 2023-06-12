@@ -141,10 +141,6 @@ class AnuncioController extends Controller
     {
         $anuncios = Anuncio::where('etiqueta', 1)->get();
 
-        if($request->lang == 'en')  {
-            
-            return response(['animais' => AnuncioResource::collection($anuncios)->map->toArrayEnglish()], 200);
-        }
         return response(['animais' => AnuncioResource::collection($anuncios)], 200);
     }
 
