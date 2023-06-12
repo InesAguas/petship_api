@@ -113,12 +113,6 @@ class AnuncioController extends Controller
         //Guardar na  base de dados
         $anuncio->save();
 
-
-        if ($request->lang == 'en') {
-
-            return response(['anuncio' => new AnuncioResource($anuncio->toArrayEnglish())], 200);
-        }
-
         return response(['anuncio' => new AnuncioResource($anuncio)], 200);
     }
 
@@ -163,10 +157,6 @@ class AnuncioController extends Controller
     {
         $anuncios = Anuncio::where('etiqueta', 2)->get();
 
-        if($request->lang == 'en')  {
-            
-            return response(['animais' => AnuncioResource::collection($anuncios)->map->toArrayEnglish()], 200);
-        }
         return response(['animais' => AnuncioResource::collection($anuncios)], 200);
     }
 
@@ -190,10 +180,6 @@ class AnuncioController extends Controller
 
         $anuncios = Anuncio::where('etiqueta', 3)->get();
 
-        if($request->lang == 'en')  {
-            
-            return response(['animais' => AnuncioResource::collection($anuncios)->map->toArrayEnglish()], 200);
-        }
         return response(['animais' => AnuncioResource::collection($anuncios)], 200);
     }
 
@@ -230,11 +216,6 @@ class AnuncioController extends Controller
 
         $utilizador = Utilizador::find($anuncio->id_utilizador);
 
-        if ($request->lang == 'en') {
-
-            return response(['animal' => new AnuncioResource($anuncio->toArrayEnglish()), 'utilizador' => new UtilizadorResource($utilizador->toArray())], 200);
-        }
-
         return response(['animal' => new AnuncioResource($anuncio), 'utilizador' => new UtilizadorResource($utilizador)], 200);
 
     }
@@ -257,9 +238,6 @@ class AnuncioController extends Controller
     function listarAnunciosUtilizador(Request $request) {
         $anuncios = Anuncio::where('id_utilizador', $request->user()->id)->get();
 
-        if($request->lang == 'en')  {
-            return response(['anuncios' => AnuncioResource::collection($anuncios)->map->toArrayEnglish()], 200);
-        }
         return response(['anuncios' => AnuncioResource::collection($anuncios)], 200);
     }
 
@@ -428,12 +406,6 @@ class AnuncioController extends Controller
         //Guardar na  base de dados
         $anuncio->save();
 
-
-        if ($request->lang == 'en') {
-
-            return response(['anuncio' => (new AnuncioResource($anuncio))->toArrayEnglish()], 200);
-        }
-
         return response(['anuncio' => new AnuncioResource($anuncio)], 200);
     }
 
@@ -475,11 +447,6 @@ class AnuncioController extends Controller
         $anuncio->estado = !$anuncio->estado;
 
         $anuncio->save();
-
-        if ($request->lang == 'en') {
-
-            return response(['anuncio' =>(new AnuncioResource($anuncio))->toArrayEnglish()], 200);
-        }
 
         return response(['anuncio' => new AnuncioResource($anuncio)], 200);
     }

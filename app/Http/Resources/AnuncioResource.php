@@ -37,28 +37,6 @@ class AnuncioResource extends JsonResource
             'created_at' => $this->created_at->format('d-m-Y'),
         ];
     }
-    
-    public function toArrayEnglish()
-    {
-        $animal = Animal::where('id', $this->id_animal)->first();
-
-        return [
-            'id' => $this->id,
-            'nome' => $animal->nome,
-            'sexo' =>Traducao::where('id', $animal->sexo)->where('tipo', 'sexo')->first()->en,
-            'especie' => Traducao::where('id', $animal->especie)->where('tipo', 'especie')->first()->en,
-            'raca' =>Traducao::where('id', $animal->raca)->where('tipo', $animal->especie == 1 ? 'raca_caes':'raca_gatos')->first()->en,
-            'porte' => Traducao::where('id', $animal->porte)->where('tipo', 'porte')->first()->en,
-            'idade' => Traducao::where('id', $animal->idade)->where('tipo', 'idade')->first()->en,
-            'cor' => Traducao::where('id', $animal->cor)->where('tipo', 'cor')->first()->en,
-            'distrito' => $this->distrito,
-            'etiqueta' => Traducao::where('id', $this->etiqueta)->where('tipo', 'etiqueta')->first()->en,
-            'descricao' => $this->descricao,
-            'estado' => $this->estado ? 'Active' : 'Inactive',
-            'fotografias' => $this->fotografiasUrls(),
-            'created_at' => $this->created_at->format('d-m-Y'),
-        ];
-    }
 
     public function toArrayNumeric() {
         $animal = Animal::where('id', $this->id_animal)->first();

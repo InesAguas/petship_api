@@ -20,7 +20,7 @@ class Localization
         if ($request->hasHeader("Accept-Language")) {
             App::setLocale($request->header("Accept-Language"));
         }
-        return $next($request);
+
         return $next($request);
     }
 }

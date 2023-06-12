@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Traducao;
 use App\Models\Anuncio;
+use Illuminate\Support\Facades\App;
 
 class AnimalResource extends JsonResource
 {
@@ -16,15 +17,17 @@ class AnimalResource extends JsonResource
      */
     public function toArray($request)
     {
+        $lang = App::getLocale();
+
         return [
             'id' => $this->id,
             'nome' => $this->nome,
-            'sexo' => Traducao::where('id', $this->sexo)->where('tipo', 'sexo')->first()->pt,
-            'especie' => Traducao::where('id', $this->especie)->where('tipo', 'especie')->first()->pt,
-            'raca' => Traducao::where('id', $this->raca)->where('tipo', $this->especie == 1 ? 'raca_caes':'raca_gatos')->first()->pt,
-            'porte' => Traducao::where('id', $this->porte)->where('tipo', 'porte')->first()->pt,
-            'idade' => Traducao::where('id', $this->idade)->where('tipo', 'idade')->first()->pt,
-            'cor' => Traducao::where('id', $this->cor)->where('tipo', 'cor')->first()->pt,
+            'sexo' => Traducao::where('id', $this->sexo)->where('tipo', 'sexo')->first()->$lang,
+            'especie' => Traducao::where('id', $this->especie)->where('tipo', 'especie')->first()->$lang,
+            'raca' => Traducao::where('id', $this->raca)->where('tipo', $this->especie == 1 ? 'raca_caes':'raca_gatos')->first()->$lang,
+            'porte' => Traducao::where('id', $this->porte)->where('tipo', 'porte')->first()->$lang,
+            'idade' => Traducao::where('id', $this->idade)->where('tipo', 'idade')->first()->$lang,
+            'cor' => Traducao::where('id', $this->cor)->where('tipo', 'cor')->first()->$lang,
             'ferido' => $this->ferido,
             'agressivo' => $this->agressivo,
             'data_recolha' => $this->data_recolha,
@@ -34,30 +37,6 @@ class AnimalResource extends JsonResource
             'desparasitacao' => $this->desparasitacao,
             'medicacao' => $this->medicacao,
             'fotografia' => $this->fotografia ? asset('storage/img/animais/'.$this->fotografia) : null,
-            'anunciado' => Anuncio::where('id_animal', $this->id)->exists(),
-        ];
-    }
-
-    public function toArrayEnglish()
-    {
-        return [
-            'id' => $this->id,
-            'nome' => $this->nome,
-            'sexo' => Traducao::where('id', $this->sexo)->where('tipo', 'sexo')->first()->en,
-            'especie' => Traducao::where('id', $this->especie)->where('tipo', 'especie')->first()->en,
-            'raca' => Traducao::where('id', $this->raca)->where('tipo', $this->especie == 1 ? 'raca_caes':'raca_gatos')->first()->en,
-            'porte' => Traducao::where('id', $this->porte)->where('tipo', 'porte')->first()->en,
-            'idade' => Traducao::where('id', $this->idade)->where('tipo', 'idade')->first()->en,
-            'cor' => Traducao::where('id', $this->cor)->where('tipo', 'cor')->first()->en,
-            'ferido' => $this->ferido,
-            'agressivo' => $this->agressivo,
-            'data_recolha' => $this->data_recolha,
-            'local_captura' => $this->local_captura,
-            'chip' => $this->chip,
-            'temperatura' => $this->temperatura,
-            'desparasitacao' => $this->desparasitacao,
-            'medicacao' => $this->medicacao,
-            'fotografia' =>  $this->fotografia ? asset('storage/img/animais/'.$this->fotografia) : null,
             'anunciado' => Anuncio::where('id_animal', $this->id)->exists(),
         ];
     }
