@@ -125,9 +125,6 @@ class AnimalController extends Controller
     function listarAnimaisAssociacao(Request $request) {
         $animais = Animal::where('id_utilizador', $request->user()->id)->get();
 
-        if($request->lang == 'en')  {
-            return response(['animais' => AnimalResource::collection($animais)->map->toArrayEnglish()], 200);
-        }
         return response(['animais' => AnimalResource::collection($animais)], 200);
     }
 

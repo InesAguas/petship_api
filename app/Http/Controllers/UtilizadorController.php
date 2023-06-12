@@ -62,15 +62,15 @@ class UtilizadorController extends Controller
         $utilizador = Utilizador::where('email', $request->email)->first();
 
         if ($utilizador == null) {
-            return response(['erro' => 'Email ou password incorretos'], 422);
+            return response(['message' => 'Email ou password incorretos'], 422);
         }
 
         if (!Hash::check(($request->password), $utilizador->password)) {
-            return response(['erro' => 'Email ou password incorretos'], 422);
+            return response(['message' => 'Email ou password incorretos'], 422);
         }
 
         if (!$utilizador->hasVerifiedEmail()) {
-            return response(['erro' => 'Email não verificado'], 403);
+            return response(['message' => 'Email não verificado'], 403);
         }
 
         //apaga tokens anteriores e cria um novo
