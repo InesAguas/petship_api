@@ -52,6 +52,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('utilizador/stock', [StockController::class, 'listarStockUtilizador']);
     Route::delete('removerstock/{id}', [StockController::class, 'removerStock']);
     Route::post('editarstock/{id}', [StockController::class, 'editarStock']);
+    Route::post('logout', [UtilizadorController::class, 'logout']);
     
 });
 
