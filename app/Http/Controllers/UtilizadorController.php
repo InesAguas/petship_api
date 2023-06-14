@@ -466,7 +466,7 @@ class UtilizadorController extends Controller
             $request->only('email')
         );
 
-        return  __($status);
+        return  $status === Password::RESET_LINK_SENT ? response(['message' => 'OK'], 200) : response(['message' => __($status)], 422);
     }
 
     /**
@@ -517,7 +517,7 @@ class UtilizadorController extends Controller
             }
         );
 
-        return  __($status);
+        return  $status === Password::PASSWORD_RESET ? response(['message' => 'OK'], 200) : response(['message' => __($status)], 422);
     }
 
     /**

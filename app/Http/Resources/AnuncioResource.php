@@ -32,7 +32,7 @@ class AnuncioResource extends JsonResource
             'distrito' => $this->distrito,
             'etiqueta' => Traducao::where('id', $this->etiqueta)->where('tipo', 'etiqueta')->first()->$lang,
             'descricao' => $this->descricao,
-            'estado' => $this->estado ? 'Ativo' : 'Inativo',
+            'estado' => $this->estado ? ($lang == 'pt' ? 'Ativo' : 'Active') : ($lang == 'pt' ? 'Inativo' : 'Inactive'),
             'fotografias' => $this->fotografiasUrls(),
             'created_at' => $this->created_at->format('d-m-Y'),
         ];
