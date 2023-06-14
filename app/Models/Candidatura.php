@@ -10,5 +10,12 @@ class Candidatura extends Model
     use HasFactory;
     protected $table = 'candidaturas';
 
+    protected $fillable = [
+        'id_anuncio',
+        'id_utilizador',
+        'cc',
+        'estado'
+    ];
+
     
 }

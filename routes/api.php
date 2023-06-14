@@ -7,6 +7,7 @@ use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\MensagemController;
 use App\Http\Controllers\AnuncioController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\CandidaturaController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -53,6 +54,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::delete('removerstock/{id}', [StockController::class, 'removerStock']);
     Route::post('editarstock/{id}', [StockController::class, 'editarStock']);
     Route::post('logout', [UtilizadorController::class, 'logout']);
+    Route::post('candidaturainserir', [CandidaturaController::class, 'inserirCandidatura']);
     
 });
 
