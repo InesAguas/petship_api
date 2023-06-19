@@ -66,7 +66,7 @@ class AnuncioController extends Controller
         if($request->animal_id != null) {
             $animal = Animal::find($request->animal_id);
             if($animal->id_utilizador != $request->user()->id) {
-                return response()->json(['message' => 'Não tem permissões para editar este animal'], 403);
+                return response()->json(['message' => __('custom.permissoes_alteracao_animal')], 403);
             }
         } else {
             $animal = new Animal();
@@ -133,7 +133,7 @@ class AnuncioController extends Controller
      */
     function listarAnimaisAdocao(Request $request)
     {
-        $anuncios = Anuncio::where('etiqueta', 1)->get();
+        $anuncios = Anuncio::where('etiqueta', 1)->orderBy('id', 'desc')->where('estado', 1)->get();
 
         return response(['animais' => AnuncioResource::collection($anuncios)], 200);
     }
@@ -155,7 +155,7 @@ class AnuncioController extends Controller
      */
     function listarAnimaisDesaparecidos(Request $request)
     {
-        $anuncios = Anuncio::where('etiqueta', 2)->get();
+        $anuncios = Anuncio::where('etiqueta', 2)->orderBy('id', 'desc')->where('estado', 1)->get();
 
         return response(['animais' => AnuncioResource::collection($anuncios)], 200);
     }
@@ -178,7 +178,7 @@ class AnuncioController extends Controller
     function listarAnimaisPetsitting(Request $request)
     {
 
-        $anuncios = Anuncio::where('etiqueta', 3)->get();
+        $anuncios = Anuncio::where('etiqueta', 3)->orderBy('id', 'desc')->where('estado', 1)->get();
 
         return response(['animais' => AnuncioResource::collection($anuncios)], 200);
     }
@@ -210,8 +210,8 @@ class AnuncioController extends Controller
     function verAnuncioAnimal(Request $request, $id) {
         $anuncio = Anuncio::find($id);
 
-        if($anuncio == null) {
-            return response(['erro' => 'Anuncio não encontrado'], 404);
+        if($anuncio == null || $anuncio->estado == 0) {
+            return response(['message' => __('custom.anuncio_nao_encontrado')], 404);
         }
 
         $utilizador = Utilizador::find($anuncio->id_utilizador);
@@ -236,7 +236,7 @@ class AnuncioController extends Controller
      *  )
      */
     function listarAnunciosUtilizador(Request $request) {
-        $anuncios = Anuncio::where('id_utilizador', $request->user()->id)->get();
+        $anuncios = Anuncio::where('id_utilizador', $request->user()->id)->orderBy('id', 'desc')->get();
 
         return response(['anuncios' => AnuncioResource::collection($anuncios)], 200);
     }
@@ -269,11 +269,11 @@ class AnuncioController extends Controller
         $anuncio = Anuncio::find($request->id);
 
         if($anuncio == null) {
-            return response(['erro' => 'Anuncio não encontrado'], 404);
+            return response(['message' => __('custom.anuncio_nao_encontrado')], 404);
         }
 
         if($anuncio->id_utilizador != $request->user()->id) {
-            return response(['erro' => 'Não tem permissões para remover este anuncio'], 403);
+            return response(['message' =>__('custom.permissoes_remover_anuncio')], 403);
         }
 
         $anuncio->delete();
@@ -310,11 +310,11 @@ class AnuncioController extends Controller
         $anuncio = Anuncio::where('id', $request->id)->first();
 
         if($anuncio == null) {
-            return response(['erro' => 'Anuncio não encontrado'], 404);
+            return response(['message' => __('custom.anuncio_nao_encontrado')], 404);
         }
 
         if($anuncio->id_utilizador != $request->user()->id) {
-            return response(['erro' => 'Não tem permissões para ver este anuncio'], 403);
+            return response(['message' => __('custom.permissoes_visualizacao')], 403);
         }
 
         return response(['anuncio' => (new AnuncioResource($anuncio))->toArrayNumeric()], 200);
@@ -350,11 +350,11 @@ class AnuncioController extends Controller
         $anuncio = Anuncio::find($request->id);
 
         if($anuncio == null) {
-            return response(['erro' => 'Anuncio não encontrado'], 404);
+            return response(['message' => __('custom.anuncio_nao_encontrado')], 404);
         }
 
         if($anuncio->id_utilizador != $request->user()->id) {
-            return response(['erro' => 'Não tem permissões para editar este anuncio'], 403);
+            return response(['message' => __('custom.permissoes_alteracao')], 403);
         }
 
         $animal = Animal::where('id', $anuncio->id_animal)->first();
@@ -437,11 +437,11 @@ class AnuncioController extends Controller
         $anuncio = Anuncio::find($request->id);
 
         if($anuncio == null) {
-            return response(['erro' => 'Anuncio não encontrado'], 404);
+            return response(['message' => __('custom.anuncio_nao_encontrado')], 404);
         }
 
         if($anuncio->id_utilizador != $request->user()->id) {
-            return response(['erro' => 'Não tem permissões para alterar o estado deste anuncio'], 403);
+            return response(['message' => __('custom.permissoes_alteracao')], 403);
         }
 
         $anuncio->estado = !$anuncio->estado;
