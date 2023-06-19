@@ -123,7 +123,7 @@ class AnimalController extends Controller
      *  )
      */
     function listarAnimaisAssociacao(Request $request) {
-        $animais = Animal::where('id_utilizador', $request->user()->id)->get();
+        $animais = Animal::where('id_utilizador', $request->user()->id)->orderBy('id', 'desc')->get();
 
         return response(['animais' => AnimalResource::collection($animais)], 200);
     }
@@ -155,15 +155,15 @@ class AnimalController extends Controller
     function removerAnimal(Request $request) {
         $animal = Animal::where('id', $request->id)->first();
         if($animal == null) {
-            return response(['erro' => 'Animal não encontrado'], 404);
+            return response(['erro' => __('custom.animal_nao_encontrado')], 404);
         }
         if($animal->id_utilizador != $request->user()->id) {
-            return response(['erro' => 'Não tem permissões para remover este animal'], 403);
+            return response(['message' => __('custom.permissoes_remover_animal')], 403);
         }
 
         Anuncio::where('id_animal', $animal->id)->delete();
         $animal->delete();
-        return response(['sucesso' => 'Animal removido com sucesso'], 200);
+        return response(['sucesso' => __('custom.animal_removido')], 200);
     }
 
 
@@ -195,11 +195,11 @@ class AnimalController extends Controller
         $animal = Animal::where('id', $request->id)->first();
 
         if($animal == null) {
-            return response(['erro' => 'Animal não encontrado'], 404);
+            return response(['message' => __('custom.animal_nao_encontrado')], 404);
         }
 
         if($animal->id_utilizador != $request->user()->id) {
-            return response(['erro' => 'Não tem permissões para remover este animal'], 403);
+            return response(['message' => __('custom.permissoes_visualizacao_animal')], 403);
         }
 
         return response(['animal' => (new AnimalResource($animal))->toArrayNumeric()], 200);
@@ -253,11 +253,11 @@ class AnimalController extends Controller
         $animal = Animal::where('id', $request->id)->first();
 
         if($animal == null) {
-            return response(['erro' => 'Animal não encontrado'], 404);
+            return response(['message' => __('custom.animal_nao_encontrado')], 404);
         }
 
         if($animal->id_utilizador != $request->user()->id) {
-            return response(['erro' => 'Não tem permissões para remover este animal'], 403);
+            return response(['message' => __('custom.permissoes_alteracao_animal')], 403);
         }
 
         $validated = $request->validate([

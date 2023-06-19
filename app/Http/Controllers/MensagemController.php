@@ -43,11 +43,11 @@ class MensagemController extends Controller
         ]);
 
         if(Utilizador::where('id', $validated['id_recebe'])->doesntExist()) {
-            return response()->json(['message' => 'Utilizador não existe'], 404);
+            return response()->json(['message' => __('custom.utilizador_nao_encontrado')], 404);
         }
 
         if($validated['id_recebe'] == $request->user()->id) {
-            return response()->json(['message' => 'Não pode enviar uma mensagem para si próprio'], 403);
+            return response()->json(['message' => __('custom.propria_conversa')], 403);
         }
             
         $mensagem = new Mensagem();
@@ -90,11 +90,11 @@ class MensagemController extends Controller
     function lerConversa(Request $request) {
 
         if(Utilizador::where('id', $request->id_recebe)->doesntExist()) {
-            return response()->json(['message' => 'Utilizador não existe'], 404);
+            return response()->json(['message' => __('custom.utilizador_nao_encontrado')], 404);
         }
 
         if( $request->id_recebe == $request->user()->id) {
-            return response()->json(['message' => 'Não pode ler a sua própria conversa'], 403);
+            return response()->json(['message' => __('custom.propria_conversa')], 403);
         }
 
         $mensagens = Mensagem::where('id_envia', $request->user()->id)

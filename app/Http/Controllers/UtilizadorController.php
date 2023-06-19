@@ -62,15 +62,15 @@ class UtilizadorController extends Controller
         $utilizador = Utilizador::where('email', $request->email)->first();
 
         if ($utilizador == null) {
-            return response(['message' => 'Email ou password incorretos'], 422);
+            return response(['message' => __('custom.credenciais_erradas')], 422);
         }
 
         if (!Hash::check(($request->password), $utilizador->password)) {
-            return response(['message' => 'Email ou password incorretos'], 422);
+            return response(['message' => __('custom.credenciais_erradas')], 422);
         }
 
         if (!$utilizador->hasVerifiedEmail()) {
-            return response(['message' => 'Email não verificado'], 403);
+            return response(['message' => __('custom.email_nao_verificado')], 403);
         }
 
         //apaga tokens anteriores e cria um novo
@@ -137,14 +137,14 @@ class UtilizadorController extends Controller
 
         Event(new Registered($utilizador));
 
-        return response(['sucesso' => 'Registo realizado com sucesso'], 200);
+        return response(['message' => __('custom.registo_sucesso')], 200);
     }
 
 
     function logout(Request $request)
     {
         $request->user()->tokens()->delete();
-        return response(['sucesso' => 'Logout realizado com sucesso'], 200);
+        return response(['message' => __('custom.logout_sucesso')], 200);
     }
 
     /**
@@ -226,7 +226,7 @@ class UtilizadorController extends Controller
     {
         $utilizador = Utilizador::where('id', $request->id)->first();
         if ($utilizador == null)
-            return response(['erro' => 'Utilizador não encontrado'], 404);
+            return response(['message' => __('custom.utilizador_nao_encontrado')], 404);
         return response(['utilizador' => new UtilizadorResource($utilizador)], 200);
     }
 
@@ -280,7 +280,7 @@ class UtilizadorController extends Controller
     {
         $utilizador =  $request->user();
         if ($utilizador == null)
-            return response(['erro' => 'Utilizador não encontrado'], 404);
+            return response(['erro' => __('custom.utilizador_nao_encontrado')], 404);
 
         //Validar os dados que recebo
         $validated = $request->validate([
@@ -375,7 +375,7 @@ class UtilizadorController extends Controller
     {
         $utilizador =  $request->user();
         if ($utilizador == null)
-            return response(['erro' => 'Utilizador não encontrado'], 404);
+            return response(['message' => __('custom.utilizador_nao_encontrado')], 404);
 
         //Validar os dados que recebo
         $validated = $request->validate([
@@ -563,10 +563,10 @@ class UtilizadorController extends Controller
         if (hash_equals(sha1($utilizador->getEmailForVerification()), $request->hash)) {
             $utilizador->markEmailAsVerified();
 
-            return redirect('https://petship.pt/login')->with('success', 'Email verificado com sucesso');
+            return redirect('https://petship.pt/login')->with('message', __('custom.email_verificado'));
         }
 
-        abort(404, 'Email não verificado');
+        abort(404, __('custom.email_nao_verificado'));
     }
 
     /**
@@ -602,9 +602,9 @@ class UtilizadorController extends Controller
     {
         $utilizador = Utilizador::where('id', $request->id)->first();
         if ($utilizador == null)
-            return response(['erro' => 'Utilizador não encontrado'], 404);
+            return response(['message' => __('custom.utilizador_nao_encontrado')], 404);
 
         $utilizador->delete();
-        return response(['sucesso' => 'Conta eliminada com sucesso'], 200);
+        return response(['message' => __('custom.conta_eliminada')], 200);
     }
 }

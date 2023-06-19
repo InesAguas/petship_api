@@ -130,12 +130,12 @@ class StockController extends Controller
         $stock = Stock::where('id', $request->id)->first();
 
         if ($stock == null) {
-            return response(['message' => 'Stock não encontrado'], 404);
+            return response(['message' => __('custom.stock_nao_encontrado')], 404);
         }
 
         $stock->delete();
 
-        return response(['message' => 'Stock removido com sucesso'], 200);
+        return response(['message' => __('custom.stock_removido')], 200);
     }
 
     /**
@@ -185,7 +185,7 @@ class StockController extends Controller
         $stock = Stock::where('id', $request->id)->first();
 
         if ($stock == null) {
-            return response(['message' => 'Stock não encontrado'], 404);
+            return response(['message' => __('custom.stock_nao_encontrado')], 404);
         }
 
         $validated = $request->validate([
