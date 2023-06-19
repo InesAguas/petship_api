@@ -47,8 +47,8 @@ class StockController extends Controller
         $validated = $request->validate([
             'nome' => 'required|string',
             'descricao' => 'required|string',
-            'qnt_atual' => 'required|numeric',
-            'qnt_min' => 'required|numeric',
+            'qnt_atual' => 'required|numeric|gte:0',
+            'qnt_min' => 'required|numeric|gte:0',
             'observacoes' => 'nullable|string',
         ]);
 
@@ -189,7 +189,7 @@ class StockController extends Controller
         }
 
         $validated = $request->validate([
-            'qnt_atual' => 'required|numeric',
+            'qnt_atual' => 'required|numeric|gte:0',
         ]);
 
 
