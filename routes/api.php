@@ -34,6 +34,7 @@ Route::middleware(['auth:sanctum', 'associacao'])->group(function () {
     Route::post('editaranimal/{id}', [AnimalController::class, 'editarAnimal']);
     Route::get('associacao/animal/num/{id}', [AnimalController::class, 'dadosAnimalNum']);
     Route::post('adicionarstock',[StockController::class, 'adicionarStock']);
+    Route::get('stock/notificacoes', [StockController::class, 'obterNotificacoes']);
 });
 
 //rotas em que o utilizador apenas tem de estar logged in

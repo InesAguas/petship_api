@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Stock;
-
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\StockResource;
 
 class StockController extends Controller
@@ -198,5 +198,17 @@ class StockController extends Controller
         $stock->save();
 
         return response(['produto' => new StockResource($stock)], 200);
+    }
+
+    function obterNotificacoes(Request $request) {
+        $stock = Stock::where('u_id', $request->user()->id)->where('qnt_atual', '<=', function($query) use(&$request){
+            $query->select(DB::raw("qnt_min FROM stock a WHERE a.id = stock.id"));    
+        })->orderBy('id', 'desc')->get();
+
+        if($stock == null) {
+            return response(['message' => __('custom.stock_nao_encontrado')], 404);
+        }
+
+        return response(['stocks' => StockResource::collection($stock)], 200);
     }
 }
