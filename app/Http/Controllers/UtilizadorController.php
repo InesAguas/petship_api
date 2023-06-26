@@ -423,6 +423,10 @@ class UtilizadorController extends Controller
             $utilizador->horario = $request->horario;
         }
 
+        if($request->iban != null) {
+            $utilizador->iban = $request->iban;
+        }
+
 
         //Guardar na  base de dados
         $utilizador->save();

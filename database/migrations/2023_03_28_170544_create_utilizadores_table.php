@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('website')->nullable();
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
+            $table->string('iban', 30)->nullable();
             $table->json('horario')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('deleted_at')->nullable();

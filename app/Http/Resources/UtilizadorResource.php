@@ -28,6 +28,7 @@ class UtilizadorResource extends JsonResource
             'facebook' => $this->facebook,
             'instagram' => $this->instagram,
             'horario' => $this->getHorario(),
+            'iban' => $this->iban,
 
         ];
     }
