@@ -143,6 +143,7 @@ class MensagemController extends Controller
         $conversas = $conversas->map(function ($conversa) {
             $conversa['nome_envia'] = Utilizador::find($conversa['id_envia'])->nome;
             $conversa['nome_recebe'] = Utilizador::find($conversa['id_recebe'])->nome;
+            $conversa['fotografia'] = Utilizador::find($conversa['id_envia'])->fotografiaUrl();
             return $conversa;
         })->toArray();
 
