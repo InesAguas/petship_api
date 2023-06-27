@@ -15,6 +15,7 @@ class MensagemController extends Controller
      * @OA\Post(
      *    path="/api/enviarmensagem",
      *    tags={"Mensagens"},
+     *     security={{ "token": {} }},
      *    summary="Enviar mensagem a um utilizador",
      *    description="Rota para enviar mensagem a um utilizador, o utilizador tem de estar logado. Se a mensagem for enviada com sucesso retorna o status 200",
      * 
@@ -67,6 +68,7 @@ class MensagemController extends Controller
      * @OA\Get(
      *    path="/api/mensagens/{id_recebe}",
      *    tags={"Mensagens"},
+     *     security={{ "token": {} }},
      *    summary="Ler conversa com um utilizador",
      *    description="Rota para ler a conversa com um utilizador, o utilizador tem de estar logado. Se a conversa for lida com sucesso retorna o status 200",
      *    @OA\Parameter(
@@ -109,6 +111,7 @@ class MensagemController extends Controller
      * @OA\Get(
      *    path="/api/conversasativas",
      *    tags={"Mensagens"},
+     *    security={{ "token": {} }},
      *    summary="Obter conversas ativas",
      *    description="Rota para obter todas as conversas que se tem ativas (com mensagens enviadas ou recebidas). O utilizador tem de estar logado. Se as conversas forem obtidas com sucesso retorna o status 200",
      *     @OA\Response(
@@ -118,6 +121,7 @@ class MensagemController extends Controller
      *             @OA\Property(property="data",type="object")
      *          )
      *       )
+     * 
      *  )
      */
     function conversasAtivas(Request $request) {

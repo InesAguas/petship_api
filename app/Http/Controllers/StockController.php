@@ -12,6 +12,7 @@ class StockController extends Controller
     /**
      * @OA\Post(
      *     path="/api/adicionarstock",
+     *     security={{ "token": {} }},
      *     summary="Adicionar Stock",
      *     description="Adiciona um novo produto de stock.",
      *     tags={"Stock"},
@@ -72,6 +73,7 @@ class StockController extends Controller
     /**
      * @OA\Get(
      *     path="/api/utilizador/stock",
+     *     security={{ "token": {} }},
      *     summary="Listar Stock de um determinado Utilizador",
      *     description="Lista todos os produtos de stock pertencentes a um determinado utilizador.",
      *     tags={"Stock"},
@@ -99,6 +101,7 @@ class StockController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/removerstock/{id}",
+     *     security={{ "token": {} }},
      *     summary="Remover Stock",
      *     description="Remove um produto do stock.",
      *     tags={"Stock"},
@@ -141,6 +144,7 @@ class StockController extends Controller
     /**
      * @OA\Post(
      *     path="/api/editarstock/{id}",
+     *     security={{ "token": {} }},
      *     summary="Editar Stock",
      *     description="Atualiza a quantidade atual de um produto do stock.",
      *     tags={"Stock"},

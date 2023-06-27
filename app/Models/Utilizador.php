@@ -13,6 +13,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Illuminate\Auth\Passwords\CanResetPassword as PasswordsCanResetPassword;
 
+
 class Utilizador extends Authenticatable implements CanResetPassword, MustVerifyEmail
 {
     use HasFactory, HasApiTokens, Notifiable, PasswordsCanResetPassword;

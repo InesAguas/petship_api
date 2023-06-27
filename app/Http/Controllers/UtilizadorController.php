@@ -30,23 +30,23 @@ class UtilizadorController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Login bem-sucedido",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="utilizador", type="object"),
-     *             @OA\Property(property="token", type="string", description="Token de acesso")
-     *         )
+     *           @OA\JsonContent(
+ *             @OA\Property(property="utilizador", ref="#/components/schemas/Utilizador"),
+ *             @OA\Property(property="token", type="string", example="1|SFrEYKGln7vdvwdN09Ai9gBeA15Uu8hk7GcSAgQR")
+ *               )
      *     ),
      *     @OA\Response(
      *         response=403,
-     *         description="Email não verificado",
+     *         description="Email não verificado",  
      *         @OA\JsonContent(
-     *             @OA\Property(property="erro", type="string", description="Email não verificado")
+     *             @OA\Property(property="message", type="string", description="Email não verificado", example="Email não verificado")
      *         )
      *     ),
      *     @OA\Response(
      *         response=422,
      *         description="Email ou password incorretos",
      *         @OA\JsonContent(
-     *             @OA\Property(property="erro", type="string", description="Email ou password incorretos")
+     *             @OA\Property(property="message", type="string", description="Email ou password incorretos", example="Email ou password incorretos")
      *         )
      *     )
      * )
@@ -91,9 +91,9 @@ class UtilizadorController extends Controller
      *         required=true,
      *         description="Dados de registo",
      *         @OA\JsonContent(
-     *             @OA\Property(property="nome", type="string", example="Nome do Utilizador"),
+     *             @OA\Property(property="nome", type="string", example="Joao Ferreira"),
      *             @OA\Property(property="email", type="string", format="email", example="example@example.com"),
-     *             @OA\Property(property="password", type="string", example="password"),
+     *             @OA\Property(property="password", type="string", example="password123"),
      *             @OA\Property(property="tipo", type="integer", example="1")
      *         )
      *     ),
@@ -153,9 +153,7 @@ class UtilizadorController extends Controller
      *     summary="Listar Associações",
      *     description="Retorna uma lista de associações.",
      *     tags={"Utilizadores"},
-     *     security={
-     *         {"bearerAuth": {}}
-     *     },
+     *         security={{ "token": {} }},
      *     @OA\Response(
      *         response=200,
      *         description="Lista de associações",
@@ -233,6 +231,7 @@ class UtilizadorController extends Controller
     /**
      * @OA\Post(
      *     path="/api/editarperfil",
+     *     security={{ "token": {} }},
      *     summary="Alterar Perfil do Utilizador Particular",
      *     description="Atualiza o perfil do utilizador autenticado.",
      *     tags={"Utilizadores"},
@@ -326,6 +325,7 @@ class UtilizadorController extends Controller
     /**
      * @OA\Post(
      *     path="/api/editarperfilA",
+     *     security={{ "token": {} }},
      *     summary="Alterar Perfil da Associação",
      *     description="Atualiza o perfil da associação (utilizador autenticado como uma associação).",
      *     tags={"Utilizadores"},
@@ -576,6 +576,7 @@ class UtilizadorController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/eliminarconta/{id}",
+     *     security={{ "token": {} }},
      *     summary="Eliminar conta",
      *     description="Elimina a conta de um utilizador com base no ID do utilizador.",
      *     tags={"Utilizadores"},

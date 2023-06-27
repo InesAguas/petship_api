@@ -15,6 +15,115 @@ class AnuncioResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+
+     /**
+ * @OA\Schema(
+ *    schema="Anuncio",
+ *    @OA\Property(
+ *        property="id",
+ *        type="integer",
+ *        description="ID do anuncio",
+ *        nullable=false,
+ *        example="1"
+ *    ),
+ *    @OA\Property(
+ *        property="nome",
+ *        type="string",
+ *        description="Nome do animal",
+ *        nullable=false,
+ *        example="Rufus"
+ *    ),
+ *   @OA\Property(
+ *      property="sexo",
+ *      type="string",
+ *     description="Sexo do animal",
+ *   nullable=false,
+ * example="Macho"
+ * ),
+ * @OA\Property(
+ *  property="especie",
+ * type="string",
+ * description="Especie do animal",
+ * nullable=false,
+ * example="Cão"
+ * ),
+ * @OA\Property(
+ * property="raca",
+ * type="string",
+ * description="Raça do animal",
+ * nullable=false,
+ * example="Labrador"
+ * ),
+ * @OA\Property(
+ * property="porte",
+ * type="string",
+ * description="Porte do animal",
+ * nullable=false,
+ * example="Médio"
+ * ),
+ * @OA\Property(
+ * property="idade",
+ * type="string",
+ * description="Idade do animal",
+ * nullable=false,
+ * example="Adulto"
+ * ),
+ * @OA\Property(
+ * property="cor",
+ * type="string",
+ * description="Cor do animal",
+ * nullable=false,
+ * example="Preto"
+ * ),
+ * @OA\Property(
+ * property="distrito",
+ * type="string",
+ * description="Distrito do animal",
+ * nullable=false,
+ * example="Porto"
+ * ),
+ * @OA\Property(
+ * property="etiqueta",
+ * type="string",
+ * description="Etiqueta do animal",
+ * nullable=false,
+ * example="Adoção"
+ * ),
+ * @OA\Property(
+ * property="descricao",
+ * type="string",
+ * description="Descrição do animal",
+ * nullable=true,
+ * example="O Rufus é um cão muito meigo e brincalhão"
+ * ),
+ * @OA\Property(
+ * property="estado",
+ * type="string",
+ * description="Estado do anuncio",
+ * nullable=false,
+ * example="Ativo"
+ * ),
+ * @OA\Property(
+ * property="fotografias",
+ * type="array",
+ * description="Fotografias do animal",
+ * nullable=true,
+ * @OA\Items(
+ *     type="string",
+ *    example="https://i.imgur.com/3bY1f9R.jpg"
+ * )
+ * ),
+ * @OA\Property(
+ * property="created_at",
+ * type="string",
+ * description="Data de criação do anuncio",
+ * nullable=false,
+ * format="date-time"
+ * ),
+ * )
+ * 
+ *  @return array
+ */
     public function toArray($request)
     {
         $animal = Animal::where('id', $this->id_animal)->first();

@@ -17,6 +17,7 @@ class AnimalController extends Controller
      * @OA\Post(
      *    path="/api/publicaranimal",
      *    tags={"Animais"},
+     *    security={{ "token": {} }},
      *    summary="Registar um animal",
      *    description="",
      *    @OA\RequestBody(
@@ -111,6 +112,7 @@ class AnimalController extends Controller
      * @OA\Get(
      *    path="/api/associacao/animais",
      *    tags={"Animais"},
+     *     security={{ "token": {} }},
      *    summary="Listar animais da associação logada",
      *    description="",
      *     @OA\Response(
@@ -132,6 +134,7 @@ class AnimalController extends Controller
      * @OA\Post(
      *    path="/api/removeranimal/{id}",
      *    tags={"Animais"},
+     *     security={{ "token": {} }},
      *    summary="Remover um animal",
      *    description="",
      *      @OA\Parameter(
@@ -171,6 +174,7 @@ class AnimalController extends Controller
      * @OA\Get(
      *    path="/api/associacao/animal/num/{id}",
      *    tags={"Animais"},
+     *     security={{ "token": {} }},
      *    summary="Obter dados numéricos de um animal",
      *    description="",
      *      @OA\Parameter(
@@ -211,6 +215,7 @@ class AnimalController extends Controller
      * @OA\Post(
      *    path="/api/editaranimal/{id}",
      *    tags={"Animais"},
+     *     security={{ "token": {} }},
      *    summary="Editar dados de um animal",
      *    description="",
      *  @OA\Parameter(

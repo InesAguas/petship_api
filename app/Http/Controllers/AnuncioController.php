@@ -19,6 +19,7 @@ class AnuncioController extends Controller
      * @OA\Post(
      *    path="/api/novoanuncio",
      *    tags={"Anuncios"},
+     *     security={{ "token": {} }},
      *    summary="Criar um anuncio",
      *    description="Rota para criar um anuncio, o utilizador tem de estar logado. Se o anuncio for criado com sucesso retorna o status 200",
      *    @OA\RequestBody(
@@ -223,6 +224,7 @@ class AnuncioController extends Controller
     /**
      * @OA\Get(
      *    path="/utilizador/anuncios",
+     *     security={{ "token": {} }},
      *    tags={"Anuncios"},
      *    summary="Listar anuncios de um utilizador",
      *    description="",
@@ -245,6 +247,7 @@ class AnuncioController extends Controller
      * @OA\Get(
      *    path="/api/removeranuncio/{id}",
      *    tags={"Anuncios"},
+     *     security={{ "token": {} }},
      *    summary="Remover anuncio",
      *    description="",
      *     @OA\Parameter(
@@ -286,6 +289,7 @@ class AnuncioController extends Controller
      * @OA\Get(
      *    path="/api/anuncio/num/{id}",
      *    tags={"Anuncios"},
+     *     security={{ "token": {} }},
      *    summary="Dados de um anuncio (numéricos)",
      *    description="",
      *     @OA\Parameter(
@@ -326,6 +330,7 @@ class AnuncioController extends Controller
      * @OA\Post(
      *    path="/api/editaranuncio/{id}",
      *    tags={"Anuncios"},
+     *     security={{ "token": {} }},
      *    summary="Editar anuncio",
      *    description="",
      *     @OA\Parameter(
@@ -413,6 +418,7 @@ class AnuncioController extends Controller
      * @OA\Get(
      *    path="/api/anuncio/estado/{id}",
      *    tags={"Anuncios"},
+     *     security={{ "token": {} }},
      *    summary="Alterar estado do anuncio",
      *    description="",
      *     @OA\Parameter(

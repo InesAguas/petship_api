@@ -13,6 +13,50 @@ class CandidaturaResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+
+
+     /**
+ * @OA\Schema(
+ *    schema="Candidatura",
+ *    @OA\Property(
+ *        property="id",
+ *        type="integer",
+ *        description="ID da candidatura",
+ *        nullable=false,
+ *        example="1"
+ *    ),
+ *    @OA\Property(
+ *        property="id_anuncio",
+ *       type="integer",
+ *     description="ID do anuncio",
+ *   nullable=false,
+ * example="1"
+ * ),
+ * @OA\Property(
+ *   property="id_utilizador",
+ * type="integer",
+ * description="ID do utilizador que fez a candidatura",
+ * nullable=false,
+ * example="1"
+ * ),
+ * @OA\Property(
+ * property="cc",
+ * type="integer",
+ * description="Cartão de cidadão do utilizador que fez a candidatura",
+ * nullable=false,
+ * example="12345678"
+ * ),
+ * @OA\Property(
+ * property="estado",
+ * type="boolean",
+ * description="Estado da candidatura",
+ * nullable=false,
+ * example="1"
+ * ),
+ * )
+ * 
+ *  @return array
+ */
     public function toArray($request)
     {
         $candidatura = Candidatura::where('id', $this->id_candidatura)->first();

@@ -15,6 +15,140 @@ class AnimalResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+
+    /**
+ * @OA\Schema(
+ *    schema="Animal",
+ *    @OA\Property(
+ *        property="id",
+ *        type="integer",
+ *        description="ID do animal",
+ *        nullable=false,
+ *        example="1"
+ *    ),
+ *    @OA\Property(
+ *        property="nome",
+ *        type="string",
+ *        description="Nome do animal",
+ *        nullable=false,
+ *        example="Rufus"
+ *    ),
+ *   @OA\Property(
+ *      property="sexo",
+ *      type="string",
+ *     description="Sexo do animal",
+ *   nullable=false,
+ * example="Macho"
+ * ),
+ * @OA\Property(
+ *  property="especie",
+ * type="string",
+ * description="Especie do animal",
+ * nullable=false,
+ * example="Cão"
+ * ),
+ * @OA\Property(
+ * property="raca",
+ * type="string",
+ * description="Raça do animal",
+ * nullable=false,
+ * example="Labrador"
+ * ),
+ * @OA\Property(
+ * property="porte",
+ * type="string",
+ * description="Porte do animal",
+ * nullable=false,
+ * example="Médio"
+ * ),
+ * @OA\Property(
+ * property="idade",
+ * type="string",
+ * description="Idade do animal",
+ * nullable=false,
+ * example="Adulto"
+ * ),
+ * @OA\Property(
+ * property="cor",
+ * type="string",
+ * description="Cor do animal",
+ * nullable=false,
+ * example="Preto"
+ * ),
+ * @OA\Property(
+ * property="ferido",
+ * type="boolean",
+ * description="Se o animal está ferido",
+ * nullable=false,
+ * example="true"
+ * ),
+ * @OA\Property(
+ * property="agressivo",
+ * type="boolean",
+ * description="Se o animal é agressivo",
+ * nullable=false,
+ * example="false"
+ * ),
+ * @OA\Property(
+ * property="data_recolha",
+ * type="string",
+ * description="Data de recolha do animal",
+ * nullable=false,
+ * format="date-time",
+ * ),
+ * @OA\Property(
+ * property="local_captura",
+ * type="string",
+ * description="Local de captura do animal",
+ * nullable=false,
+ * example="Rua da Liberdade, 4000-001 Porto"
+ * ),
+ * @OA\Property(
+ * property="chip",
+ * type="integer",
+ * description="Número do chip do animal",
+ * nullable=true,
+ * example="123456789012345"
+ * ),
+ * @OA\Property(
+ * property="temperatura",
+ * type="string",
+ * description="Temperatura rectal do animal",
+ * nullable=true,
+ * example="38.5"
+ * ),
+ * @OA\Property(
+ * property="desparasitacao",
+ * type="string",
+ * description="Data da última desparasitação do animal",
+ * nullable=true,
+ * format="date-time",
+ * ),
+ * @OA\Property(
+ * property="medicacao",
+ * type="string",
+ * description="Medicação que o animal está a tomar",
+ * nullable=true,
+ * example="Bravecto 3x por dia"
+ * ),
+ * @OA\Property(
+ * property="fotografia",
+ * type="string",
+ * description="Fotografia do animal",
+ * nullable=true,
+ * example="https://api.petship.pt/storage/img/animais/1.jpg"
+ * ),
+ * @OA\Property(
+ * property="anunciado",
+ * type="boolean",
+ * description="Se o animal está anunciado",
+ * nullable=false,
+ * example="true"
+ * ),
+ * )
+ * 
+ *  @return array
+ */
     public function toArray($request)
     {
         $lang = App::getLocale();

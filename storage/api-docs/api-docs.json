@@ -7,13 +7,13 @@
     },
     "servers": [
         {
-            "url": "http://api.petship.pt",
+            "url": "https://api.petship.pt",
             "description": "Petship API"
         }
     ],
     "paths": {
         "/api": {
-            "description": "All the routes"
+            "description": "Rotas da API"
         },
         "/api/publicaranimal": {
             "post": {
@@ -98,7 +98,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/associacao/animais": {
@@ -129,7 +134,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/removeranimal/{id}": {
@@ -171,7 +181,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/associacao/animal/num/{id}": {
@@ -213,7 +228,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/editaranimal/{id}": {
@@ -310,7 +330,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/novoanuncio": {
@@ -392,7 +417,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/adotar": {
@@ -558,7 +588,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/removeranuncio/{id}": {
@@ -600,7 +635,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/anuncio/num/{id}": {
@@ -642,7 +682,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/editaranuncio/{id}": {
@@ -684,7 +729,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/anuncio/estado/{id}": {
@@ -726,7 +776,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/enviarmensagem": {
@@ -780,7 +835,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/mensagens/{id_recebe}": {
@@ -822,7 +882,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/conversasativas": {
@@ -853,7 +918,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/adicionarstock": {
@@ -1093,11 +1163,11 @@
                                 "schema": {
                                     "properties": {
                                         "utilizador": {
-                                            "type": "object"
+                                            "$ref": "#/components/schemas/Utilizador"
                                         },
                                         "token": {
-                                            "description": "Token de acesso",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "1|SFrEYKGln7vdvwdN09Ai9gBeA15Uu8hk7GcSAgQR"
                                         }
                                     },
                                     "type": "object"
@@ -1111,9 +1181,10 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "erro": {
+                                        "message": {
                                             "description": "Email não verificado",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Email não verificado"
                                         }
                                     },
                                     "type": "object"
@@ -1127,9 +1198,10 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "erro": {
+                                        "message": {
                                             "description": "Email ou password incorretos",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Email ou password incorretos"
                                         }
                                     },
                                     "type": "object"
@@ -1157,7 +1229,7 @@
                                 "properties": {
                                     "nome": {
                                         "type": "string",
-                                        "example": "Nome do Utilizador"
+                                        "example": "Joao Ferreira"
                                     },
                                     "email": {
                                         "type": "string",
@@ -1166,7 +1238,7 @@
                                     },
                                     "password": {
                                         "type": "string",
-                                        "example": "password"
+                                        "example": "password123"
                                     },
                                     "tipo": {
                                         "type": "integer",
@@ -1259,7 +1331,7 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "token": []
                     }
                 ]
             }
@@ -1805,8 +1877,419 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         }
-    }
+    },
+    "components": {
+        "schemas": {
+            "Animal": {
+                "properties": {
+                    "id": {
+                        "description": "ID do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "nome": {
+                        "description": "Nome do animal",
+                        "type": "string",
+                        "example": "Rufus",
+                        "nullable": false
+                    },
+                    "sexo": {
+                        "description": "Sexo do animal",
+                        "type": "string",
+                        "example": "Macho",
+                        "nullable": false
+                    },
+                    "especie": {
+                        "description": "Especie do animal",
+                        "type": "string",
+                        "example": "Cão",
+                        "nullable": false
+                    },
+                    "raca": {
+                        "description": "Raça do animal",
+                        "type": "string",
+                        "example": "Labrador",
+                        "nullable": false
+                    },
+                    "porte": {
+                        "description": "Porte do animal",
+                        "type": "string",
+                        "example": "Médio",
+                        "nullable": false
+                    },
+                    "idade": {
+                        "description": "Idade do animal",
+                        "type": "string",
+                        "example": "Adulto",
+                        "nullable": false
+                    },
+                    "cor": {
+                        "description": "Cor do animal",
+                        "type": "string",
+                        "example": "Preto",
+                        "nullable": false
+                    },
+                    "ferido": {
+                        "description": "Se o animal está ferido",
+                        "type": "boolean",
+                        "example": "true",
+                        "nullable": false
+                    },
+                    "agressivo": {
+                        "description": "Se o animal é agressivo",
+                        "type": "boolean",
+                        "example": "false",
+                        "nullable": false
+                    },
+                    "data_recolha": {
+                        "description": "Data de recolha do animal",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": false
+                    },
+                    "local_captura": {
+                        "description": "Local de captura do animal",
+                        "type": "string",
+                        "example": "Rua da Liberdade, 4000-001 Porto",
+                        "nullable": false
+                    },
+                    "chip": {
+                        "description": "Número do chip do animal",
+                        "type": "integer",
+                        "example": "123456789012345",
+                        "nullable": true
+                    },
+                    "temperatura": {
+                        "description": "Temperatura rectal do animal",
+                        "type": "string",
+                        "example": "38.5",
+                        "nullable": true
+                    },
+                    "desparasitacao": {
+                        "description": "Data da última desparasitação do animal",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "medicacao": {
+                        "description": "Medicação que o animal está a tomar",
+                        "type": "string",
+                        "example": "Bravecto 3x por dia",
+                        "nullable": true
+                    },
+                    "fotografia": {
+                        "description": "Fotografia do animal",
+                        "type": "string",
+                        "example": "https://api.petship.pt/storage/img/animais/1.jpg",
+                        "nullable": true
+                    },
+                    "anunciado": {
+                        "description": "Se o animal está anunciado",
+                        "type": "boolean",
+                        "example": "true",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "Anuncio": {
+                "properties": {
+                    "id": {
+                        "description": "ID do anuncio",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "nome": {
+                        "description": "Nome do animal",
+                        "type": "string",
+                        "example": "Rufus",
+                        "nullable": false
+                    },
+                    "sexo": {
+                        "description": "Sexo do animal",
+                        "type": "string",
+                        "example": "Macho",
+                        "nullable": false
+                    },
+                    "especie": {
+                        "description": "Especie do animal",
+                        "type": "string",
+                        "example": "Cão",
+                        "nullable": false
+                    },
+                    "raca": {
+                        "description": "Raça do animal",
+                        "type": "string",
+                        "example": "Labrador",
+                        "nullable": false
+                    },
+                    "porte": {
+                        "description": "Porte do animal",
+                        "type": "string",
+                        "example": "Médio",
+                        "nullable": false
+                    },
+                    "idade": {
+                        "description": "Idade do animal",
+                        "type": "string",
+                        "example": "Adulto",
+                        "nullable": false
+                    },
+                    "cor": {
+                        "description": "Cor do animal",
+                        "type": "string",
+                        "example": "Preto",
+                        "nullable": false
+                    },
+                    "distrito": {
+                        "description": "Distrito do animal",
+                        "type": "string",
+                        "example": "Porto",
+                        "nullable": false
+                    },
+                    "etiqueta": {
+                        "description": "Etiqueta do animal",
+                        "type": "string",
+                        "example": "Adoção",
+                        "nullable": false
+                    },
+                    "descricao": {
+                        "description": "Descrição do animal",
+                        "type": "string",
+                        "example": "O Rufus é um cão muito meigo e brincalhão",
+                        "nullable": true
+                    },
+                    "estado": {
+                        "description": "Estado do anuncio",
+                        "type": "string",
+                        "example": "Ativo",
+                        "nullable": false
+                    },
+                    "fotografias": {
+                        "description": "Fotografias do animal",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "https://i.imgur.com/3bY1f9R.jpg"
+                        },
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Data de criação do anuncio",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "Candidatura": {
+                "properties": {
+                    "id": {
+                        "description": "ID da candidatura",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "id_anuncio": {
+                        "description": "ID do anuncio",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "id_utilizador": {
+                        "description": "ID do utilizador que fez a candidatura",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "cc": {
+                        "description": "Cartão de cidadão do utilizador que fez a candidatura",
+                        "type": "integer",
+                        "example": "12345678",
+                        "nullable": false
+                    },
+                    "estado": {
+                        "description": "Estado da candidatura",
+                        "type": "boolean",
+                        "example": "1",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "Stock": {
+                "properties": {
+                    "id": {
+                        "description": "ID do stock",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "nome": {
+                        "description": "Nome do produto em stock",
+                        "type": "string",
+                        "example": "Ração",
+                        "nullable": false
+                    },
+                    "descricao": {
+                        "description": "Descrição do produto em stock",
+                        "type": "string",
+                        "example": "Ração para cão",
+                        "nullable": true
+                    },
+                    "qnt_atual": {
+                        "description": "Quantidade atual do produto em stock",
+                        "type": "integer",
+                        "example": "10",
+                        "nullable": false
+                    },
+                    "qnt_min": {
+                        "description": "Quantidade mínima do produto em stock",
+                        "type": "integer",
+                        "example": "5",
+                        "nullable": false
+                    },
+                    "observacoes": {
+                        "description": "Observações do produto em stock",
+                        "type": "string",
+                        "example": "Ração para cão de porte médio",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Utilizador": {
+                "properties": {
+                    "id": {
+                        "description": "User ID",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "nome": {
+                        "description": "Nome do utilizador/associacao",
+                        "type": "string",
+                        "example": "Canil Municipal de Lisboa",
+                        "nullable": false
+                    },
+                    "email": {
+                        "description": "Email do utilizador/associacao",
+                        "type": "string",
+                        "format": "email",
+                        "nullable": false
+                    },
+                    "tipo": {
+                        "description": "Tipo de utilizador",
+                        "type": "integer",
+                        "example": "2",
+                        "nullable": false
+                    },
+                    "localizacao": {
+                        "description": "Localizacao do utilizador/associacao",
+                        "type": "string",
+                        "example": "Lisboa",
+                        "nullable": true
+                    },
+                    "distrito": {
+                        "description": "Distrito do utilizador/associacao",
+                        "type": "string",
+                        "example": "Lisboa",
+                        "nullable": true
+                    },
+                    "codigo_postal": {
+                        "description": "Codigo postal do utilizador/associacao",
+                        "type": "string",
+                        "example": "1000-001",
+                        "nullable": true
+                    },
+                    "telefone": {
+                        "description": "Telefone do utilizador/associacao",
+                        "type": "string",
+                        "example": "912345678",
+                        "nullable": true
+                    },
+                    "fotografia": {
+                        "description": "Fotografia do utilizador/associacao",
+                        "type": "string",
+                        "example": "https://api.petship.pt/storage/img/utilizadores/1.jpg",
+                        "nullable": true
+                    },
+                    "website": {
+                        "description": "Website do utilizador/associacao",
+                        "type": "string",
+                        "example": "https://www.user.pt",
+                        "nullable": true
+                    },
+                    "facebook": {
+                        "description": "Facebook do utilizador/associacao",
+                        "type": "string",
+                        "example": "https://www.facebook.com/user",
+                        "nullable": true
+                    },
+                    "instagram": {
+                        "description": "Instagram do utilizador/associacao",
+                        "type": "string",
+                        "example": "https://www.instagram.com/user",
+                        "nullable": true
+                    },
+                    "horario": {
+                        "description": "Horario do utilizador/associacao",
+                        "type": "string",
+                        "example": "",
+                        "nullable": true
+                    },
+                    "iban": {
+                        "description": "IBAN do utilizador/associacao",
+                        "type": "string",
+                        "example": "PT50000000000000000000000",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "token": {
+                "type": "http",
+                "description": "Login with email and password to get the authentication token",
+                "name": "Token based Based",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Utilizadores",
+            "description": "Rotas de Utilizadores"
+        },
+        {
+            "name": "Animais",
+            "description": "Rotas de Animais"
+        },
+        {
+            "name": "Anuncios",
+            "description": "Rotas de Anuncios"
+        },
+        {
+            "name": "Mensagens",
+            "description": "Rotas de Mensagens"
+        },
+        {
+            "name": "Stock",
+            "description": "Rotas de Stock"
+        }
+    ]
 }
