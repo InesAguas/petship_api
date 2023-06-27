@@ -85,12 +85,42 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "animal": {
+                                            "$ref": "#/components/schemas/Animal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "O campo data_recolha é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
                                         }
                                     },
                                     "type": "object"
@@ -121,12 +151,28 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "animais": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Animal"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
                                         }
                                     },
                                     "type": "object"
@@ -143,13 +189,13 @@
             }
         },
         "/api/removeranimal/{id}": {
-            "post": {
+            "delete": {
                 "tags": [
                     "Animais"
                 ],
                 "summary": "Remover um animal",
                 "description": "",
-                "operationId": "c1c76b39591f15e463ae875981bccf89",
+                "operationId": "083429f4033d1cc099508644760c38ba",
                 "parameters": [
                     {
                         "name": "id",
@@ -168,12 +214,58 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "sucesso": {
+                                            "type": "string",
+                                            "example": "Animal removido com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Animal não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "erro": {
+                                            "type": "string",
+                                            "example": "Animal não encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Sem permissões para remover o animal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sem permissões para remover o animal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
                                         }
                                     },
                                     "type": "object"
@@ -215,12 +307,57 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "animal": {
+                                            "$ref": "#/components/schemas/AnimalNum"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Animal não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "erro": {
+                                            "type": "string",
+                                            "example": "Animal não encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Sem permissões para visualizar o animal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sem permissões para visualizar o animal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
                                         }
                                     },
                                     "type": "object"
@@ -317,12 +454,57 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "animal": {
+                                            "$ref": "#/components/schemas/Animal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Animal não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "erro": {
+                                            "type": "string",
+                                            "example": "Animal não encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Sem permissões para editar o animal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sem permissões para editar o animal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
                                         }
                                     },
                                     "type": "object"
@@ -344,7 +526,7 @@
                     "Anuncios"
                 ],
                 "summary": "Criar um anuncio",
-                "description": "Rota para criar um anuncio, o utilizador tem de estar logado. Se o anuncio for criado com sucesso retorna o status 200",
+                "description": "Rota para criar um anuncio, o utilizador tem de estar logado. É possivel enviar o id do animal para criar um anuncio para um animal já existente.",
                 "operationId": "1dce6c0f5c7034abc822fc089714c2ef",
                 "requestBody": {
                     "description": "",
@@ -404,12 +586,59 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "anuncio": {
+                                            "$ref": "#/components/schemas/Anuncio"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "O campo nome é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Sem permissões",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Sem permissões",
+                                            "type": "string",
+                                            "example": "Não tem permissões para alterar este animal."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
                                         }
                                     },
                                     "type": "object"
@@ -440,12 +669,11 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "animais": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Anuncio"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -471,12 +699,11 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "animais": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Anuncio"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -502,12 +729,11 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "animais": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Anuncio"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -523,7 +749,7 @@
                 "tags": [
                     "Anuncios"
                 ],
-                "summary": "Listar animais para adoção",
+                "summary": "Obter dados de um animal",
                 "description": "",
                 "operationId": "6eeaaf2a04a3594255e071bc5d082cf8",
                 "parameters": [
@@ -544,12 +770,27 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
+                                        "animal": {
+                                            "$ref": "#/components/schemas/Anuncio"
                                         },
-                                        "data": {
-                                            "type": "object"
+                                        "utilizador": {
+                                            "$ref": "#/components/schemas/Utilizador"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Anuncio não encontrado."
                                         }
                                     },
                                     "type": "object"
@@ -565,7 +806,7 @@
                 "tags": [
                     "Anuncios"
                 ],
-                "summary": "Listar anuncios de um utilizador",
+                "summary": "Listar anuncios de um utilizador autenticado",
                 "description": "",
                 "operationId": "d676196acdb8b5fc3ea6d6c463d0df1c",
                 "responses": {
@@ -575,12 +816,27 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "anuncios": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Anuncio"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
@@ -597,13 +853,13 @@
             }
         },
         "/api/removeranuncio/{id}": {
-            "get": {
+            "delete": {
                 "tags": [
                     "Anuncios"
                 ],
                 "summary": "Remover anuncio",
                 "description": "",
-                "operationId": "8fa18fb01189ad19f502842b39065aa3",
+                "operationId": "01151df0da9051dfa79a50d8d6109ae3",
                 "parameters": [
                     {
                         "name": "id",
@@ -622,12 +878,57 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "sucesso": {
+                                            "type": "string",
+                                            "example": "Anuncio removido com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Anuncio não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não tem permissões para remover este anuncio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
@@ -669,12 +970,56 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "anuncio": {
+                                            "$ref": "#/components/schemas/AnuncioNum"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Anuncio não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não tem permissões para visualizar este anuncio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
@@ -709,6 +1054,55 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "description": "Dados do anuncio",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Nome do animal"
+                                    },
+                                    "sexo": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "especie": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "raca": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "porte": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "idade": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "cor": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "distrito": {
+                                        "type": "string",
+                                        "example": "Aveiro"
+                                    },
+                                    "etiqueta": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -716,12 +1110,72 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "anuncio": {
+                                            "$ref": "#/components/schemas/Anuncio"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Anuncio não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não tem permissões para editar este anuncio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Os dados recebidos não são válidos."
                                         }
                                     },
                                     "type": "object"
@@ -763,12 +1217,151 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "anuncio": {
+                                            "$ref": "#/components/schemas/Anuncio"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Anuncio não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não tem permissões para alterar o estado deste anuncio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/candidaturainserir": {
+            "post": {
+                "tags": [
+                    "Candidaturas"
+                ],
+                "summary": "Iniciar candidatura de adoção",
+                "description": "Inicia uma candidatura de adoção a um animal.",
+                "operationId": "6e10313f267fe4660de3df1b42b37a73",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_anuncio": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "id_utilizador": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "cc": {
+                                        "type": "number",
+                                        "example": 12345678
+                                    },
+                                    "estado": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "candidatura": {
+                                            "$ref": "#/components/schemas/Candidatura"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "O campo cc é obrigatório."
                                         }
                                     },
                                     "type": "object"
@@ -822,12 +1415,59 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "mensagem": {
+                                            "$ref": "#/components/schemas/Mensagem"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "O campo id_recebe é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilizador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Utilizador não encontrado",
+                                            "type": "string",
+                                            "example": "Utilizador não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Não pode enviar mensagem para si próprio",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não pode enviar mensagem para si próprio",
+                                            "type": "string",
+                                            "example": "Não pode enviar mensagem para si próprio."
                                         }
                                     },
                                     "type": "object"
@@ -869,12 +1509,45 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "mensagens": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Mensagem"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilizador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Utilizador não encontrado",
+                                            "type": "string",
+                                            "example": "Utilizador não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Não pode ler a conversa com si próprio",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não pode ler a conversa com si próprio",
+                                            "type": "string",
+                                            "example": "Não pode ler a conversa com si próprio."
                                         }
                                     },
                                     "type": "object"
@@ -905,12 +1578,28 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
+                                        "conversas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Mensagem"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
@@ -968,14 +1657,14 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Produto do stock adicionado com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "produto": {
-                                            "type": "object"
+                                            "$ref": "#/components/schemas/Stock"
                                         }
                                     },
                                     "type": "object"
@@ -983,13 +1672,44 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Erro na validação dos dados de entrada"
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "O campo nome é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "token": []
                     }
                 ]
             }
@@ -1009,7 +1729,26 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "stocks": {}
+                                        "stocks": {
+                                            "$ref": "#/components/schemas/Stock"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
                                     },
                                     "type": "object"
                                 }
@@ -1019,7 +1758,7 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "token": []
                     }
                 ]
             }
@@ -1035,26 +1774,70 @@
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "description": "ID do produto do stock a ser removido",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "integer"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Produto do stock removido com sucesso"
+                        "description": "Produto do stock removido com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Sucesso",
+                                            "type": "string",
+                                            "example": "Produto do stock removido com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "Produto do stock não encontrado"
+                        "description": "Produto do stock não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Stock não encontrado.",
+                                            "type": "string",
+                                            "example": "Stock não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "token": []
                     }
                 ]
             }
@@ -1070,12 +1853,11 @@
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "description": "ID do produto do stock a ser editado",
                         "required": true,
                         "schema": {
-                            "type": "integer",
-                            "format": "int64"
+                            "type": "integer"
                         }
                     }
                 ],
@@ -1097,13 +1879,15 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Produto do stock atualizado com sucesso",
+                        "description": "Produto do stock removido com sucesso",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "produto": {
-                                            "type": "object"
+                                        "message": {
+                                            "description": "Sucesso",
+                                            "type": "string",
+                                            "example": "Produto do stock removido com sucesso"
                                         }
                                     },
                                     "type": "object"
@@ -1111,16 +1895,110 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Erro na validação dos dados de entrada"
-                    },
                     "404": {
-                        "description": "Produto do stock não encontrado"
+                        "description": "Produto do stock não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Stock não encontrado.",
+                                            "type": "string",
+                                            "example": "Stock não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "O campo qnt_atual é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/stock/notificacoes": {
+            "get": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Stocks do utilizador que estão abaixo do stock mínimo",
+                "description": "Retorna os stocks do utilizador que estão abaixo do stock mínimo.",
+                "operationId": "2692acf92edaf4c6fae7d80faf145fe5",
+                "responses": {
+                    "200": {
+                        "description": "Lista de produtos do utilizador",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "stocks": {
+                                            "$ref": "#/components/schemas/Stock"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
                     }
                 ]
             }
@@ -1257,9 +2135,23 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "sucesso": {
+                                        "message": {
                                             "description": "Registo realizado com sucesso",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Registo efetuado com sucesso. Por favor, verifique o seu email para o link de verificação."
+                                        },
+                                        "errors": {
+                                            "description": "Array com todos os erros de validação",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "Formato de email inválido."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -1275,11 +2167,8 @@
                                     "properties": {
                                         "message": {
                                             "description": "Erro de validação",
-                                            "type": "string"
-                                        },
-                                        "errors": {
-                                            "description": "Detalhes dos erros de validação",
-                                            "type": "object"
+                                            "type": "string",
+                                            "example": "Formato de email inválido."
                                         }
                                     },
                                     "type": "object"
@@ -1288,6 +2177,57 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Logout",
+                "description": "Logout do utilizador. Remove o token de autenticação.",
+                "operationId": "b41025a884d653394a52d6bca2d2030d",
+                "responses": {
+                    "200": {
+                        "description": "Perfil da associação atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Logout bem-sucedido",
+                                            "type": "string",
+                                            "example": "Logout bem-sucedido"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado (token inválido)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
             }
         },
         "/api/associacoes": {
@@ -1305,22 +2245,12 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "associacoes": {}
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Não autorizado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "description": "Não autorizado",
-                                            "type": "string"
+                                        "associacoes": {
+                                            "description": "Lista de associações registadas no sistema",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Utilizador"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -1328,12 +2258,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "token": []
-                    }
-                ]
+                }
             }
         },
         "/api/perfil/{id}": {
@@ -1342,7 +2267,7 @@
                     "Utilizadores"
                 ],
                 "summary": "Perfil do Utilizador",
-                "description": "Retorna o perfil de um utilizador pelo seu ID.",
+                "description": "Retorna os dados de um utilizador pelo seu ID.",
                 "operationId": "b3bac95cbb44d750f3b55eadefa3cd80",
                 "parameters": [
                     {
@@ -1362,22 +2287,8 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "utilizador": {}
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Não autorizado",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "description": "Não autorizado",
-                                            "type": "string"
+                                        "utilizador": {
+                                            "$ref": "#/components/schemas/Utilizador"
                                         }
                                     },
                                     "type": "object"
@@ -1391,9 +2302,10 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "erro": {
+                                        "message": {
                                             "description": "Utilizador não encontrado",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Utilizador não encontrado."
                                         }
                                     },
                                     "type": "object"
@@ -1401,12 +2313,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/api/editarperfil": {
@@ -1425,33 +2332,40 @@
                                 "properties": {
                                     "nome": {
                                         "description": "Nome do utilizador",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "João Silva"
                                     },
                                     "email": {
                                         "description": "Email do utilizador",
                                         "type": "string",
-                                        "format": "email"
+                                        "format": "email",
+                                        "example": "email@email.com"
                                     },
                                     "telefone": {
                                         "description": "Telefone do utilizador",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "912345678"
                                     },
                                     "fotografia": {
                                         "description": "Fotografia do utilizador",
                                         "type": "string",
-                                        "format": "binary"
+                                        "format": "binary",
+                                        "example": "http://api.petship.pt/storage/fotografias/1.jpg"
                                     },
                                     "localizacao": {
                                         "description": "Localização do utilizador",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Rua do Utilizador, 123"
                                     },
                                     "distrito": {
                                         "description": "Distrito do utilizador",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Aveiro"
                                     },
                                     "codigo_postal": {
                                         "description": "Código postal do utilizador",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "1234-567"
                                     }
                                 },
                                 "type": "object"
@@ -1466,7 +2380,9 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "utilizador": {}
+                                        "utilizador": {
+                                            "$ref": "#/components/schemas/Utilizador"
+                                        }
                                     },
                                     "type": "object"
                                 }
@@ -1474,14 +2390,15 @@
                         }
                     },
                     "401": {
-                        "description": "Não autorizado",
+                        "description": "Não autorizado (token inválido)",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "description": "Não autorizado",
-                                            "type": "string"
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
@@ -1495,9 +2412,10 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "erro": {
+                                        "message": {
                                             "description": "Utilizador não encontrado",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "Utilizador não encontrado."
                                         }
                                     },
                                     "type": "object"
@@ -1508,7 +2426,7 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "token": []
                     }
                 ]
             }
@@ -1529,41 +2447,54 @@
                                 "properties": {
                                     "nome": {
                                         "description": "Nome da associação",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Associação de Animais de Aveiro"
                                     },
                                     "email": {
                                         "description": "Email da associação",
                                         "type": "string",
-                                        "format": "email"
+                                        "format": "email",
+                                        "example": "email@email.com"
                                     },
                                     "telefone": {
                                         "description": "Telefone da associação",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "912345678"
                                     },
                                     "fotografia": {
                                         "description": "Fotografia da associação",
                                         "type": "string",
-                                        "format": "binary"
+                                        "format": "binary",
+                                        "example": "http://api.petship.pt/storage/fotografias/1.jpg"
                                     },
                                     "localizacao": {
                                         "description": "Localização da associação",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Rua da Associação, 123"
                                     },
                                     "website": {
                                         "description": "Website da associação",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "http://www.associacao.com"
                                     },
                                     "facebook": {
                                         "description": "Página do Facebook da associação",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "http://www.facebook.com/associacao"
                                     },
                                     "instagram": {
                                         "description": "Perfil do Instagram da associação",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "http://www.instagram.com/associacao"
                                     },
                                     "horario": {
                                         "description": "Horário de funcionamento da associação",
                                         "type": "string"
+                                    },
+                                    "iban": {
+                                        "description": "IBAN da associação",
+                                        "type": "string",
+                                        "example": "PT5000000000000000000000000"
                                     }
                                 },
                                 "type": "object"
@@ -1578,7 +2509,9 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "utilizador": {}
+                                        "utilizador": {
+                                            "$ref": "#/components/schemas/Utilizador"
+                                        }
                                     },
                                     "type": "object"
                                 }
@@ -1586,14 +2519,15 @@
                         }
                     },
                     "401": {
-                        "description": "Não autorizado",
+                        "description": "Não autorizado (token inválido)",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "description": "Não autorizado",
-                                            "type": "string"
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
@@ -1620,7 +2554,7 @@
                 },
                 "security": [
                     {
-                        "bearerAuth": []
+                        "token": []
                     }
                 ]
             }
@@ -1642,7 +2576,8 @@
                                     "email": {
                                         "description": "Email do utilizador",
                                         "type": "string",
-                                        "format": "email"
+                                        "format": "email",
+                                        "example": "email@email.com"
                                     }
                                 },
                                 "type": "object"
@@ -1658,8 +2593,9 @@
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "description": "Link de redefinição de password enviado com sucesso",
-                                            "type": "string"
+                                            "description": "Sucesso",
+                                            "type": "string",
+                                            "example": "Foi enviado um email com o link para redefinir a sua palavra-passe!"
                                         }
                                     },
                                     "type": "object"
@@ -1674,8 +2610,9 @@
                                 "schema": {
                                     "properties": {
                                         "message": {
-                                            "description": "Os dados fornecidos são inválidos",
-                                            "type": "string"
+                                            "description": "Dados inválidos",
+                                            "type": "string",
+                                            "example": "Não foi encontrado nenhum utilizador com o email introduzido."
                                         }
                                     },
                                     "type": "object"
@@ -1734,7 +2671,8 @@
                                     "properties": {
                                         "message": {
                                             "description": "Password redefinida com sucesso",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "A sua palavra-passe foi redefinida!"
                                         }
                                     },
                                     "type": "object"
@@ -1750,7 +2688,8 @@
                                     "properties": {
                                         "message": {
                                             "description": "Os dados fornecidos são inválidos",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "O token de redefinição de password é inválido."
                                         }
                                     },
                                     "type": "object"
@@ -1767,12 +2706,12 @@
                     "Utilizadores"
                 ],
                 "summary": "Verificar email",
-                "description": "Verifica o email de um utilizador com base no ID do utilizador e no hash fornecidos.",
+                "description": "Verifica o email de um utilizador com base no ID do utilizador e no hash fornecidos. O hash é enviado para o email do utilizador quando este se regista.",
                 "operationId": "1bb6c9b62845fd7f43d0a122231f4b4e",
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "description": "ID do utilizador",
                         "required": true,
                         "schema": {
@@ -1781,7 +2720,7 @@
                     },
                     {
                         "name": "hash",
-                        "in": "query",
+                        "in": "path",
                         "description": "Hash para verificação do email",
                         "required": true,
                         "schema": {
@@ -1798,7 +2737,8 @@
                                     "properties": {
                                         "message": {
                                             "description": "Email verificado com sucesso",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "O seu email foi verificado com sucesso!"
                                         }
                                     },
                                     "type": "object"
@@ -1814,7 +2754,8 @@
                                     "properties": {
                                         "message": {
                                             "description": "Email não verificado",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "O seu endereço de email não está verificado. Por favor, verifique o seu email para o link de verificação."
                                         }
                                     },
                                     "type": "object"
@@ -1836,7 +2777,7 @@
                 "parameters": [
                     {
                         "name": "id",
-                        "in": "query",
+                        "in": "path",
                         "description": "ID do utilizador",
                         "required": true,
                         "schema": {
@@ -1853,7 +2794,8 @@
                                     "properties": {
                                         "message": {
                                             "description": "Conta eliminada com sucesso",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "A sua conta foi eliminada com sucesso!"
                                         }
                                     },
                                     "type": "object"
@@ -1869,7 +2811,8 @@
                                     "properties": {
                                         "message": {
                                             "description": "Utilizador não encontrado",
-                                            "type": "string"
+                                            "type": "string",
+                                            "example": "O utilizador não foi encontrado."
                                         }
                                     },
                                     "type": "object"
@@ -1936,6 +2879,119 @@
                         "description": "Cor do animal",
                         "type": "string",
                         "example": "Preto",
+                        "nullable": false
+                    },
+                    "ferido": {
+                        "description": "Se o animal está ferido",
+                        "type": "boolean",
+                        "example": "true",
+                        "nullable": false
+                    },
+                    "agressivo": {
+                        "description": "Se o animal é agressivo",
+                        "type": "boolean",
+                        "example": "false",
+                        "nullable": false
+                    },
+                    "data_recolha": {
+                        "description": "Data de recolha do animal",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": false
+                    },
+                    "local_captura": {
+                        "description": "Local de captura do animal",
+                        "type": "string",
+                        "example": "Rua da Liberdade, 4000-001 Porto",
+                        "nullable": false
+                    },
+                    "chip": {
+                        "description": "Número do chip do animal",
+                        "type": "integer",
+                        "example": "123456789012345",
+                        "nullable": true
+                    },
+                    "temperatura": {
+                        "description": "Temperatura rectal do animal",
+                        "type": "string",
+                        "example": "38.5",
+                        "nullable": true
+                    },
+                    "desparasitacao": {
+                        "description": "Data da última desparasitação do animal",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "medicacao": {
+                        "description": "Medicação que o animal está a tomar",
+                        "type": "string",
+                        "example": "Bravecto 3x por dia",
+                        "nullable": true
+                    },
+                    "fotografia": {
+                        "description": "Fotografia do animal",
+                        "type": "string",
+                        "example": "https://api.petship.pt/storage/img/animais/1.jpg",
+                        "nullable": true
+                    },
+                    "anunciado": {
+                        "description": "Se o animal está anunciado",
+                        "type": "boolean",
+                        "example": "true",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "AnimalNum": {
+                "properties": {
+                    "id": {
+                        "description": "ID do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "nome": {
+                        "description": "Nome do animal",
+                        "type": "string",
+                        "example": "Rufus",
+                        "nullable": false
+                    },
+                    "sexo": {
+                        "description": "Sexo do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "especie": {
+                        "description": "Especie do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "raca": {
+                        "description": "Raça do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "porte": {
+                        "description": "Porte do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "idade": {
+                        "description": "Idade do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "cor": {
+                        "description": "Cor do animal",
+                        "type": "integer",
+                        "example": "1",
                         "nullable": false
                     },
                     "ferido": {
@@ -2073,6 +3129,98 @@
                         "description": "Estado do anuncio",
                         "type": "string",
                         "example": "Ativo",
+                        "nullable": false
+                    },
+                    "fotografias": {
+                        "description": "Fotografias do animal",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "https://i.imgur.com/3bY1f9R.jpg"
+                        },
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Data de criação do anuncio",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "AnuncioNum": {
+                "properties": {
+                    "id": {
+                        "description": "ID do anuncio",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "nome": {
+                        "description": "Nome do animal",
+                        "type": "string",
+                        "example": "Rufus",
+                        "nullable": false
+                    },
+                    "sexo": {
+                        "description": "Sexo do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "especie": {
+                        "description": "Especie do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "raca": {
+                        "description": "Raça do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "porte": {
+                        "description": "Porte do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "idade": {
+                        "description": "Idade do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "cor": {
+                        "description": "Cor do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "distrito": {
+                        "description": "Distrito do animal",
+                        "type": "string",
+                        "example": "Porto",
+                        "nullable": false
+                    },
+                    "etiqueta": {
+                        "description": "Etiqueta do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "descricao": {
+                        "description": "Descrição do animal",
+                        "type": "string",
+                        "example": "O Rufus é um cão muito meigo e brincalhão",
+                        "nullable": true
+                    },
+                    "estado": {
+                        "description": "Estado do anuncio",
+                        "type": "integer",
+                        "example": "1",
                         "nullable": false
                     },
                     "fotografias": {
@@ -2257,14 +3405,41 @@
                     }
                 },
                 "type": "object"
+            },
+            "Mensagem": {
+                "properties": {
+                    "id": {
+                        "description": "ID da mensagem",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "id_envia": {
+                        "description": "ID do utilizador que enviou a mensagem",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "id_recebe": {
+                        "description": "ID do utilizador que recebeu a mensagem",
+                        "type": "integer",
+                        "example": "2",
+                        "nullable": false
+                    },
+                    "mensagem": {
+                        "description": "Mensagem enviada",
+                        "type": "string",
+                        "example": "Olá, tudo bem?",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
             }
         },
         "securitySchemes": {
             "token": {
                 "type": "http",
                 "description": "Login with email and password to get the authentication token",
-                "name": "Token based Based",
-                "in": "header",
                 "bearerFormat": "JWT",
                 "scheme": "bearer"
             }

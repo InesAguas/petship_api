@@ -18,7 +18,6 @@ class MensagemController extends Controller
      *     security={{ "token": {} }},
      *    summary="Enviar mensagem a um utilizador",
      *    description="Rota para enviar mensagem a um utilizador, o utilizador tem de estar logado. Se a mensagem for enviada com sucesso retorna o status 200",
-     * 
      *    @OA\RequestBody(
      *         required=true,
      *         description="",
@@ -31,10 +30,27 @@ class MensagemController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *             @OA\Property(property="mensagem", ref="#/components/schemas/Mensagem"),
      *          )
+     *       ),
+     *    @OA\Response(
+     *         response=422, description="Erro de validação",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="message", type="string", description="Erro de validação", example="O campo id_recebe é obrigatório."),
      *       )
+     *   ),
+     *   @OA\Response(
+     *        response=404, description="Utilizador não encontrado",
+     *      @OA\JsonContent(
+     *        @OA\Property(property="message", type="string", description="Utilizador não encontrado", example="Utilizador não encontrado."),
+     *    )
+     *  ),
+     *  @OA\Response(
+     *       response=403, description="Não pode enviar mensagem para si próprio",
+     *     @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", description="Não pode enviar mensagem para si próprio", example="Não pode enviar mensagem para si próprio."),
+     *  )
+     * ),
      *  )
      */
     function enviarMensagem(Request $request) {
@@ -83,10 +99,21 @@ class MensagemController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *            @OA\Property(property="mensagens", type="array", @OA\Items(ref="#/components/schemas/Mensagem")),
      *          )
-     *       )
+     *       ),
+     *   @OA\Response(
+     *       response=404, description="Utilizador não encontrado",
+     *    @OA\JsonContent(
+     *     @OA\Property(property="message", type="string", description="Utilizador não encontrado", example="Utilizador não encontrado."),
+     * )
+     * ),
+     * @OA\Response(
+     *    response=403, description="Não pode ler a conversa com si próprio",
+     *   @OA\JsonContent(
+     *    @OA\Property(property="message", type="string", description="Não pode ler a conversa com si próprio", example="Não pode ler a conversa com si próprio."),
+     * )
+     * ),
      *  )
      */
     function lerConversa(Request $request) {
@@ -117,10 +144,16 @@ class MensagemController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *           @OA\Property(property="conversas", type="array", @OA\Items(ref="#/components/schemas/Mensagem")),
      *          )
-     *       )
+     *       ),
+     *  @OA\Response(
+     *      response=401, description="Não autorizado",
+     *     @OA\JsonContent(
+     *     @OA\Property(property="message", type="string", description="Não autorizado", example="Unauthenticated."),
+     * )
+     * ),
+     * 
      * 
      *  )
      */

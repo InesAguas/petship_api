@@ -14,14 +14,14 @@ use App\Http\Resources\UtilizadorResource;
 
 class AnuncioController extends Controller
 {
-    
+
     /**
      * @OA\Post(
      *    path="/api/novoanuncio",
      *    tags={"Anuncios"},
      *     security={{ "token": {} }},
      *    summary="Criar um anuncio",
-     *    description="Rota para criar um anuncio, o utilizador tem de estar logado. Se o anuncio for criado com sucesso retorna o status 200",
+     *    description="Rota para criar um anuncio, o utilizador tem de estar logado. É possivel enviar o id do animal para criar um anuncio para um animal já existente.",
      *    @OA\RequestBody(
      *         required=true,
      *         description="",
@@ -41,10 +41,27 @@ class AnuncioController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *            @OA\Property(property="anuncio", ref="#/components/schemas/Anuncio"),
      *          )
-     *       )
+     *       ),
+     *   @OA\Response(
+     *       response=422, description="Erro de validação",
+     *     @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", description="Erro de validação", example="O campo nome é obrigatório."),
+     *    )
+     * ),
+     *  @OA\Response(
+     *      response=403, description="Sem permissões",
+     *    @OA\JsonContent(
+     *     @OA\Property(property="message", type="string", description="Sem permissões", example="Não tem permissões para alterar este animal."),
+     *  )
+     * ),
+     * @OA\Response(
+     *     response=401, description="Não autenticado",
+     *   @OA\JsonContent(
+     *    @OA\Property(property="message", type="string", description="Não autorizado", example="Unauthenticated"),
+     * )
+     * ),
      *  )
      */
     function novoAnuncio(Request $request)
@@ -64,9 +81,9 @@ class AnuncioController extends Controller
             'etiqueta' => 'required|string',
         ]);
 
-        if($request->animal_id != null) {
+        if ($request->animal_id != null) {
             $animal = Animal::find($request->animal_id);
-            if($animal->id_utilizador != $request->user()->id) {
+            if ($animal->id_utilizador != $request->user()->id) {
                 return response()->json(['message' => __('custom.permissoes_alteracao_animal')], 403);
             }
         } else {
@@ -95,10 +112,10 @@ class AnuncioController extends Controller
 
         $anuncio->save();
 
-        if($request->descricao != null) {
+        if ($request->descricao != null) {
             $anuncio->descricao = $request->descricao;
         }
-        
+
         //guardar apenas o titulo de cada fotografia
         if ($request->fotografias != null) {
             $fotografias = [];
@@ -126,8 +143,7 @@ class AnuncioController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *           @OA\Property(property="animais", type="array", @OA\Items(ref="#/components/schemas/Anuncio")),
      *          )
      *       )
      *  )
@@ -148,8 +164,7 @@ class AnuncioController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *           @OA\Property(property="animais", type="array", @OA\Items(ref="#/components/schemas/Anuncio")),
      *          )
      *       )
      *  )
@@ -170,8 +185,7 @@ class AnuncioController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *           @OA\Property(property="animais", type="array", @OA\Items(ref="#/components/schemas/Anuncio")),
      *          )
      *       )
      *  )
@@ -188,7 +202,7 @@ class AnuncioController extends Controller
      * @OA\Get(
      *    path="/api/animal/{id}",
      *    tags={"Anuncios"},
-     *    summary="Listar animais para adoção",
+     *    summary="Obter dados de um animal",
      *    description="",
      *     @OA\Parameter(
      *          name="id",
@@ -202,23 +216,30 @@ class AnuncioController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *          @OA\Property(property="animal", type="object", ref="#/components/schemas/Anuncio"),
+     *         @OA\Property(property="utilizador", type="object", ref="#/components/schemas/Utilizador"),
      *          )
+     *       ),
+     *    @OA\Response(
+     *         response=404, description="Not Found",
+     *        @OA\JsonContent(
+     *          @OA\Property(property="message", type="string", example="Anuncio não encontrado.")
      *       )
+     *   )
+     * 
      *  )
      */
-    function verAnuncioAnimal(Request $request, $id) {
+    function verAnuncioAnimal(Request $request, $id)
+    {
         $anuncio = Anuncio::find($id);
 
-        if($anuncio == null || $anuncio->estado == 0) {
+        if ($anuncio == null || $anuncio->estado == 0) {
             return response(['message' => __('custom.anuncio_nao_encontrado')], 404);
         }
 
         $utilizador = Utilizador::find($anuncio->id_utilizador);
 
         return response(['animal' => new AnuncioResource($anuncio), 'utilizador' => new UtilizadorResource($utilizador)], 200);
-
     }
 
     /**
@@ -226,25 +247,31 @@ class AnuncioController extends Controller
      *    path="/utilizador/anuncios",
      *     security={{ "token": {} }},
      *    tags={"Anuncios"},
-     *    summary="Listar anuncios de um utilizador",
+     *    summary="Listar anuncios de um utilizador autenticado",
      *    description="",
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *          @OA\Property(property="anuncios", type="array", @OA\Items(ref="#/components/schemas/Anuncio")),
      *          )
-     *       )
+     *       ),
+     *   @OA\Response(
+     *        response=401, description="Unauthorized",
+     *       @OA\JsonContent(
+     *        @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *      )
+     *  )
      *  )
      */
-    function listarAnunciosUtilizador(Request $request) {
+    function listarAnunciosUtilizador(Request $request)
+    {
         $anuncios = Anuncio::where('id_utilizador', $request->user()->id)->orderBy('id', 'desc')->get();
 
         return response(['anuncios' => AnuncioResource::collection($anuncios)], 200);
     }
 
     /**
-     * @OA\Get(
+     * @OA\Delete(
      *    path="/api/removeranuncio/{id}",
      *    tags={"Anuncios"},
      *     security={{ "token": {} }},
@@ -262,21 +289,40 @@ class AnuncioController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *         @OA\Property(property="sucesso", type="string", example="Anuncio removido com sucesso"),
      *          )
-     *       )
+     *       ),
+     *   @OA\Response(
+     *       response=404, description="Not Found",
+     *      @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", example="Anuncio não encontrado.")
+     *     )
+     * ),
+     *  @OA\Response(
+     *      response=403, description="Forbidden",
+     *    @OA\JsonContent(
+     *   @OA\Property(property="message", type="string", example="Não tem permissões para remover este anuncio.")
+     * )
+     * ),
+     * @OA\Response(
+     *     response=401, description="Unauthenticated",
+     *   @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Unauthenticated.")
+     * )
+     * )
+     * 
      *  )
      */
-    function removerAnuncio(Request $request) {
+    function removerAnuncio(Request $request)
+    {
         $anuncio = Anuncio::find($request->id);
 
-        if($anuncio == null) {
+        if ($anuncio == null) {
             return response(['message' => __('custom.anuncio_nao_encontrado')], 404);
         }
 
-        if($anuncio->id_utilizador != $request->user()->id) {
-            return response(['message' =>__('custom.permissoes_remover_anuncio')], 403);
+        if ($anuncio->id_utilizador != $request->user()->id) {
+            return response(['message' => __('custom.permissoes_remover_anuncio')], 403);
         }
 
         $anuncio->delete();
@@ -304,25 +350,42 @@ class AnuncioController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *         @OA\Property(property="anuncio", type="object", ref="#/components/schemas/AnuncioNum"),
      *          )
-     *       )
+     *       ),
+     *  @OA\Response(
+     *      response=404, description="Not Found",
+     *   @OA\JsonContent(
+     *  @OA\Property(property="message", type="string", example="Anuncio não encontrado.")
+     * )
+     * ),
+     * @OA\Response(
+     *    response=403, description="Forbidden",
+     *  @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Não tem permissões para visualizar este anuncio.")
+     * )
+     * ),
+     * @OA\Response(
+     *    response=401, description="Unauthenticated",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Unauthenticated.")
+     * )
+     * )
      *  )
      */
-    function dadosAnuncioNum(Request $request) {
+    function dadosAnuncioNum(Request $request)
+    {
         $anuncio = Anuncio::where('id', $request->id)->first();
 
-        if($anuncio == null) {
+        if ($anuncio == null) {
             return response(['message' => __('custom.anuncio_nao_encontrado')], 404);
         }
 
-        if($anuncio->id_utilizador != $request->user()->id) {
+        if ($anuncio->id_utilizador != $request->user()->id) {
             return response(['message' => __('custom.permissoes_visualizacao')], 403);
         }
 
         return response(['anuncio' => (new AnuncioResource($anuncio))->toArrayNumeric()], 200);
-
     }
 
 
@@ -342,23 +405,63 @@ class AnuncioController extends Controller
      *              type="integer"
      *          )
      *      ),
+     *    @OA\RequestBody(
+     *         required=true,
+     *        description="Dados do anuncio",
+     *       @OA\JsonContent(
+     *     @OA\Property(property="nome", type="string", example="Nome do animal"),
+     *    @OA\Property(property="sexo", type="integer", example="1"),
+     *  @OA\Property(property="especie", type="integer", example="1"),
+     * @OA\Property(property="raca", type="integer", example="1"),
+     * @OA\Property(property="porte", type="integer", example="1"),
+     * @OA\Property(property="idade", type="integer", example="1"),
+     * @OA\Property(property="cor", type="integer", example="1"),
+     * @OA\Property(property="distrito", type="string", example="Aveiro"),
+     * @OA\Property(property="etiqueta", type="integer", example="1"),
+     * )
+     * ),
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *        @OA\Property(property="anuncio", type="object", ref="#/components/schemas/Anuncio"),
      *          )
-     *       )
+     *       ),
+     * @OA\Response(
+     *     response=404, description="Not Found",
+     *  @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Anuncio não encontrado.")
+     * )
+     * ),
+     * @OA\Response(
+     * 
+     *   response=403, description="Forbidden",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Não tem permissões para editar este anuncio.")
+     * )
+     * ),
+     * @OA\Response(
+     *   response=401, description="Unauthenticated",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Unauthenticated.")
+     * )
+     * ),
+     * @OA\Response(
+     *  response=422, description="Unprocessable Entity",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Os dados recebidos não são válidos.")
+     * )
+     * )
      *  )
      */
-    function editarAnuncio(Request $request) {
+    function editarAnuncio(Request $request)
+    {
         $anuncio = Anuncio::find($request->id);
 
-        if($anuncio == null) {
+        if ($anuncio == null) {
             return response(['message' => __('custom.anuncio_nao_encontrado')], 404);
         }
 
-        if($anuncio->id_utilizador != $request->user()->id) {
+        if ($anuncio->id_utilizador != $request->user()->id) {
             return response(['message' => __('custom.permissoes_alteracao')], 403);
         }
 
@@ -392,10 +495,10 @@ class AnuncioController extends Controller
 
         $anuncio->save();
 
-        if($request->descricao != null) {
+        if ($request->descricao != null) {
             $anuncio->descricao = $request->descricao;
         }
-        
+
         //guardar apenas o titulo de cada fotografia
         if ($request->fotografias != null) {
             $fotografias = [];
@@ -433,20 +536,38 @@ class AnuncioController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *       @OA\Property(property="anuncio", type="object", ref="#/components/schemas/Anuncio"),
      *          )
-     *       )
+     *       ),
+     * @OA\Response(
+     *    response=404, description="Not Found",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Anuncio não encontrado.")
+     * )
+     * ),
+     * @OA\Response(
+     *  response=403, description="Forbidden",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Não tem permissões para alterar o estado deste anuncio.")
+     * )
+     * ),
+     * @OA\Response(
+     *  response=401, description="Unauthenticated",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Unauthenticated.")
+     * )
+     * )
      *  )
      */
-    function alterarEstadoAnuncio(Request $request) {
+    function alterarEstadoAnuncio(Request $request)
+    {
         $anuncio = Anuncio::find($request->id);
 
-        if($anuncio == null) {
+        if ($anuncio == null) {
             return response(['message' => __('custom.anuncio_nao_encontrado')], 404);
         }
 
-        if($anuncio->id_utilizador != $request->user()->id) {
+        if ($anuncio->id_utilizador != $request->user()->id) {
             return response(['message' => __('custom.permissoes_alteracao')], 403);
         }
 
@@ -456,5 +577,4 @@ class AnuncioController extends Controller
 
         return response(['anuncio' => new AnuncioResource($anuncio)], 200);
     }
-    
 }

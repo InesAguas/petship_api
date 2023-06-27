@@ -30,4 +30,7 @@ return [
     'permissoes_remover_animal' => 'Não tem permissões para remover este animal.',
     'permissoes_visualizacao_animal' => 'Não tem permissões para visualizar este animal.',
     'animal_removido' => 'Animal removido com sucesso.',
+
+    //candidaturas
+    'declaracoes_nao_aceites' => 'Não pode candidatar-se a este anúncio sem aceitar as declarações.',
 ];

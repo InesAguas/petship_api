@@ -101,15 +101,16 @@ class UtilizadorController extends Controller
      *         response=200,
      *         description="Registo realizado com sucesso",
      *         @OA\JsonContent(
-     *             @OA\Property(property="sucesso", type="string", description="Registo realizado com sucesso")
+     *             @OA\Property(property="message", type="string", description="Registo realizado com sucesso", example="Registo efetuado com sucesso. Por favor, verifique o seu email para o link de verificação."),
+     *              @OA\Property(property="errors", type="array", description="Array com todos os erros de validação", @OA\Items( @OA\Property(property="email", type="string", example="Formato de email inválido.")))
      *         )
      *     ),
      *     @OA\Response(
      *         response=422,
      *         description="Erro de validação",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Erro de validação"),
-     *             @OA\Property(property="errors", type="object", description="Detalhes dos erros de validação")
+     *             @OA\Property(property="message", type="string", description="Erro de validação", example="Formato de email inválido."),
+     *            
      *         )
      *     )
      * )
@@ -141,6 +142,29 @@ class UtilizadorController extends Controller
     }
 
 
+     /**
+     * @OA\Post(
+     *     path="/api/logout",
+     *     security={{ "token": {} }},
+     *     summary="Logout",
+     *     description="Logout do utilizador. Remove o token de autenticação.",
+     *     tags={"Utilizadores"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Perfil da associação atualizado",
+     *          @OA\JsonContent(
+     *            @OA\Property(property="message", type="string", description="Logout bem-sucedido", example="Logout bem-sucedido")
+ *               )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Não autorizado (token inválido)",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Unauthenticated", example="Unauthenticated.")
+     *         )
+     *     ),
+     * )
+     */
     function logout(Request $request)
     {
         $request->user()->tokens()->delete();
@@ -153,23 +177,18 @@ class UtilizadorController extends Controller
      *     summary="Listar Associações",
      *     description="Retorna uma lista de associações.",
      *     tags={"Utilizadores"},
-     *         security={{ "token": {} }},
      *     @OA\Response(
      *         response=200,
      *         description="Lista de associações",
      *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="associacoes"
-     *             )
-     *         )
+ *         @OA\Property(
+ *             property="associacoes",
+ *             type="array",
+ *             description="Lista de associações registadas no sistema",
+ *             @OA\Items(ref="#/components/schemas/Utilizador")
+ *         )
+ *     )
      *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Não autorizado",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Não autorizado")
-     *         )
-     *     )
      * )
      */
     function listarAssociacoes(Request $request)
@@ -183,11 +202,8 @@ class UtilizadorController extends Controller
      * @OA\Get(
      *     path="/api/perfil/{id}",
      *     summary="Perfil do Utilizador",
-     *     description="Retorna o perfil de um utilizador pelo seu ID.",
+     *     description="Retorna os dados de um utilizador pelo seu ID.",
      *     tags={"Utilizadores"},
-     *     security={
-     *         {"bearerAuth": {}}
-     *     },
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -199,23 +215,14 @@ class UtilizadorController extends Controller
      *         response=200,
      *         description="Perfil do utilizador",
      *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="utilizador"
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Não autorizado",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Não autorizado")
-     *         )
+ *             @OA\Property(property="utilizador", ref="#/components/schemas/Utilizador"),
+ *               )
      *     ),
      *     @OA\Response(
      *         response=404,
      *         description="Utilizador não encontrado",
      *         @OA\JsonContent(
-     *             @OA\Property(property="erro", type="string", description="Utilizador não encontrado")
+     *             @OA\Property(property="message", type="string", description="Utilizador não encontrado", example="Utilizador não encontrado.")
      *         )
      *     )
      * )
@@ -235,42 +242,37 @@ class UtilizadorController extends Controller
      *     summary="Alterar Perfil do Utilizador Particular",
      *     description="Atualiza o perfil do utilizador autenticado.",
      *     tags={"Utilizadores"},
-     *     security={
-     *         {"bearerAuth": {}}
-     *     },
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="nome", type="string", description="Nome do utilizador"),
-     *             @OA\Property(property="email", type="string", format="email", description="Email do utilizador"),
-     *             @OA\Property(property="telefone", type="string", description="Telefone do utilizador"),
-     *             @OA\Property(property="fotografia", type="string", format="binary", description="Fotografia do utilizador"),
-     *             @OA\Property(property="localizacao", type="string", description="Localização do utilizador"),
-     *             @OA\Property(property="distrito", type="string", description="Distrito do utilizador"),
-     *             @OA\Property(property="codigo_postal", type="string", description="Código postal do utilizador")
+     *             @OA\Property(property="nome", type="string", description="Nome do utilizador", example="João Silva"),
+     *             @OA\Property(property="email", type="string", format="email", description="Email do utilizador", example="email@email.com"),
+     *             @OA\Property(property="telefone", type="string", description="Telefone do utilizador", example="912345678"),
+     *             @OA\Property(property="fotografia", type="string", format="binary", description="Fotografia do utilizador", example="http://api.petship.pt/storage/fotografias/1.jpg"),
+     *             @OA\Property(property="localizacao", type="string", description="Localização do utilizador", example="Rua do Utilizador, 123"),
+     *             @OA\Property(property="distrito", type="string", description="Distrito do utilizador", example="Aveiro"),
+     *             @OA\Property(property="codigo_postal", type="string", description="Código postal do utilizador", example="1234-567"),
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Perfil do utilizador atualizado",
      *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="utilizador"
-     *             )
-     *         )
+ *             @OA\Property(property="utilizador", ref="#/components/schemas/Utilizador"),
+ *               )
      *     ),
-     *     @OA\Response(
+     *    @OA\Response(
      *         response=401,
-     *         description="Não autorizado",
+     *         description="Não autorizado (token inválido)",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Não autorizado")
+     *             @OA\Property(property="message", type="string", description="Unauthenticated", example="Unauthenticated.")
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
      *         description="Utilizador não encontrado",
      *         @OA\JsonContent(
-     *             @OA\Property(property="erro", type="string", description="Utilizador não encontrado")
+     *             @OA\Property(property="message", type="string", description="Utilizador não encontrado", example="Utilizador não encontrado.")
      *         )
      *     )
      * )
@@ -329,37 +331,33 @@ class UtilizadorController extends Controller
      *     summary="Alterar Perfil da Associação",
      *     description="Atualiza o perfil da associação (utilizador autenticado como uma associação).",
      *     tags={"Utilizadores"},
-     *     security={
-     *         {"bearerAuth": {}}
-     *     },
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="nome", type="string", description="Nome da associação"),
-     *             @OA\Property(property="email", type="string", format="email", description="Email da associação"),
-     *             @OA\Property(property="telefone", type="string", description="Telefone da associação"),
-     *             @OA\Property(property="fotografia", type="string", format="binary", description="Fotografia da associação"),
-     *             @OA\Property(property="localizacao", type="string", description="Localização da associação"),
-     *             @OA\Property(property="website", type="string", description="Website da associação"),
-     *             @OA\Property(property="facebook", type="string", description="Página do Facebook da associação"),
-     *             @OA\Property(property="instagram", type="string", description="Perfil do Instagram da associação"),
-     *             @OA\Property(property="horario", type="string", description="Horário de funcionamento da associação")
+     *             @OA\Property(property="nome", type="string", description="Nome da associação", example="Associação de Animais de Aveiro"),
+     *             @OA\Property(property="email", type="string", format="email", description="Email da associação", example="email@email.com"),
+     *             @OA\Property(property="telefone", type="string", description="Telefone da associação", example="912345678"),
+     *             @OA\Property(property="fotografia", type="string", format="binary", description="Fotografia da associação", example="http://api.petship.pt/storage/fotografias/1.jpg"),
+     *             @OA\Property(property="localizacao", type="string", description="Localização da associação", example="Rua da Associação, 123"),
+     *             @OA\Property(property="website", type="string", description="Website da associação", example="http://www.associacao.com"),
+     *             @OA\Property(property="facebook", type="string", description="Página do Facebook da associação", example="http://www.facebook.com/associacao"),
+     *             @OA\Property(property="instagram", type="string", description="Perfil do Instagram da associação", example="http://www.instagram.com/associacao"),
+     *             @OA\Property(property="horario", type="string", description="Horário de funcionamento da associação"),
+     *             @OA\Property(property="iban", type="string", description="IBAN da associação", example="PT5000000000000000000000000"),
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Perfil da associação atualizado",
-     *         @OA\JsonContent(
-     *             @OA\Property(
-     *                 property="utilizador"
-     *             )
-     *         )
+     *          @OA\JsonContent(
+ *             @OA\Property(property="utilizador", ref="#/components/schemas/Utilizador"),
+ *               )
      *     ),
      *     @OA\Response(
      *         response=401,
-     *         description="Não autorizado",
+     *         description="Não autorizado (token inválido)",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Não autorizado")
+     *             @OA\Property(property="message", type="string", description="Unauthenticated", example="Unauthenticated.")
      *         )
      *     ),
      *     @OA\Response(
@@ -443,21 +441,21 @@ class UtilizadorController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="email", type="string", format="email", description="Email do utilizador")
+     *             @OA\Property(property="email", type="string", format="email", description="Email do utilizador", example="email@email.com")
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Link de redefinição de password enviado com sucesso",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Link de redefinição de password enviado com sucesso")
+     *             @OA\Property(property="message", type="string", description="Sucesso", example="Foi enviado um email com o link para redefinir a sua palavra-passe!")
      *         )
      *     ),
      *     @OA\Response(
      *         response=422,
      *         description="Dados inválidos",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Os dados fornecidos são inválidos")
+     *             @OA\Property(property="message", type="string", description="Dados inválidos", example="Não foi encontrado nenhum utilizador com o email introduzido.")
      *         )
      *     )
      * )
@@ -492,14 +490,14 @@ class UtilizadorController extends Controller
      *         response=200,
      *         description="Password redefinida com sucesso",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Password redefinida com sucesso")
+     *             @OA\Property(property="message", type="string", description="Password redefinida com sucesso", example="A sua palavra-passe foi redefinida!")
      *         )
      *     ),
      *     @OA\Response(
      *         response=422,
      *         description="Dados inválidos",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Os dados fornecidos são inválidos")
+     *             @OA\Property(property="message", type="string", description="Os dados fornecidos são inválidos", example="O token de redefinição de password é inválido.")
      *         )
      *     )
      * )
@@ -528,18 +526,18 @@ class UtilizadorController extends Controller
      * @OA\Get(
      *     path="/api/email/verify/{id}/{hash}",
      *     summary="Verificar email",
-     *     description="Verifica o email de um utilizador com base no ID do utilizador e no hash fornecidos.",
+     *     description="Verifica o email de um utilizador com base no ID do utilizador e no hash fornecidos. O hash é enviado para o email do utilizador quando este se regista.",
      *     tags={"Utilizadores"},
      *     @OA\Parameter(
      *         name="id",
-     *         in="query",
+     *         in="path",
      *         required=true,
      *         description="ID do utilizador",
      *         @OA\Schema(type="integer")
      *     ),
      *     @OA\Parameter(
      *         name="hash",
-     *         in="query",
+     *         in="path",
      *         required=true,
      *         description="Hash para verificação do email",
      *         @OA\Schema(type="string")
@@ -548,14 +546,14 @@ class UtilizadorController extends Controller
      *         response=200,
      *         description="Email verificado com sucesso",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Email verificado com sucesso")
+     *             @OA\Property(property="message", type="string", description="Email verificado com sucesso", example="O seu email foi verificado com sucesso!")
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
      *         description="Email não verificado",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Email não verificado")
+     *             @OA\Property(property="message", type="string", description="Email não verificado", example="O seu endereço de email não está verificado. Por favor, verifique o seu email para o link de verificação.")
      *         )
      *     )
      * )
@@ -582,7 +580,7 @@ class UtilizadorController extends Controller
      *     tags={"Utilizadores"},
      *     @OA\Parameter(
      *         name="id",
-     *         in="query",
+     *         in="path",
      *         required=true,
      *         description="ID do utilizador",
      *         @OA\Schema(type="integer")
@@ -591,14 +589,14 @@ class UtilizadorController extends Controller
      *         response=200,
      *         description="Conta eliminada com sucesso",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Conta eliminada com sucesso")
+     *             @OA\Property(property="message", type="string", description="Conta eliminada com sucesso", example="A sua conta foi eliminada com sucesso!")
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
      *         description="Utilizador não encontrado",
      *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", description="Utilizador não encontrado")
+     *             @OA\Property(property="message", type="string", description="Utilizador não encontrado", example="O utilizador não foi encontrado.")
      *         )
      *     )
      * )

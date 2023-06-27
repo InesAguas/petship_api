@@ -32,4 +32,7 @@ return [
     'permissoes_visualizacao_animal' => 'You do not have permission to view this animal.',
     'animal_removido' => 'Pet removed successfully.',
 
+    //candidaturas
+    'declaracoes_nao_aceites' => 'You cannot apply to this ad without accepting the statements.',
+
 ];

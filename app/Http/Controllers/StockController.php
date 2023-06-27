@@ -27,19 +27,26 @@ class StockController extends Controller
      *         )
      *     ),
      *     @OA\Response(
-     *         response=201,
+     *         response=200,
      *         description="Produto do stock adicionado com sucesso",
      *         @OA\JsonContent(
-     *             @OA\Property(property="produto", type="object")
+     *             @OA\Property(property="produto", ref="#/components/schemas/Stock"),
      *         )
      *     ),
      *     @OA\Response(
-     *         response=400,
-     *         description="Erro na validação dos dados de entrada"
+     *         response=422,
+     *         description="Erro de validação",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Erro de validação", example="O campo nome é obrigatório."),
+     *         )
      *     ),
-     *     security={
-     *         {"bearerAuth": {}}
-     *     }
+     * @OA\Response(
+     *        response=401,
+     *       description="Não autorizado",
+     *      @OA\JsonContent(
+     *         @OA\Property(property="message", type="string", description="Não autorizado", example="Unauthenticated."),
+     *     )
+     *   ),
      * )
      */
     function adicionarStock(Request $request)
@@ -66,7 +73,7 @@ class StockController extends Controller
         $stock->save();
 
         //Retornar o stock
-        return response(['produto' => new StockResource($stock)], 201);
+        return response(['produto' => new StockResource($stock)], 200);
     }
 
 
@@ -77,16 +84,20 @@ class StockController extends Controller
      *     summary="Listar Stock de um determinado Utilizador",
      *     description="Lista todos os produtos de stock pertencentes a um determinado utilizador.",
      *     tags={"Stock"},
-     *     security={
-     *         {"bearerAuth": {}}
-     *     },
      *     @OA\Response(
      *         response=200,
      *         description="Lista de produtos do utilizador",
      *         @OA\JsonContent(
-     *             @OA\Property(property="stocks")
+     *             @OA\Property(property="stocks", ref="#/components/schemas/Stock"),
      *         )
+     *     ),
+     *    @OA\Response(
+     *        response=401,
+     *       description="Não autorizado",
+     *      @OA\JsonContent(
+     *         @OA\Property(property="message", type="string", description="Não autorizado", example="Unauthenticated."),
      *     )
+     *   ),
      * )
      */
     function listarStockUtilizador(Request $request)
@@ -99,35 +110,44 @@ class StockController extends Controller
     }
 
     /**
-     * @OA\Delete(
-     *     path="/api/removerstock/{id}",
-     *     security={{ "token": {} }},
-     *     summary="Remover Stock",
-     *     description="Remove um produto do stock.",
-     *     tags={"Stock"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="query",
-     *         description="ID do produto do stock a ser removido",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Produto do stock removido com sucesso"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Produto do stock não encontrado"
-     *     ),
-     *     security={
-     *         {"bearerAuth": {}}
-     *     }
-     * )
-     */
+ * @OA\Delete(
+ *     path="/api/removerstock/{id}",
+ *     security={{ "token": {} }},
+ *     summary="Remover Stock",
+ *     description="Remove um produto do stock.",
+ *     tags={"Stock"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="ID do produto do stock a ser removido",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer",
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Produto do stock removido com sucesso",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", description="Sucesso", example="Produto do stock removido com sucesso"),
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Produto do stock não encontrado",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", description="Stock não encontrado.", example="Stock não encontrado."),
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Não autorizado",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", description="Não autorizado", example="Unauthenticated."),
+ *         )
+ *     ),
+ * )
+ */
     function removerStock(Request $request)
     {
         $stock = Stock::where('id', $request->id)->first();
@@ -142,48 +162,57 @@ class StockController extends Controller
     }
 
     /**
-     * @OA\Post(
-     *     path="/api/editarstock/{id}",
-     *     security={{ "token": {} }},
-     *     summary="Editar Stock",
-     *     description="Atualiza a quantidade atual de um produto do stock.",
-     *     tags={"Stock"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="query",
-     *         description="ID do produto do stock a ser editado",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
-     *         )
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             @OA\Property(property="qnt_atual", type="number", example=20)
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Produto do stock atualizado com sucesso",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="produto", type="object")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Erro na validação dos dados de entrada"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Produto do stock não encontrado"
-     *     ),
-     *     security={
-     *         {"bearerAuth": {}}
-     *     }
-     * )
-     */
+ * @OA\Post(
+ *     path="/api/editarstock/{id}",
+ *     security={{ "token": {} }},
+ *     summary="Editar Stock",
+ *     description="Atualiza a quantidade atual de um produto do stock.",
+ *     tags={"Stock"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="ID do produto do stock a ser editado",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer",
+ *         )
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             @OA\Property(property="qnt_atual", type="number", example=20)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Produto do stock removido com sucesso",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", description="Sucesso", example="Produto do stock removido com sucesso"),
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Produto do stock não encontrado",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", description="Stock não encontrado.", example="Stock não encontrado."),
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Não autorizado",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", description="Não autorizado", example="Unauthenticated."),
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Erro de validação",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", description="Erro de validação", example="O campo qnt_atual é obrigatório."),
+ *         )
+ *     )
+ * )
+ */
     function editarStock(Request $request)
     {
         $stock = Stock::where('id', $request->id)->first();
@@ -204,6 +233,30 @@ class StockController extends Controller
         return response(['produto' => new StockResource($stock)], 200);
     }
 
+
+    /**
+     * @OA\Get(
+     *     path="/api/stock/notificacoes",
+     *     security={{ "token": {} }},
+     *     summary="Stocks do utilizador que estão abaixo do stock mínimo",
+     *     description="Retorna os stocks do utilizador que estão abaixo do stock mínimo.",
+     *     tags={"Stock"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de produtos do utilizador",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="stocks", ref="#/components/schemas/Stock"),
+     *         )
+     *     ),
+     *    @OA\Response(
+     *        response=401,
+     *       description="Não autorizado",
+     *      @OA\JsonContent(
+     *         @OA\Property(property="message", type="string", description="Não autorizado", example="Unauthenticated."),
+     *     )
+     *   ),
+     * )
+     */
     function obterNotificacoes(Request $request) {
         $stock = Stock::where('u_id', $request->user()->id)->where('qnt_atual', '<=', function($query) use(&$request){
             $query->select(DB::raw("qnt_min FROM stock a WHERE a.id = stock.id"));    

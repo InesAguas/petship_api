@@ -41,10 +41,21 @@ class AnimalController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *            @OA\Property(property="animal", ref="#/components/schemas/Animal"),
      *          )
-     *       )
+     *       ),
+     *   @OA\Response(
+     *       response=422, description="Erro de validação",
+     *     @OA\JsonContent(
+     *      @OA\Property(property="message", type="string", description="Erro de validação", example="O campo data_recolha é obrigatório."),
+     *    )
+     * ),
+     *  @OA\Response(
+     *      response=401, description="Unauthenticated",
+     *     @OA\JsonContent(
+     *     @OA\Property(property="message", type="string", description="Unauthenticated", example="Unauthenticated"),
+     *   )
+     * ),
      *  )
      */
     function publicarAnimal(Request $request) {
@@ -118,10 +129,15 @@ class AnimalController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *           @OA\Property(property="animais", type="array", @OA\Items(ref="#/components/schemas/Animal")),
      *          )
-     *       )
+     *       ),
+     *  @OA\Response(
+     *     response=401, description="Unauthenticated",
+     *    @OA\JsonContent(
+     *   @OA\Property(property="message", type="string", description="Unauthenticated", example="Unauthenticated"),
+     * )
+     * ),
      *  )
      */
     function listarAnimaisAssociacao(Request $request) {
@@ -131,7 +147,7 @@ class AnimalController extends Controller
     }
 
     /**
-     * @OA\Post(
+     * @OA\Delete(
      *    path="/api/removeranimal/{id}",
      *    tags={"Animais"},
      *     security={{ "token": {} }},
@@ -149,10 +165,27 @@ class AnimalController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *          @OA\Property(property="sucesso", type="string", example="Animal removido com sucesso"),
      *          )
-     *       )
+     *       ),
+     * @OA\Response(
+     *    response=404, description="Animal não encontrado",
+     *   @OA\JsonContent(
+     *  @OA\Property(property="erro", type="string", example="Animal não encontrado"),
+     * )
+     * ),
+     * @OA\Response(
+     *   response=403, description="Sem permissões para remover o animal",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Sem permissões para remover o animal"),
+     * )
+     * ),
+     * @OA\Response(
+     *  response=401, description="Unauthenticated",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", description="Unauthenticated", example="Unauthenticated"),
+     * )
+     * ),
      *  )
      */
     function removerAnimal(Request $request) {
@@ -189,10 +222,28 @@ class AnimalController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *          @OA\Property(property="animal", type="object", ref="#/components/schemas/AnimalNum"),
      *          )
-     *       )
+     *       ),
+     * @OA\Response(
+     *   response=404, description="Animal não encontrado",
+     * @OA\JsonContent(
+     * @OA\Property(property="erro", type="string", example="Animal não encontrado"),
+     * )
+     * ),
+     * @OA\Response(
+     *  response=403, description="Sem permissões para visualizar o animal",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Sem permissões para visualizar o animal"),
+     * )
+     * ),
+     * @OA\Response(
+     * response=401, description="Unauthenticated",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", description="Unauthenticated", example="Unauthenticated"),
+     * )
+     * ),
+     * 
      *  )
      */
     function dadosAnimalNum(Request $request) {
@@ -248,11 +299,28 @@ class AnimalController extends Controller
      *     @OA\Response(
      *          response=200, description="Success",
      *          @OA\JsonContent(
-     *             @OA\Property(property="status", type="integer", example="200"),
-     *             @OA\Property(property="data",type="object")
+     *         @OA\Property(property="animal", type="object", ref="#/components/schemas/Animal"),
      *          )
-     *       )
-     *  )
+     *       ),
+     * @OA\Response(
+     *   response=404, description="Animal não encontrado",
+     * @OA\JsonContent(
+     * @OA\Property(property="erro", type="string", example="Animal não encontrado"),
+     * )
+     * ),
+     * @OA\Response(
+     *  response=403, description="Sem permissões para editar o animal",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", example="Sem permissões para editar o animal"),
+     * )
+     * ),
+     * @OA\Response(
+     * response=401, description="Unauthenticated",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", description="Unauthenticated", example="Unauthenticated"),
+     * )
+     * ),
+     * )
      */
     function editarAnimal(Request $request) {
         $animal = Animal::where('id', $request->id)->first();
