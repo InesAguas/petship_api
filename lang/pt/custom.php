@@ -23,6 +23,7 @@ return [
     'anuncio_nao_encontrado' => 'Anúncio não encontrado.',
     'permissoes_visualizacao' => 'Não tem permissões para visualizar este anúncio.',
     'permissoes_remover_anuncio' => 'Não tem permissões para remover este anúncio.',
+    'anuncio_desativado' => 'Anúncio desativado.',
 
     //animais
     'animal_nao_encontrado' => 'Animal não encontrado.',

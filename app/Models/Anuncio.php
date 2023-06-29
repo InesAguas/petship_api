@@ -33,4 +33,13 @@ class Anuncio extends Model
             }
             return $fotos;
         }
+
+        public function utilizador()
+{
+    return $this->belongsTo(Utilizador::class, 'id_utilizador');
+}
+
+public function animal() {
+    return $this->belongsTo(Animal::class, 'id_animal');
+}
 }

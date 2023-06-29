@@ -6,6 +6,7 @@ use App\Http\Resources\CandidaturaResource;
 use Illuminate\Http\Request;
 use App\Models\Candidatura;
 use App\Models\Anuncio;
+use App\Models\Utilizador;
 
 class CandidaturaController extends Controller
 {
@@ -24,7 +25,7 @@ class CandidaturaController extends Controller
      *            @OA\Property(property="id_anuncio", type="number", example=1),
      *           @OA\Property(property="id_utilizador", type="number", example=1),
      *          @OA\Property(property="cc", type="number", example=12345678),
-     *         @OA\Property(property="estado", type="boolean", example=true),
+     *         @OA\Property(property="termos", type="boolean", example=true),
      *         ),
      *     ),
      *     @OA\Response(
@@ -54,10 +55,10 @@ class CandidaturaController extends Controller
         $validated = $request->validate([
             'id_utilizador' => 'required',
             'cc' => 'required',
-            'estado' => 'required'
+            'termos' => 'required'
         ]);
 
-        if(!$request->estado) {
+        if(!$request->termos) {
             return response(['message' => __('custom.declaracoes_nao_aceites')], 422);
         }
   
@@ -65,10 +66,56 @@ class CandidaturaController extends Controller
         $candidatura->id_anuncio = $request->id_anuncio;
         $candidatura->id_utilizador = $request->user()->id;
         $candidatura->cc = $validated['cc'];
-        $candidatura->estado = true;
+        $candidatura->termos = true;
 
         $candidatura->save();
 
         return response(['candidatura' => new CandidaturaResource($candidatura)], 200);
+    }
+
+
+    function listarCandidaturasAssociacao(Request $request) {
+        //procurar na tabela as candidaturas que tenham o id que um animal que tem o id da associação
+        if($request->user()->isAssociacao()) {
+            $candidaturas = Candidatura::whereHas('anuncio.utilizador', function ($query) use ($request) {
+                $query->where('id', $request->user()->id);
+            })->get();
+        } else {
+            $candidaturas = Candidatura::where('id_utilizador', $request->user()->id)->get();
+        }
+
+        return response(['candidaturas' =>  CandidaturaResource::collection($candidaturas)], 200);
+    }
+
+    function cancelarCandidatura(Request $request) {
+
+        $candidatura = Candidatura::where('id', $request->id)->first();
+
+        $utilizador = $request->user();
+
+        if(($utilizador->isAssociacao() && $candidatura->anuncio->utilizador->id == $utilizador->id) || ($utilizador->isParticular() && $candidatura->id_utilizador == $utilizador->id)) {
+            $candidatura->estado = 3;
+            $candidatura->save();
+
+            return response(['candidatura' => new CandidaturaResource($candidatura)], 200);
+        } else {
+            return response(['message' => __('custom.nao_autorizado')], 401);
+        }
+    }
+
+    function aceitarCandidatura(Request $request) {
+            
+            $candidatura = Candidatura::where('id', $request->id)->first();
+    
+            $utilizador = $request->user();
+    
+            if($utilizador->isAssociacao() && $candidatura->anuncio->utilizador->id == $utilizador->id) {
+                $candidatura->estado = 2;
+                $candidatura->save();
+    
+                return response(['candidatura' => new CandidaturaResource($candidatura)], 200);
+            } else {
+                return response(['message' => __('custom.nao_autorizado')], 401);
+            }
     }
 }

@@ -25,4 +25,10 @@ class Animal extends Model
         'fotografia'
     ];
 
+
+    public function utilizador()
+{
+    return $this->belongsTo(Utilizador::class, 'id_utilizador');
+}
+
 }
