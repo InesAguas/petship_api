@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('id_anuncio')->constrained('anuncios');
             $table->foreignId('id_utilizador')->constrained('utilizadores');
             $table->string('cc', 50)->nullable();
-            $table->boolean('estado')->nullable();
+            $table->integer('estado')->nullable();
+            $table->boolean('termos')->nullable();
             $table->timestamps();
         });
     }

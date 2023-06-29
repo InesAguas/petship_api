@@ -35,6 +35,7 @@ Route::middleware(['auth:sanctum', 'associacao'])->group(function () {
     Route::get('associacao/animal/num/{id}', [AnimalController::class, 'dadosAnimalNum']);
     Route::post('adicionarstock',[StockController::class, 'adicionarStock']);
     Route::get('stock/notificacoes', [StockController::class, 'obterNotificacoes']);
+    
 });
 
 //rotas em que o utilizador apenas tem de estar logged in
@@ -56,6 +57,9 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post('editarstock/{id}', [StockController::class, 'editarStock']);
     Route::post('logout', [UtilizadorController::class, 'logout']);
     Route::post('candidaturainserir', [CandidaturaController::class, 'inserirCandidatura']);
+    Route::get('dashboard/candidaturas', [CandidaturaController::class, 'listarCandidaturasAssociacao']);
+    Route::post('candidatura/cancelar/{id}', [CandidaturaController::class, 'cancelarCandidatura']);
+    Route::post('candidatura/aceitar/{id}', [CandidaturaController::class, 'aceitarCandidatura']);
     
 });
 

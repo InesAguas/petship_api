@@ -3,7 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Candidatura;
+use Illuminate\Support\Facades\App;
+use App\Models\Traducao;
 
 class CandidaturaResource extends JsonResource
 {
@@ -59,14 +60,20 @@ class CandidaturaResource extends JsonResource
  */
     public function toArray($request)
     {
-        $candidatura = Candidatura::where('id', $this->id_candidatura)->first();
+
+        $lang = App::getLocale();
 
         return[
             'id' => $this->id,
             'id_anuncio' => $this->id_anuncio,
             'id_utilizador' => $this->id_utilizador,
             'cc' => $this->cc,
-            'estado' => $this->estado
+            'estado' => Traducao::where('id', $this->estado)->where('tipo', 'estado_candidatura')->first()->$lang,
+            'termos' => $this->termos,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'nome_animal' => $this->anuncio->animal->nome,
+            'nome_candidato' => $this->candidato->nome,
+            'estado_anuncio' => $this->anuncio->estado,
         ];
     }
 }

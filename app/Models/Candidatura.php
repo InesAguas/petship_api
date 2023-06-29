@@ -14,8 +14,20 @@ class Candidatura extends Model
         'id_anuncio',
         'id_utilizador',
         'cc',
-        'estado'
+        'estado',
+        'termos'
     ];
 
+    public function anuncio()
+{
+    return $this->belongsTo(Anuncio::class, 'id_anuncio');
+}
+
+public function candidato()
+{
+    return $this->belongsTo(Utilizador::class, 'id_utilizador');
+
     
+}
+
 }

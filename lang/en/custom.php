@@ -24,6 +24,7 @@ return [
     'anuncio_nao_encontrado' => 'Ad not found.',
     'permissoes_visualizacao' => 'You do not have permission to view this ad.',
     'permissoes_remover_anuncio' => 'You do not have permission to remove this ad.',
+    'anuncio_desativado' => 'Ad disabled.',
 
     //animais
     'animal_nao_encontrado' => 'Animal not found.',
