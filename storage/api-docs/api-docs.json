@@ -1309,7 +1309,7 @@
                                         "type": "number",
                                         "example": 12345678
                                     },
-                                    "estado": {
+                                    "termos": {
                                         "type": "boolean",
                                         "example": true
                                     }
@@ -1362,6 +1362,289 @@
                                             "description": "Erro de validação",
                                             "type": "string",
                                             "example": "O campo cc é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/dashboard/candidaturas": {
+            "get": {
+                "tags": [
+                    "Candidaturas"
+                ],
+                "summary": "Listar candidaturas de adoção",
+                "description": "Lista as candidaturas de adoção a animais de uma associação ou candidaturas de adoção de um utilizador.",
+                "operationId": "19a234b05dc4764475e31331fa819f85",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "candidaturas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Candidatura"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/candidatura/aceitar/{id}": {
+            "post": {
+                "tags": [
+                    "Candidaturas"
+                ],
+                "summary": "Aceitar candidatura de adoção",
+                "description": "Aceita uma candidatura de adoção a um animal. Apenas a associação que criou o anúncio pode aceitar uma candidatura.",
+                "operationId": "65f9fa44f5b2e35f598bd10b422d8f1d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da candidatura",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "candidatura": {
+                                            "$ref": "#/components/schemas/Candidatura"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/candidatura/concluir/{id}": {
+            "post": {
+                "tags": [
+                    "Candidaturas"
+                ],
+                "summary": "Concluir candidatura de adoção",
+                "description": "Conclui uma candidatura de adoção a um animal. Apenas a associação que criou o anúncio pode concluir uma candidatura.",
+                "operationId": "64b06c315aea4255135139434f6966f0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da candidatura",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "candidatura": {
+                                            "$ref": "#/components/schemas/Candidatura"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/candidatura/cancelar/{id}": {
+            "post": {
+                "tags": [
+                    "Candidaturas"
+                ],
+                "summary": "Cancelar candidatura de adoção",
+                "description": "Cancela uma candidatura de adoção a um animal.",
+                "operationId": "92d12bce1b908fe21df29949e7b95f75",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da candidatura",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "candidatura": {
+                                            "$ref": "#/components/schemas/Candidatura"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Não autorizado"
                                         }
                                     },
                                     "type": "object"

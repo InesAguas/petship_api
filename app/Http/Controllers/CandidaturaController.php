@@ -73,8 +73,28 @@ class CandidaturaController extends Controller
         return response(['candidatura' => new CandidaturaResource($candidatura)], 200);
     }
 
-
-    function listarCandidaturasAssociacao(Request $request) {
+    /**
+     * @OA\Get(
+     *    path="/api/dashboard/candidaturas",
+     *    tags={"Candidaturas"},
+     *     security={{ "token": {} }},
+     *    summary="Listar candidaturas de adoção",
+     *    description="Lista as candidaturas de adoção a animais de uma associação ou candidaturas de adoção de um utilizador.",
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *          @OA\Property(property="candidaturas", type="array", @OA\Items(ref="#/components/schemas/Candidatura")),
+     *          )
+     *       ),
+     * @OA\Response(
+     *     response=401, description="Não autenticado",
+     *   @OA\JsonContent(
+     *    @OA\Property(property="message", type="string", description="Não autorizado", example="Unauthenticated"),
+     * )
+     * ),
+     *  )
+     */
+    function listarCandidaturas(Request $request) {
         //procurar na tabela as candidaturas que tenham o id que um animal que tem o id da associação
         if($request->user()->isAssociacao()) {
             $candidaturas = Candidatura::whereHas('anuncio.utilizador', function ($query) use ($request) {
@@ -87,22 +107,93 @@ class CandidaturaController extends Controller
         return response(['candidaturas' =>  CandidaturaResource::collection($candidaturas)], 200);
     }
 
+    /**
+     * @OA\Post(
+     *    path="/api/candidatura/aceitar/{id}",
+     *    tags={"Candidaturas"},
+     *     security={{ "token": {} }},
+     *    summary="Aceitar candidatura de adoção",
+     *    description="Aceita uma candidatura de adoção a um animal. Apenas a associação que criou o anúncio pode aceitar uma candidatura.",
+     *   @OA\Parameter(
+     *        description="ID da candidatura",
+     *       in="path",
+     *      name="id",
+     *     required=true,
+     *   @OA\Schema(
+     *         type="integer",
+     *    )
+     * ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *            @OA\Property(property="candidatura", ref="#/components/schemas/Candidatura"),
+     *          )
+     *       ),
+     * @OA\Response(
+     *     response=401, description="Não autenticado",
+     *   @OA\JsonContent(
+     *    @OA\Property(property="message", type="string", description="Não autorizado", example="Unauthenticated"),
+     * )
+     * ),
+     * @OA\Response(
+     *   response=403, description="Não autorizado",
+     * @OA\JsonContent(
+     *   @OA\Property(property="message", type="string", description="Não autorizado", example="Não autorizado"),
+     * )
+     * ),
+     *  )
+     */
     function aceitarCandidatura(Request $request) {
-            
-            $candidatura = Candidatura::where('id', $request->id)->first();
-    
-            $utilizador = $request->user();
-    
-            if($utilizador->isAssociacao() && $candidatura->anuncio->utilizador->id == $utilizador->id) {
-                $candidatura->estado = 2;
-                $candidatura->save();
-    
-                return response(['candidatura' => new CandidaturaResource($candidatura)], 200);
-            } else {
-                return response(['message' => __('custom.nao_autorizado')], 401);
-            }
+        $candidatura = Candidatura::where('id', $request->id)->first();
+        $utilizador = $request->user();
+
+        if($utilizador->isAssociacao() && $candidatura->anuncio->utilizador->id == $utilizador->id) {
+            $candidatura->estado = 2;
+            $candidatura->save();
+            return response(['candidatura' => new CandidaturaResource($candidatura)], 200);
+        } else {
+            return response(['message' => __('custom.nao_autorizado')], 403);
+        }
+        
     }
 
+
+    /**
+     * @OA\Post(
+     *    path="/api/candidatura/concluir/{id}",
+     *    tags={"Candidaturas"},
+     *     security={{ "token": {} }},
+     *    summary="Concluir candidatura de adoção",
+     *    description="Conclui uma candidatura de adoção a um animal. Apenas a associação que criou o anúncio pode concluir uma candidatura.",
+     *   @OA\Parameter(
+     *        description="ID da candidatura",
+     *       in="path",
+     *      name="id",
+     *     required=true,
+     *   @OA\Schema(
+     *         type="integer",
+     *    )
+     * ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *            @OA\Property(property="candidatura", ref="#/components/schemas/Candidatura"),
+     *          )
+     *       ),
+     * @OA\Response(
+     *     response=401, description="Não autenticado",
+     *   @OA\JsonContent(
+     *    @OA\Property(property="message", type="string", description="Não autorizado", example="Unauthenticated"),
+     * )
+     * ),
+     * @OA\Response(
+     *  response=403, description="Não autorizado",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", description="Não autorizado", example="Não autorizado"),
+     * )
+     * ),
+     *  )
+     */
     function concluirCandidatura(Request $request) {
                 
             $candidatura = Candidatura::where('id', $request->id)->first();
@@ -112,13 +203,49 @@ class CandidaturaController extends Controller
             if($utilizador->isAssociacao() && $candidatura->anuncio->utilizador->id == $utilizador->id) {
                 $candidatura->estado = 3;
                 $candidatura->save();
-    
                 return response(['candidatura' => new CandidaturaResource($candidatura)], 200);
             } else {
-                return response(['message' => __('custom.nao_autorizado')], 401);
+                return response(['message' => __('custom.nao_autorizado')], 403);
             }
     }
 
+
+    /**
+     * @OA\Post(
+     *    path="/api/candidatura/cancelar/{id}",
+     *    tags={"Candidaturas"},
+     *     security={{ "token": {} }},
+     *    summary="Cancelar candidatura de adoção",
+     *    description="Cancela uma candidatura de adoção a um animal.",
+     *   @OA\Parameter(
+     *        description="ID da candidatura",
+     *       in="path",
+     *      name="id",
+     *     required=true,
+     *   @OA\Schema(
+     *         type="integer",
+     *    )
+     * ),
+     *     @OA\Response(
+     *          response=200, description="Success",
+     *          @OA\JsonContent(
+     *            @OA\Property(property="candidatura", ref="#/components/schemas/Candidatura"),
+     *          )
+     *       ),
+     * @OA\Response(
+     *     response=401, description="Não autenticado",
+     *   @OA\JsonContent(
+     *    @OA\Property(property="message", type="string", description="Não autorizado", example="Unauthenticated"),
+     * )
+     * ),
+     * @OA\Response(
+     * response=403, description="Não autorizado",
+     * @OA\JsonContent(
+     * @OA\Property(property="message", type="string", description="Não autorizado", example="Não autorizado"),
+     * )
+     * ),
+     *  )
+     */
     function cancelarCandidatura(Request $request) {
 
         $candidatura = Candidatura::where('id', $request->id)->first();
