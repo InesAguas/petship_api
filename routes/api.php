@@ -60,7 +60,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('dashboard/candidaturas', [CandidaturaController::class, 'listarCandidaturasAssociacao']);
     Route::post('candidatura/cancelar/{id}', [CandidaturaController::class, 'cancelarCandidatura']);
     Route::post('candidatura/aceitar/{id}', [CandidaturaController::class, 'aceitarCandidatura']);
-    
+    Route::post('candidatura/concluir/{id}', [CandidaturaController::class, 'concluirCandidatura']);
 });
 
 

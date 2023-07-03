@@ -87,22 +87,6 @@ class CandidaturaController extends Controller
         return response(['candidaturas' =>  CandidaturaResource::collection($candidaturas)], 200);
     }
 
-    function cancelarCandidatura(Request $request) {
-
-        $candidatura = Candidatura::where('id', $request->id)->first();
-
-        $utilizador = $request->user();
-
-        if(($utilizador->isAssociacao() && $candidatura->anuncio->utilizador->id == $utilizador->id) || ($utilizador->isParticular() && $candidatura->id_utilizador == $utilizador->id)) {
-            $candidatura->estado = 3;
-            $candidatura->save();
-
-            return response(['candidatura' => new CandidaturaResource($candidatura)], 200);
-        } else {
-            return response(['message' => __('custom.nao_autorizado')], 401);
-        }
-    }
-
     function aceitarCandidatura(Request $request) {
             
             $candidatura = Candidatura::where('id', $request->id)->first();
@@ -117,5 +101,37 @@ class CandidaturaController extends Controller
             } else {
                 return response(['message' => __('custom.nao_autorizado')], 401);
             }
+    }
+
+    function concluirCandidatura(Request $request) {
+                
+            $candidatura = Candidatura::where('id', $request->id)->first();
+    
+            $utilizador = $request->user();
+    
+            if($utilizador->isAssociacao() && $candidatura->anuncio->utilizador->id == $utilizador->id) {
+                $candidatura->estado = 3;
+                $candidatura->save();
+    
+                return response(['candidatura' => new CandidaturaResource($candidatura)], 200);
+            } else {
+                return response(['message' => __('custom.nao_autorizado')], 401);
+            }
+    }
+
+    function cancelarCandidatura(Request $request) {
+
+        $candidatura = Candidatura::where('id', $request->id)->first();
+
+        $utilizador = $request->user();
+
+        if(($utilizador->isAssociacao() && $candidatura->anuncio->utilizador->id == $utilizador->id) || ($utilizador->isParticular() && $candidatura->id_utilizador == $utilizador->id)) {
+            $candidatura->estado = 4;
+            $candidatura->save();
+
+            return response(['candidatura' => new CandidaturaResource($candidatura)], 200);
+        } else {
+            return response(['message' => __('custom.nao_autorizado')], 401);
+        }
     }
 }
