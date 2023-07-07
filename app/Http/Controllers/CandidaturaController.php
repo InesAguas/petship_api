@@ -67,6 +67,7 @@ class CandidaturaController extends Controller
         $candidatura->id_utilizador = $request->user()->id;
         $candidatura->cc = $validated['cc'];
         $candidatura->termos = true;
+        $candidatura->estado = 1;
 
         $candidatura->save();
 
