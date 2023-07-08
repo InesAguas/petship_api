@@ -1,0 +1,3753 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Documentação da API",
+        "description": "Petship API",
+        "version": "0.0.1"
+    },
+    "servers": [
+        {
+            "url": "https://api.petship.pt",
+            "description": "Petship API"
+        }
+    ],
+    "paths": {
+        "/api": {
+            "description": "Rotas da API"
+        },
+        "/api/publicaranimal": {
+            "post": {
+                "tags": [
+                    "Animais"
+                ],
+                "summary": "Registar um animal",
+                "description": "",
+                "operationId": "2527b12868b5ffa6f9e590839cf1c9cd",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "data_recolha",
+                                    "ferido",
+                                    "agressivo",
+                                    "nome",
+                                    "sexo",
+                                    "especie",
+                                    "raca",
+                                    "porte",
+                                    "idade",
+                                    "cor"
+                                ],
+                                "properties": {
+                                    "data_recolha": {
+                                        "example": "Coimbra"
+                                    },
+                                    "ferido": {
+                                        "example": "1"
+                                    },
+                                    "agressivo": {
+                                        "example": "Coimbra"
+                                    },
+                                    "nome": {
+                                        "example": "Rufus"
+                                    },
+                                    "sexo": {
+                                        "example": "1"
+                                    },
+                                    "especie": {
+                                        "example": "1"
+                                    },
+                                    "raca": {
+                                        "example": "1"
+                                    },
+                                    "porte": {
+                                        "example": "1"
+                                    },
+                                    "idade": {
+                                        "example": "1"
+                                    },
+                                    "cor": {
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "animal": {
+                                            "$ref": "#/components/schemas/Animal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "O campo data_recolha é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/associacao/animais": {
+            "get": {
+                "tags": [
+                    "Animais"
+                ],
+                "summary": "Listar animais da associação logada",
+                "description": "",
+                "operationId": "b7375e8ad240d92bcf3821c06ba8282f",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "animais": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Animal"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/removeranimal/{id}": {
+            "delete": {
+                "tags": [
+                    "Animais"
+                ],
+                "summary": "Remover um animal",
+                "description": "",
+                "operationId": "083429f4033d1cc099508644760c38ba",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do animal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "sucesso": {
+                                            "type": "string",
+                                            "example": "Animal removido com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Animal não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "erro": {
+                                            "type": "string",
+                                            "example": "Animal não encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Sem permissões para remover o animal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sem permissões para remover o animal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/associacao/animal/num/{id}": {
+            "get": {
+                "tags": [
+                    "Animais"
+                ],
+                "summary": "Obter dados numéricos de um animal",
+                "description": "",
+                "operationId": "a96a3aa223ce004b7a40ffe888f77b87",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do animal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "animal": {
+                                            "$ref": "#/components/schemas/AnimalNum"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Animal não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "erro": {
+                                            "type": "string",
+                                            "example": "Animal não encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Sem permissões para visualizar o animal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sem permissões para visualizar o animal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/editaranimal/{id}": {
+            "post": {
+                "tags": [
+                    "Animais"
+                ],
+                "summary": "Editar dados de um animal",
+                "description": "",
+                "operationId": "35405237efce3ac032e01676407748f7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do animal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "data_recolha",
+                                    "ferido",
+                                    "agressivo",
+                                    "nome",
+                                    "sexo",
+                                    "especie",
+                                    "raca",
+                                    "porte",
+                                    "idade",
+                                    "cor"
+                                ],
+                                "properties": {
+                                    "data_recolha": {
+                                        "example": "Coimbra"
+                                    },
+                                    "ferido": {
+                                        "example": "1"
+                                    },
+                                    "agressivo": {
+                                        "example": "Coimbra"
+                                    },
+                                    "nome": {
+                                        "example": "Rufus"
+                                    },
+                                    "sexo": {
+                                        "example": "1"
+                                    },
+                                    "especie": {
+                                        "example": "1"
+                                    },
+                                    "raca": {
+                                        "example": "1"
+                                    },
+                                    "porte": {
+                                        "example": "1"
+                                    },
+                                    "idade": {
+                                        "example": "1"
+                                    },
+                                    "cor": {
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "animal": {
+                                            "$ref": "#/components/schemas/Animal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Animal não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "erro": {
+                                            "type": "string",
+                                            "example": "Animal não encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Sem permissões para editar o animal",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sem permissões para editar o animal"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/novoanuncio": {
+            "post": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Criar um anuncio",
+                "description": "Rota para criar um anuncio, o utilizador tem de estar logado. É possivel enviar o id do animal para criar um anuncio para um animal já existente.",
+                "operationId": "1dce6c0f5c7034abc822fc089714c2ef",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "sexo",
+                                    "especie",
+                                    "raca",
+                                    "porte",
+                                    "idade",
+                                    "cor",
+                                    "distrito",
+                                    "etiqueta"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "example": "Rufus"
+                                    },
+                                    "sexo": {
+                                        "example": "1"
+                                    },
+                                    "especie": {
+                                        "example": "1"
+                                    },
+                                    "raca": {
+                                        "example": "1"
+                                    },
+                                    "porte": {
+                                        "example": "1"
+                                    },
+                                    "idade": {
+                                        "example": "1"
+                                    },
+                                    "cor": {
+                                        "example": "1"
+                                    },
+                                    "distrito": {
+                                        "example": "Coimbra"
+                                    },
+                                    "etiqueta": {
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "anuncio": {
+                                            "$ref": "#/components/schemas/Anuncio"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "O campo nome é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Sem permissões",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Sem permissões",
+                                            "type": "string",
+                                            "example": "Não tem permissões para alterar este animal."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/adotar": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar animais para adoção",
+                "description": "",
+                "operationId": "a5bc8d86abc86311946780dfb8690619",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "animais": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Anuncio"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/desaparecido": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar animais desaparecidos",
+                "description": "",
+                "operationId": "da7ae2ec261a1e620b7203cdd26267ce",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "animais": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Anuncio"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/petsitting": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar animais para petsitting",
+                "description": "",
+                "operationId": "5ada27862e4726cd5c046ffa85ebc34e",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "animais": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Anuncio"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/animal/{id}": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Obter dados de um animal",
+                "description": "",
+                "operationId": "6eeaaf2a04a3594255e071bc5d082cf8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do animal",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "animal": {
+                                            "$ref": "#/components/schemas/Anuncio"
+                                        },
+                                        "utilizador": {
+                                            "$ref": "#/components/schemas/Utilizador"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Anuncio não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/utilizador/anuncios": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Listar anuncios de um utilizador autenticado",
+                "description": "",
+                "operationId": "d676196acdb8b5fc3ea6d6c463d0df1c",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "anuncios": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Anuncio"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/removeranuncio/{id}": {
+            "delete": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Remover anuncio",
+                "description": "",
+                "operationId": "01151df0da9051dfa79a50d8d6109ae3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anuncio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "sucesso": {
+                                            "type": "string",
+                                            "example": "Anuncio removido com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Anuncio não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não tem permissões para remover este anuncio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/anuncio/num/{id}": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Dados de um anuncio (numéricos)",
+                "description": "",
+                "operationId": "5b1ee0564bfab367a69344bd66ae5d32",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anuncio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "anuncio": {
+                                            "$ref": "#/components/schemas/AnuncioNum"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Anuncio não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não tem permissões para visualizar este anuncio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/editaranuncio/{id}": {
+            "post": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Editar anuncio",
+                "description": "",
+                "operationId": "d4029006a3097e865b0d616ab469fd26",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anuncio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados do anuncio",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Nome do animal"
+                                    },
+                                    "sexo": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "especie": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "raca": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "porte": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "idade": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "cor": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "distrito": {
+                                        "type": "string",
+                                        "example": "Aveiro"
+                                    },
+                                    "etiqueta": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "anuncio": {
+                                            "$ref": "#/components/schemas/Anuncio"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Anuncio não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não tem permissões para editar este anuncio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Os dados recebidos não são válidos."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/anuncio/estado/{id}": {
+            "get": {
+                "tags": [
+                    "Anuncios"
+                ],
+                "summary": "Alterar estado do anuncio",
+                "description": "",
+                "operationId": "b6de613dc0c2119ed63a0398ca52149d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do anuncio",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "anuncio": {
+                                            "$ref": "#/components/schemas/Anuncio"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Anuncio não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não tem permissões para alterar o estado deste anuncio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/candidaturainserir": {
+            "post": {
+                "tags": [
+                    "Candidaturas"
+                ],
+                "summary": "Iniciar candidatura de adoção",
+                "description": "Inicia uma candidatura de adoção a um animal.",
+                "operationId": "6e10313f267fe4660de3df1b42b37a73",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id_anuncio": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "id_utilizador": {
+                                        "type": "number",
+                                        "example": 1
+                                    },
+                                    "cc": {
+                                        "type": "number",
+                                        "example": 12345678
+                                    },
+                                    "termos": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "candidatura": {
+                                            "$ref": "#/components/schemas/Candidatura"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "O campo cc é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/dashboard/candidaturas": {
+            "get": {
+                "tags": [
+                    "Candidaturas"
+                ],
+                "summary": "Listar candidaturas de adoção",
+                "description": "Lista as candidaturas de adoção a animais de uma associação ou candidaturas de adoção de um utilizador.",
+                "operationId": "19a234b05dc4764475e31331fa819f85",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "candidaturas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Candidatura"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/candidatura/aceitar/{id}": {
+            "post": {
+                "tags": [
+                    "Candidaturas"
+                ],
+                "summary": "Aceitar candidatura de adoção",
+                "description": "Aceita uma candidatura de adoção a um animal. Apenas a associação que criou o anúncio pode aceitar uma candidatura.",
+                "operationId": "65f9fa44f5b2e35f598bd10b422d8f1d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da candidatura",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "candidatura": {
+                                            "$ref": "#/components/schemas/Candidatura"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/candidatura/concluir/{id}": {
+            "post": {
+                "tags": [
+                    "Candidaturas"
+                ],
+                "summary": "Concluir candidatura de adoção",
+                "description": "Conclui uma candidatura de adoção a um animal. Apenas a associação que criou o anúncio pode concluir uma candidatura.",
+                "operationId": "64b06c315aea4255135139434f6966f0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da candidatura",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "candidatura": {
+                                            "$ref": "#/components/schemas/Candidatura"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/candidatura/cancelar/{id}": {
+            "post": {
+                "tags": [
+                    "Candidaturas"
+                ],
+                "summary": "Cancelar candidatura de adoção",
+                "description": "Cancela uma candidatura de adoção a um animal.",
+                "operationId": "92d12bce1b908fe21df29949e7b95f75",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da candidatura",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "candidatura": {
+                                            "$ref": "#/components/schemas/Candidatura"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Não autorizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/enviarmensagem": {
+            "post": {
+                "tags": [
+                    "Mensagens"
+                ],
+                "summary": "Enviar mensagem a um utilizador",
+                "description": "Rota para enviar mensagem a um utilizador, o utilizador tem de estar logado. Se a mensagem for enviada com sucesso retorna o status 200",
+                "operationId": "f2a2fb60156538837b0fe5235594b71b",
+                "requestBody": {
+                    "description": "",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_recebe",
+                                    "mensagem"
+                                ],
+                                "properties": {
+                                    "id_recebe": {
+                                        "example": "1"
+                                    },
+                                    "mensagem": {
+                                        "example": "Olá, tudo bem?"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensagem": {
+                                            "$ref": "#/components/schemas/Mensagem"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "O campo id_recebe é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilizador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Utilizador não encontrado",
+                                            "type": "string",
+                                            "example": "Utilizador não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Não pode enviar mensagem para si próprio",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não pode enviar mensagem para si próprio",
+                                            "type": "string",
+                                            "example": "Não pode enviar mensagem para si próprio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/mensagens/{id_recebe}": {
+            "get": {
+                "tags": [
+                    "Mensagens"
+                ],
+                "summary": "Ler conversa com um utilizador",
+                "description": "Rota para ler a conversa com um utilizador, o utilizador tem de estar logado. Se a conversa for lida com sucesso retorna o status 200",
+                "operationId": "906b8fc05b0b2196bca1e128ff4b1fab",
+                "parameters": [
+                    {
+                        "name": "id_recebe",
+                        "in": "path",
+                        "description": "Id do utilizador com quem quer ler a conversa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "mensagens": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Mensagem"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilizador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Utilizador não encontrado",
+                                            "type": "string",
+                                            "example": "Utilizador não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Não pode ler a conversa com si próprio",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não pode ler a conversa com si próprio",
+                                            "type": "string",
+                                            "example": "Não pode ler a conversa com si próprio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/conversasativas": {
+            "get": {
+                "tags": [
+                    "Mensagens"
+                ],
+                "summary": "Obter conversas ativas",
+                "description": "Rota para obter todas as conversas que se tem ativas (com mensagens enviadas ou recebidas). O utilizador tem de estar logado. Se as conversas forem obtidas com sucesso retorna o status 200",
+                "operationId": "4b48462fa1bfb72b575e29775a59315a",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "conversas": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Mensagem"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/adicionarstock": {
+            "post": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Adicionar Stock",
+                "description": "Adiciona um novo produto de stock.",
+                "operationId": "c5059ac43a35a0ccfd3fc4b7047c2f63",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Produto A"
+                                    },
+                                    "descricao": {
+                                        "type": "string",
+                                        "example": "Descrição do produto A"
+                                    },
+                                    "qnt_atual": {
+                                        "type": "number",
+                                        "example": 10
+                                    },
+                                    "qnt_min": {
+                                        "type": "number",
+                                        "example": 5
+                                    },
+                                    "observacoes": {
+                                        "type": "string",
+                                        "example": "Observações do produto A",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produto do stock adicionado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "produto": {
+                                            "$ref": "#/components/schemas/Stock"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "O campo nome é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/utilizador/stock": {
+            "get": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Listar Stock de um determinado Utilizador",
+                "description": "Lista todos os produtos de stock pertencentes a um determinado utilizador.",
+                "operationId": "cbbf82c67945bd9feeb3791d035acf5d",
+                "responses": {
+                    "200": {
+                        "description": "Lista de produtos do utilizador",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "stocks": {
+                                            "$ref": "#/components/schemas/Stock"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/removerstock/{id}": {
+            "delete": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Remover Stock",
+                "description": "Remove um produto do stock.",
+                "operationId": "98e22dbeda3e14777fa312e2995698e3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto do stock a ser removido",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Produto do stock removido com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Sucesso",
+                                            "type": "string",
+                                            "example": "Produto do stock removido com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produto do stock não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Stock não encontrado.",
+                                            "type": "string",
+                                            "example": "Stock não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/editarstock/{id}": {
+            "post": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Editar Stock",
+                "description": "Atualiza a quantidade atual de um produto do stock.",
+                "operationId": "73d9f04c0253ddc56c9c39e49e1b6885",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do produto do stock a ser editado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "qnt_atual": {
+                                        "type": "number",
+                                        "example": 20
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Produto do stock removido com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Sucesso",
+                                            "type": "string",
+                                            "example": "Produto do stock removido com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Produto do stock não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Stock não encontrado.",
+                                            "type": "string",
+                                            "example": "Stock não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "O campo qnt_atual é obrigatório."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/stock/notificacoes": {
+            "get": {
+                "tags": [
+                    "Stock"
+                ],
+                "summary": "Stocks do utilizador que estão abaixo do stock mínimo",
+                "description": "Retorna os stocks do utilizador que estão abaixo do stock mínimo.",
+                "operationId": "2692acf92edaf4c6fae7d80faf145fe5",
+                "responses": {
+                    "200": {
+                        "description": "Lista de produtos do utilizador",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "stocks": {
+                                            "$ref": "#/components/schemas/Stock"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Não autorizado",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Login",
+                "description": "Realiza o login de um utilizador.",
+                "operationId": "72e2dd71e8d5a15cf6308453f61513df",
+                "requestBody": {
+                    "description": "Dados de login",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "example@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login bem-sucedido",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "utilizador": {
+                                            "$ref": "#/components/schemas/Utilizador"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|SFrEYKGln7vdvwdN09Ai9gBeA15Uu8hk7GcSAgQR"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Email não verificado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Email não verificado",
+                                            "type": "string",
+                                            "example": "Email não verificado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Email ou password incorretos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Email ou password incorretos",
+                                            "type": "string",
+                                            "example": "Email ou password incorretos"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/registar": {
+            "post": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Registar",
+                "description": "Regista um novo utilizador.",
+                "operationId": "007a1da2c8bc6130c0ac5b58b217d3db",
+                "requestBody": {
+                    "description": "Dados de registo",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "Joao Ferreira"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "example@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "tipo": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Registo realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Registo realizado com sucesso",
+                                            "type": "string",
+                                            "example": "Registo efetuado com sucesso. Por favor, verifique o seu email para o link de verificação."
+                                        },
+                                        "errors": {
+                                            "description": "Array com todos os erros de validação",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "Formato de email inválido."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Erro de validação",
+                                            "type": "string",
+                                            "example": "Formato de email inválido."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Logout",
+                "description": "Logout do utilizador. Remove o token de autenticação.",
+                "operationId": "b41025a884d653394a52d6bca2d2030d",
+                "responses": {
+                    "200": {
+                        "description": "Perfil da associação atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Logout bem-sucedido",
+                                            "type": "string",
+                                            "example": "Logout bem-sucedido"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado (token inválido)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/associacoes": {
+            "get": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Listar Associações",
+                "description": "Retorna uma lista de associações.",
+                "operationId": "a724c60c5400aa3bf904d8e0174b4d72",
+                "responses": {
+                    "200": {
+                        "description": "Lista de associações",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "associacoes": {
+                                            "description": "Lista de associações registadas no sistema",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Utilizador"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/perfil/{id}": {
+            "get": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Perfil do Utilizador",
+                "description": "Retorna os dados de um utilizador pelo seu ID.",
+                "operationId": "b3bac95cbb44d750f3b55eadefa3cd80",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do utilizador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Perfil do utilizador",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "utilizador": {
+                                            "$ref": "#/components/schemas/Utilizador"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilizador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Utilizador não encontrado",
+                                            "type": "string",
+                                            "example": "Utilizador não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/editarperfil": {
+            "post": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Alterar Perfil do Utilizador Particular",
+                "description": "Atualiza o perfil do utilizador autenticado.",
+                "operationId": "97100d2694c1ced97dd6a3576aeaccf7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome do utilizador",
+                                        "type": "string",
+                                        "example": "João Silva"
+                                    },
+                                    "email": {
+                                        "description": "Email do utilizador",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "email@email.com"
+                                    },
+                                    "telefone": {
+                                        "description": "Telefone do utilizador",
+                                        "type": "string",
+                                        "example": "912345678"
+                                    },
+                                    "fotografia": {
+                                        "description": "Fotografia do utilizador",
+                                        "type": "string",
+                                        "format": "binary",
+                                        "example": "http://api.petship.pt/storage/fotografias/1.jpg"
+                                    },
+                                    "localizacao": {
+                                        "description": "Localização do utilizador",
+                                        "type": "string",
+                                        "example": "Rua do Utilizador, 123"
+                                    },
+                                    "distrito": {
+                                        "description": "Distrito do utilizador",
+                                        "type": "string",
+                                        "example": "Aveiro"
+                                    },
+                                    "codigo_postal": {
+                                        "description": "Código postal do utilizador",
+                                        "type": "string",
+                                        "example": "1234-567"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Perfil do utilizador atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "utilizador": {
+                                            "$ref": "#/components/schemas/Utilizador"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado (token inválido)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilizador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Utilizador não encontrado",
+                                            "type": "string",
+                                            "example": "Utilizador não encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/editarperfilA": {
+            "post": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Alterar Perfil da Associação",
+                "description": "Atualiza o perfil da associação (utilizador autenticado como uma associação).",
+                "operationId": "f9b14b4fca761b3bd773490f4d2a6247",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "description": "Nome da associação",
+                                        "type": "string",
+                                        "example": "Associação de Animais de Aveiro"
+                                    },
+                                    "email": {
+                                        "description": "Email da associação",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "email@email.com"
+                                    },
+                                    "telefone": {
+                                        "description": "Telefone da associação",
+                                        "type": "string",
+                                        "example": "912345678"
+                                    },
+                                    "fotografia": {
+                                        "description": "Fotografia da associação",
+                                        "type": "string",
+                                        "format": "binary",
+                                        "example": "http://api.petship.pt/storage/fotografias/1.jpg"
+                                    },
+                                    "localizacao": {
+                                        "description": "Localização da associação",
+                                        "type": "string",
+                                        "example": "Rua da Associação, 123"
+                                    },
+                                    "website": {
+                                        "description": "Website da associação",
+                                        "type": "string",
+                                        "example": "http://www.associacao.com"
+                                    },
+                                    "facebook": {
+                                        "description": "Página do Facebook da associação",
+                                        "type": "string",
+                                        "example": "http://www.facebook.com/associacao"
+                                    },
+                                    "instagram": {
+                                        "description": "Perfil do Instagram da associação",
+                                        "type": "string",
+                                        "example": "http://www.instagram.com/associacao"
+                                    },
+                                    "horario": {
+                                        "description": "Horário de funcionamento da associação",
+                                        "type": "string"
+                                    },
+                                    "iban": {
+                                        "description": "IBAN da associação",
+                                        "type": "string",
+                                        "example": "PT5000000000000000000000000"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Perfil da associação atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "utilizador": {
+                                            "$ref": "#/components/schemas/Utilizador"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado (token inválido)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Unauthenticated",
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilizador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "erro": {
+                                            "description": "Utilizador não encontrado",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        },
+        "/api/forgot-password": {
+            "post": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Esqueceu a password",
+                "description": "Envia um link de redefinição de password para o email fornecido.",
+                "operationId": "cf693baf1026507491f7064e20350feb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Email do utilizador",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "email@email.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Link de redefinição de password enviado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Sucesso",
+                                            "type": "string",
+                                            "example": "Foi enviado um email com o link para redefinir a sua palavra-passe!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Dados inválidos",
+                                            "type": "string",
+                                            "example": "Não foi encontrado nenhum utilizador com o email introduzido."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reset-password": {
+            "post": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Redefinir password",
+                "description": "Redefine a password do utilizador com base no token de redefinição e no email fornecidos.",
+                "operationId": "cf0f0e65200d8e2f116f04f297dcecf6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "token": {
+                                        "description": "Token de redefinição da password",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Email do utilizador",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "description": "Nova password",
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Confirmação da nova password",
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password redefinida com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Password redefinida com sucesso",
+                                            "type": "string",
+                                            "example": "A sua palavra-passe foi redefinida!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Dados inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Os dados fornecidos são inválidos",
+                                            "type": "string",
+                                            "example": "O token de redefinição de password é inválido."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/email/verify/{id}/{hash}": {
+            "get": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Verificar email",
+                "description": "Verifica o email de um utilizador com base no ID do utilizador e no hash fornecidos. O hash é enviado para o email do utilizador quando este se regista.",
+                "operationId": "1bb6c9b62845fd7f43d0a122231f4b4e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do utilizador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "hash",
+                        "in": "path",
+                        "description": "Hash para verificação do email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Email verificado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Email verificado com sucesso",
+                                            "type": "string",
+                                            "example": "O seu email foi verificado com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Email não verificado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Email não verificado",
+                                            "type": "string",
+                                            "example": "O seu endereço de email não está verificado. Por favor, verifique o seu email para o link de verificação."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/eliminarconta/{id}": {
+            "delete": {
+                "tags": [
+                    "Utilizadores"
+                ],
+                "summary": "Eliminar conta",
+                "description": "Elimina a conta de um utilizador com base no ID do utilizador.",
+                "operationId": "c6c9341cfa384b39fa07a4efee4f5c6e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do utilizador",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Conta eliminada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Conta eliminada com sucesso",
+                                            "type": "string",
+                                            "example": "A sua conta foi eliminada com sucesso!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Utilizador não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Utilizador não encontrado",
+                                            "type": "string",
+                                            "example": "O utilizador não foi encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "token": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Animal": {
+                "properties": {
+                    "id": {
+                        "description": "ID do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "nome": {
+                        "description": "Nome do animal",
+                        "type": "string",
+                        "example": "Rufus",
+                        "nullable": false
+                    },
+                    "sexo": {
+                        "description": "Sexo do animal",
+                        "type": "string",
+                        "example": "Macho",
+                        "nullable": false
+                    },
+                    "especie": {
+                        "description": "Especie do animal",
+                        "type": "string",
+                        "example": "Cão",
+                        "nullable": false
+                    },
+                    "raca": {
+                        "description": "Raça do animal",
+                        "type": "string",
+                        "example": "Labrador",
+                        "nullable": false
+                    },
+                    "porte": {
+                        "description": "Porte do animal",
+                        "type": "string",
+                        "example": "Médio",
+                        "nullable": false
+                    },
+                    "idade": {
+                        "description": "Idade do animal",
+                        "type": "string",
+                        "example": "Adulto",
+                        "nullable": false
+                    },
+                    "cor": {
+                        "description": "Cor do animal",
+                        "type": "string",
+                        "example": "Preto",
+                        "nullable": false
+                    },
+                    "ferido": {
+                        "description": "Se o animal está ferido",
+                        "type": "boolean",
+                        "example": "true",
+                        "nullable": false
+                    },
+                    "agressivo": {
+                        "description": "Se o animal é agressivo",
+                        "type": "boolean",
+                        "example": "false",
+                        "nullable": false
+                    },
+                    "data_recolha": {
+                        "description": "Data de recolha do animal",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": false
+                    },
+                    "local_captura": {
+                        "description": "Local de captura do animal",
+                        "type": "string",
+                        "example": "Rua da Liberdade, 4000-001 Porto",
+                        "nullable": false
+                    },
+                    "chip": {
+                        "description": "Número do chip do animal",
+                        "type": "integer",
+                        "example": "123456789012345",
+                        "nullable": true
+                    },
+                    "temperatura": {
+                        "description": "Temperatura rectal do animal",
+                        "type": "string",
+                        "example": "38.5",
+                        "nullable": true
+                    },
+                    "desparasitacao": {
+                        "description": "Data da última desparasitação do animal",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "medicacao": {
+                        "description": "Medicação que o animal está a tomar",
+                        "type": "string",
+                        "example": "Bravecto 3x por dia",
+                        "nullable": true
+                    },
+                    "fotografia": {
+                        "description": "Fotografia do animal",
+                        "type": "string",
+                        "example": "https://api.petship.pt/storage/img/animais/1.jpg",
+                        "nullable": true
+                    },
+                    "anunciado": {
+                        "description": "Se o animal está anunciado",
+                        "type": "boolean",
+                        "example": "true",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "AnimalNum": {
+                "properties": {
+                    "id": {
+                        "description": "ID do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "nome": {
+                        "description": "Nome do animal",
+                        "type": "string",
+                        "example": "Rufus",
+                        "nullable": false
+                    },
+                    "sexo": {
+                        "description": "Sexo do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "especie": {
+                        "description": "Especie do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "raca": {
+                        "description": "Raça do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "porte": {
+                        "description": "Porte do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "idade": {
+                        "description": "Idade do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "cor": {
+                        "description": "Cor do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "ferido": {
+                        "description": "Se o animal está ferido",
+                        "type": "boolean",
+                        "example": "true",
+                        "nullable": false
+                    },
+                    "agressivo": {
+                        "description": "Se o animal é agressivo",
+                        "type": "boolean",
+                        "example": "false",
+                        "nullable": false
+                    },
+                    "data_recolha": {
+                        "description": "Data de recolha do animal",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": false
+                    },
+                    "local_captura": {
+                        "description": "Local de captura do animal",
+                        "type": "string",
+                        "example": "Rua da Liberdade, 4000-001 Porto",
+                        "nullable": false
+                    },
+                    "chip": {
+                        "description": "Número do chip do animal",
+                        "type": "integer",
+                        "example": "123456789012345",
+                        "nullable": true
+                    },
+                    "temperatura": {
+                        "description": "Temperatura rectal do animal",
+                        "type": "string",
+                        "example": "38.5",
+                        "nullable": true
+                    },
+                    "desparasitacao": {
+                        "description": "Data da última desparasitação do animal",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": true
+                    },
+                    "medicacao": {
+                        "description": "Medicação que o animal está a tomar",
+                        "type": "string",
+                        "example": "Bravecto 3x por dia",
+                        "nullable": true
+                    },
+                    "fotografia": {
+                        "description": "Fotografia do animal",
+                        "type": "string",
+                        "example": "https://api.petship.pt/storage/img/animais/1.jpg",
+                        "nullable": true
+                    },
+                    "anunciado": {
+                        "description": "Se o animal está anunciado",
+                        "type": "boolean",
+                        "example": "true",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "Anuncio": {
+                "properties": {
+                    "id": {
+                        "description": "ID do anuncio",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "nome": {
+                        "description": "Nome do animal",
+                        "type": "string",
+                        "example": "Rufus",
+                        "nullable": false
+                    },
+                    "sexo": {
+                        "description": "Sexo do animal",
+                        "type": "string",
+                        "example": "Macho",
+                        "nullable": false
+                    },
+                    "especie": {
+                        "description": "Especie do animal",
+                        "type": "string",
+                        "example": "Cão",
+                        "nullable": false
+                    },
+                    "raca": {
+                        "description": "Raça do animal",
+                        "type": "string",
+                        "example": "Labrador",
+                        "nullable": false
+                    },
+                    "porte": {
+                        "description": "Porte do animal",
+                        "type": "string",
+                        "example": "Médio",
+                        "nullable": false
+                    },
+                    "idade": {
+                        "description": "Idade do animal",
+                        "type": "string",
+                        "example": "Adulto",
+                        "nullable": false
+                    },
+                    "cor": {
+                        "description": "Cor do animal",
+                        "type": "string",
+                        "example": "Preto",
+                        "nullable": false
+                    },
+                    "distrito": {
+                        "description": "Distrito do animal",
+                        "type": "string",
+                        "example": "Porto",
+                        "nullable": false
+                    },
+                    "etiqueta": {
+                        "description": "Etiqueta do animal",
+                        "type": "string",
+                        "example": "Adoção",
+                        "nullable": false
+                    },
+                    "descricao": {
+                        "description": "Descrição do animal",
+                        "type": "string",
+                        "example": "O Rufus é um cão muito meigo e brincalhão",
+                        "nullable": true
+                    },
+                    "estado": {
+                        "description": "Estado do anuncio",
+                        "type": "string",
+                        "example": "Ativo",
+                        "nullable": false
+                    },
+                    "fotografias": {
+                        "description": "Fotografias do animal",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "https://i.imgur.com/3bY1f9R.jpg"
+                        },
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Data de criação do anuncio",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "AnuncioNum": {
+                "properties": {
+                    "id": {
+                        "description": "ID do anuncio",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "nome": {
+                        "description": "Nome do animal",
+                        "type": "string",
+                        "example": "Rufus",
+                        "nullable": false
+                    },
+                    "sexo": {
+                        "description": "Sexo do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "especie": {
+                        "description": "Especie do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "raca": {
+                        "description": "Raça do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "porte": {
+                        "description": "Porte do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "idade": {
+                        "description": "Idade do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "cor": {
+                        "description": "Cor do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "distrito": {
+                        "description": "Distrito do animal",
+                        "type": "string",
+                        "example": "Porto",
+                        "nullable": false
+                    },
+                    "etiqueta": {
+                        "description": "Etiqueta do animal",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "descricao": {
+                        "description": "Descrição do animal",
+                        "type": "string",
+                        "example": "O Rufus é um cão muito meigo e brincalhão",
+                        "nullable": true
+                    },
+                    "estado": {
+                        "description": "Estado do anuncio",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "fotografias": {
+                        "description": "Fotografias do animal",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "https://i.imgur.com/3bY1f9R.jpg"
+                        },
+                        "nullable": true
+                    },
+                    "created_at": {
+                        "description": "Data de criação do anuncio",
+                        "type": "string",
+                        "format": "date-time",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "Candidatura": {
+                "properties": {
+                    "id": {
+                        "description": "ID da candidatura",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "id_anuncio": {
+                        "description": "ID do anuncio",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "id_utilizador": {
+                        "description": "ID do utilizador que fez a candidatura",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "cc": {
+                        "description": "Cartão de cidadão do utilizador que fez a candidatura",
+                        "type": "integer",
+                        "example": "12345678",
+                        "nullable": false
+                    },
+                    "estado": {
+                        "description": "Estado da candidatura",
+                        "type": "boolean",
+                        "example": "1",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "Stock": {
+                "properties": {
+                    "id": {
+                        "description": "ID do stock",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "nome": {
+                        "description": "Nome do produto em stock",
+                        "type": "string",
+                        "example": "Ração",
+                        "nullable": false
+                    },
+                    "descricao": {
+                        "description": "Descrição do produto em stock",
+                        "type": "string",
+                        "example": "Ração para cão",
+                        "nullable": true
+                    },
+                    "qnt_atual": {
+                        "description": "Quantidade atual do produto em stock",
+                        "type": "integer",
+                        "example": "10",
+                        "nullable": false
+                    },
+                    "qnt_min": {
+                        "description": "Quantidade mínima do produto em stock",
+                        "type": "integer",
+                        "example": "5",
+                        "nullable": false
+                    },
+                    "observacoes": {
+                        "description": "Observações do produto em stock",
+                        "type": "string",
+                        "example": "Ração para cão de porte médio",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Utilizador": {
+                "properties": {
+                    "id": {
+                        "description": "User ID",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "nome": {
+                        "description": "Nome do utilizador/associacao",
+                        "type": "string",
+                        "example": "Canil Municipal de Lisboa",
+                        "nullable": false
+                    },
+                    "email": {
+                        "description": "Email do utilizador/associacao",
+                        "type": "string",
+                        "format": "email",
+                        "nullable": false
+                    },
+                    "tipo": {
+                        "description": "Tipo de utilizador",
+                        "type": "integer",
+                        "example": "2",
+                        "nullable": false
+                    },
+                    "localizacao": {
+                        "description": "Localizacao do utilizador/associacao",
+                        "type": "string",
+                        "example": "Lisboa",
+                        "nullable": true
+                    },
+                    "distrito": {
+                        "description": "Distrito do utilizador/associacao",
+                        "type": "string",
+                        "example": "Lisboa",
+                        "nullable": true
+                    },
+                    "codigo_postal": {
+                        "description": "Codigo postal do utilizador/associacao",
+                        "type": "string",
+                        "example": "1000-001",
+                        "nullable": true
+                    },
+                    "telefone": {
+                        "description": "Telefone do utilizador/associacao",
+                        "type": "string",
+                        "example": "912345678",
+                        "nullable": true
+                    },
+                    "fotografia": {
+                        "description": "Fotografia do utilizador/associacao",
+                        "type": "string",
+                        "example": "https://api.petship.pt/storage/img/utilizadores/1.jpg",
+                        "nullable": true
+                    },
+                    "website": {
+                        "description": "Website do utilizador/associacao",
+                        "type": "string",
+                        "example": "https://www.user.pt",
+                        "nullable": true
+                    },
+                    "facebook": {
+                        "description": "Facebook do utilizador/associacao",
+                        "type": "string",
+                        "example": "https://www.facebook.com/user",
+                        "nullable": true
+                    },
+                    "instagram": {
+                        "description": "Instagram do utilizador/associacao",
+                        "type": "string",
+                        "example": "https://www.instagram.com/user",
+                        "nullable": true
+                    },
+                    "horario": {
+                        "description": "Horario do utilizador/associacao",
+                        "type": "string",
+                        "example": "",
+                        "nullable": true
+                    },
+                    "iban": {
+                        "description": "IBAN do utilizador/associacao",
+                        "type": "string",
+                        "example": "PT50000000000000000000000",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Mensagem": {
+                "properties": {
+                    "id": {
+                        "description": "ID da mensagem",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "id_envia": {
+                        "description": "ID do utilizador que enviou a mensagem",
+                        "type": "integer",
+                        "example": "1",
+                        "nullable": false
+                    },
+                    "id_recebe": {
+                        "description": "ID do utilizador que recebeu a mensagem",
+                        "type": "integer",
+                        "example": "2",
+                        "nullable": false
+                    },
+                    "mensagem": {
+                        "description": "Mensagem enviada",
+                        "type": "string",
+                        "example": "Olá, tudo bem?",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "token": {
+                "type": "http",
+                "description": "Login with email and password to get the authentication token",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Utilizadores",
+            "description": "Rotas de Utilizadores"
+        },
+        {
+            "name": "Animais",
+            "description": "Rotas de Animais"
+        },
+        {
+            "name": "Anuncios",
+            "description": "Rotas de Anuncios"
+        },
+        {
+            "name": "Mensagens",
+            "description": "Rotas de Mensagens"
+        },
+        {
+            "name": "Stock",
+            "description": "Rotas de Stock"
+        }
+    ]
+}
